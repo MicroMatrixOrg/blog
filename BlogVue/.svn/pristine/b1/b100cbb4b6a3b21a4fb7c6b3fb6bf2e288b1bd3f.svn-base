@@ -1,0 +1,579 @@
+<template>
+  <!-- 已收到 -->
+  <div>
+    <div class="main-box">
+      <transition name="fade"></transition>
+      <div class="main-contents" v-show="!relemodal">
+        <header>
+          <Button class="add-btn" @click="changeView()">发布</Button>
+        </header>
+        <footer>
+          <released ref="released"></released>
+        </footer>
+      </div>
+
+      <transition name="fade"></transition>
+      <div v-show="relemodal">
+        <releaseAndadd @returnFlag="getFlag"></releaseAndadd>
+      </div>
+      <!-- <Modal v-model="relemodal" width="825" :mask-closable="false">
+        <p slot="header" style="text-align:left">
+          <span style="font-size:18px;">发布讨论</span>
+        </p>
+        <div style="height:470px;">
+          <div class="miss-li-from">
+            <div style="text-align:left;margin-bottom:45px;">
+              <span class="miss-title">选择讨论</span>
+              <div class="miss-type">
+                <Select
+                  v-model="discussion"
+                  style="width:504px;margin-left:59px;"
+                  @on-change="getClassByMission"
+                >
+                  <Option
+                    v-for="item in discussionList"
+                    :value="item.id"
+                    :key="item.id"
+                    >{{ item.name }}</Option
+                  >
+                </Select>
+              </div>
+              <p
+                style="text-align:right;color:#84B6F9;width: calc(100% - 117px);"
+              >
+                说明:只显示最新创建的40条数据
+              </p>
+            </div>
+            <div style="text-align:left;">
+              <span class="miss-title">发布对象</span>
+              <div class="miss-content">
+                <RadioGroup v-model="releObject">
+                  <Radio label="班级"></Radio>
+                  <Radio label="课堂"></Radio>
+                </RadioGroup>
+              </div>
+            </div>
+            <div
+              class="grade-class"
+              style="display:block;margin-bottom:45px;"
+              v-show="releObject == '班级'"
+            >
+              <div style="">
+                <Checkbox
+                  :indeterminate="indeterminate"
+                  :value="checkAll"
+                  @click.prevent.native="handleCheckAll"
+                  >全选</Checkbox
+                >
+              </div>
+              <CheckboxGroup
+                v-model="checkAllGroup"
+                @on-change="checkAllGroupChange"
+              >
+                <Checkbox
+                  v-for="(item, index) in releaseNjList"
+                  :key="index"
+                  :label="item.id"
+                  >{{ item.gradeName + item.name }}</Checkbox
+                >
+              </CheckboxGroup>
+            </div>
+            <div
+              class="course-class"
+              style="display:block;margin-bottom:45px;"
+              v-show="releObject == '课堂'"
+            >
+              <span></span>
+              <Select v-model="ketang" style="width:370px;">
+                <Option
+                  v-for="item in releaseKTList"
+                  :value="item.id"
+                  :key="item.id"
+                  >{{ item.name }}</Option
+                >
+              </Select>
+            </div>
+            <div style="text-align:left;margin-bottom:45px;">
+              <span class="miss-title">发布时间</span>
+              <div class="miss-type" style="padding-left: 59px;">
+                <DatePicker
+                  :value="tReDate"
+                  @on-change="getReDate"
+                  type="datetime"
+                  placeholder=""
+                  format="yyyy-MM-dd HH:mm:ss"
+                  style="width: 370px"
+                ></DatePicker>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div slot="footer" style="text-align:center">
+          <Button type="primary" @click="releaseDisc()">确认</Button>
+          <Button @click="cancle()">取消</Button>
+        </div>
+      </Modal> -->
+    </div>
+  </div>
+</template>
+
+<script>
+import releaseAndadd from "@/components/discussionRelease/addAndReleDisc.vue";
+import released from "@/components/discussionRelease/released.vue";
+
+export default {
+  components: {
+    releaseAndadd,
+    released
+  },
+  data() {
+    return {
+      relemodal: false,
+      tapFlag: "",
+      submitType: "",
+
+      formatList: [],
+      indeterminate: true,
+      checkAll: false,
+      checkAllGroup: [],
+      releObject: "班级",
+      discussion: "",
+      discussionList: [],
+
+      releaseNjList: [],
+      releaseKTList: [],
+
+      ketang: "",
+      ketangList: [],
+      uniqNjList: [],
+
+      tReDate: "", //发布时间
+      tEndDate: "" //结束时间
+    };
+  },
+  created() {},
+  mounted() {
+    this.groupSet();
+    this.getAllMission();
+    this.getUserNewestPublishtion();
+  },
+  methods: {
+    getFlag(value) {
+      const _this = this;
+      _this.relemodal = value;
+      _this.$refs.released.searchKey();
+    },
+    getReDate(value) {
+      const _this = this;
+      _this.tReDate = value;
+    },
+    getEndDate(value) {
+      const _this = this;
+      _this.tEndDate = value;
+    },
+    handleReachBottom() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve();
+        }, 2000);
+      });
+    },
+    resetDataFromKT() {
+      const _this = this;
+      for (let i = 0; i < _this.ketangList.length; i++) {
+        if (_this.ketang == _this.ketangList[i].id) {
+          return _this.ketangList[i];
+        }
+      }
+      return null;
+    },
+    gradeToChar(id) {
+      if (id == 1) {
+        return "一年";
+      } else if (id == 2) {
+        return "二年";
+      } else if (id == 3) {
+        return "三年";
+      } else if (id == 4) {
+        return "四年";
+      } else if (id == 5) {
+        return "五年";
+      } else if (id == 6) {
+        return "六年";
+      } else if (id == 7) {
+        return "初一";
+      } else if (id == 8) {
+        return "初二";
+      } else if (id == 9) {
+        return "初三";
+      } else if (id == 10) {
+        return "高一";
+      } else if (id == 11) {
+        return "高二";
+      } else if (id == 12) {
+        return "高三";
+      }
+    },
+    releaseDisc() {
+      const _this = this;
+
+      let classInfo = [];
+      let className = "";
+      let classId = "";
+      let courseName = "";
+      let temClassId = [];
+      let temClassName = [];
+      if (_this.discussion == "") {
+        _this.$Message.info("讨论未选择");
+        return;
+      }
+      if (_this.releObject == "班级") {
+        //选中了班级
+        if (_this.checkAllGroup.length == 0) {
+          _this.$Message.info("发布对象未选择");
+          return;
+        }
+
+        for (let i = 0; i < _this.uniqNjList.length; i++) {
+          for (let j = 0; j < _this.checkAllGroup.length; j++) {
+            if (_this.checkAllGroup[j] == _this.uniqNjList[i].id) {
+              let obj = {
+                className: _this.uniqNjList[i].name,
+                classId: _this.uniqNjList[i].id,
+                gradeId: _this.uniqNjList[i].systemGrade
+              };
+              temClassId.push(_this.uniqNjList[i].id);
+              temClassName.push(_this.uniqNjList[i].name);
+              classInfo.push(obj);
+            }
+          }
+        }
+        className = temClassName.join(",");
+        classId = temClassId.join(",");
+
+        // console.log(className, classId);
+      } else {
+        if (_this.ketang == "") {
+          _this.$Message.info("发布对象未选择");
+          return;
+        }
+        //选中了课堂
+        let kt = _this.resetDataFromKT();
+        if (kt) {
+          className = kt.pubObjName.split(",");
+          classId = kt.pubObjId.split(",");
+          courseName = kt.name;
+          for (let i = 0; i < className.length; i++) {
+            let obj = {
+              className: className[i],
+              classId: classId[i],
+              gradeId: kt.pubLesson.grade
+            };
+            classInfo.push(obj);
+          }
+          className = className.join(",");
+          classId = classId.join(",");
+          // console.log(classInfo);
+        }
+      }
+      if (this.tReDate == "") {
+        _this.$Message.info("发布时间未选择");
+        return;
+      }
+
+      let params = {
+        dlId: _this.discussion,
+        // classInfos: JSON.stringify(classInfo),
+        courseId: _this.ketang,
+        courseName: courseName,
+        // type: +_this.submitType,
+        classIds: classId,
+        classNames: className,
+        publishDate: _this.tReDate
+        // deadline: _this.tEndDate
+      };
+      console.log(params);
+      _this.$api.post(
+        APIConfig.Discussion.AddNewPubDiscussion,
+        params,
+        resp => {
+          if (resp.code == 0) {
+            _this.$refs.released.searchKey();
+            _this.$Message.info("发布成功");
+          } else {
+            _this.$Message.info("发布失败");
+          }
+          _this.relemodal = false;
+        }
+      );
+    },
+    getClassByMission(value) {
+      const _this = this;
+      //获取点击的任务ID ；来获取相应的任务
+      console.log(value);
+      let index = _this.discussionList.findIndex(item => item.id == value);
+      let gradeId;
+      _this.releaseNjList = [];
+      _this.releaseKTList = [];
+      _this.checkAllGroup = [];
+      if (-1 != index) {
+        gradeId = _this.discussionList[index].gradeId;
+        console.log(_this.discussionList[index]);
+        for (let i = 0; i < _this.uniqNjList.length; i++) {
+          if (_this.uniqNjList[i].systemGrade == gradeId) {
+            _this.releaseNjList.push(_this.uniqNjList[i]);
+            // console.log(_this.uniqNjList[i]);
+          }
+          // console.log(_this.uniqNjList[i]);
+        }
+        console.log(_this.ketangList);
+
+        for (let i = 0; i < _this.ketangList.length; i++) {
+          if (_this.ketangList[i].pubLesson.grade == gradeId) {
+            _this.releaseKTList.push(_this.ketangList[i]);
+          }
+        }
+      }
+    },
+    getUserNewestPublishtion() {
+      const _this = this;
+      _this.$api.get(
+        APIConfig.DiscussionLibrary.GetUserNewestPublishtion,
+        {},
+        resp => {
+          if (resp.code == 0) {
+            _this.ketangList = resp.data;
+            // console.log(resp.data);
+          }
+        }
+      );
+    },
+    // getMissionCommitType() {
+    //   const _this = this;
+    //   _this.$api.get(
+    //     APIConfig.Mission.GetMissionCommitType,
+    //     {},
+    //     function(resp) {
+    //       if (resp.code == 0) {
+    //         _this.formatList = resp.data;
+    //       } else {
+    //         _this.$Message.info(resp.msg);
+    //       }
+    //     },
+    //     error => {
+    //       _this.$Message.info("获取类型失败");
+    //     }
+    //   );
+    // },
+    getAllMission() {
+      const _this = this;
+      _this.$api.get(
+        APIConfig.DiscussionLibrary.GetMyDiscussionLibraryByKeyword,
+        {
+          gradeId: "",
+          subId: "",
+          chapterId: "",
+          createDate: "",
+          name: "",
+          page: 0,
+          size: 40
+        },
+        resp => {
+          if (resp.code == 0) {
+            _this.discussionList = resp.data.discussionLibrary;
+            _this.miTotalTea = +resp.data.totalElements;
+          }
+        }
+      );
+    },
+    changeView() {
+      const _this = this;
+      this.checkAllGroup = [];
+      _this.cancle();
+      // console.log("发布");
+      // console.log(row);
+      // console.log(_this.uniqNjList);
+      this.relemodal = true;
+    },
+    cancle() {
+      this.discussion = "";
+      this.releObject = "班级";
+      this.tReDate = "";
+      this.relemodal = false;
+    },
+    handleCheckAll() {
+      if (this.indeterminate) {
+        this.checkAll = false;
+      } else {
+        this.checkAll = !this.checkAll;
+      }
+      this.indeterminate = false;
+
+      if (this.checkAll) {
+        for (let i = 0; i < this.releaseNjList.length; i++) {
+          this.checkAllGroup.push(this.releaseNjList[i].id);
+        }
+        // console.log("this.checkAllGroup ", this.checkAllGroup);
+      } else {
+        this.checkAllGroup = [];
+      }
+    },
+    checkAllGroupChange(data) {
+      if (data.length === this.releaseNjList.length) {
+        this.indeterminate = false;
+        this.checkAll = true;
+      } else if (data.length > 0) {
+        this.indeterminate = true;
+        this.checkAll = false;
+      } else {
+        this.indeterminate = false;
+        this.checkAll = false;
+      }
+    },
+    groupSet(value) {
+      const _this = this;
+      _this.$api.get(
+        APIConfig.ClassAndCourse.GetTeacherClassAndCourse,
+        {},
+        function(resp) {
+          if (resp.code == 0) {
+            _this.tClassAndCourse = [...resp.data];
+            _this.$nextTick(() => {
+              // for (let i = 0; i < _this.tClassAndCourse.length; i++) {
+              //   let temxk = {
+              //     subjectName: _this.tClassAndCourse[i].subjectName,
+              //     subjectId: _this.tClassAndCourse[i].subjectId,
+              //     gradeId: _this.tClassAndCourse[i].gradeId,
+              //     gradeName: _this.tClassAndCourse[i].gradeName,
+              //     name: _this.tClassAndCourse[i].name,
+              //     sub_id: _this.tClassAndCourse[i].sub_id,
+              //     systemGrade: _this.tClassAndCourse[i].systemGrade,
+              //     systemId: _this.tClassAndCourse[i].systemId,
+              //     schoolId: _this.tClassAndCourse[i].schoolId
+              //   };
+              //   // console.log(temxk);
+              //   // console.log(_this.subjectList);
+              // }
+              _this.getnj();
+            });
+          }
+        }
+      );
+    },
+    getnj() {
+      const _this = this;
+      for (let i = 0; i < _this.tClassAndCourse.length; i++) {
+        let temNj = {
+          subjectName: _this.tClassAndCourse[i].subjectName,
+          subjectId: _this.tClassAndCourse[i].subjectId,
+          gradeId: _this.tClassAndCourse[i].gradeId,
+          gradeName: _this.tClassAndCourse[i].gradeName,
+          name: _this.tClassAndCourse[i].name,
+          sub_id: _this.tClassAndCourse[i].sub_id,
+          systemGrade: _this.tClassAndCourse[i].systemGrade,
+          systemId: _this.tClassAndCourse[i].systemId,
+          schoolId: _this.tClassAndCourse[i].schoolId,
+          id: _this.tClassAndCourse[i].id
+        };
+        if (_this.uniqNjList.findIndex(x => x.id == temNj.id) == -1) {
+          _this.uniqNjList.push(temNj);
+          _this.releaseNjList.push(temNj);
+        }
+      }
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.main-contents {
+  min-width: 1276px;
+  overflow: auto;
+}
+.main-contents > header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  .add-btn {
+    color: #fff;
+    background-color: #51aafe;
+    border-color: #51aafe;
+  }
+}
+.other-contents {
+  min-width: 1276px;
+  overflow: auto;
+}
+.other-contents > header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  .add-btn {
+    color: #fff;
+    background-color: #51aafe;
+    border-color: #51aafe;
+  }
+}
+
+.miss-li-from {
+  // display: flex;
+  // align-items: Center;
+  height: calc(100%);
+  padding-top: calc(2%);
+}
+.other-miss-title {
+  width: 136px;
+  text-align: left;
+  font-size: 16px;
+}
+.other-miss-title:first {
+  padding: 5px 0;
+}
+.miss-title {
+  width: 136px;
+  text-align: left;
+  font-size: 16px;
+}
+.miss-title:first {
+  padding: 5px 0;
+}
+.miss-title::before {
+  content: "*";
+  color: #ed4014;
+  margin: 0 20px;
+  vertical-align: sub;
+}
+.miss-content {
+  display: inline-block;
+  width: calc(100% - 435px);
+}
+.miss-content > div {
+  display: flex;
+  justify-content: space-around;
+}
+.grade-class {
+  div {
+    // display: inline-block;
+    padding-left: 179px;
+  }
+}
+.grade-class > div:first-child {
+  padding-left: 179px;
+}
+.course-class {
+  padding-left: 124px;
+  margin-top: 20px;
+  div {
+    display: inline-block;
+  }
+}
+
+.course-class > span:first-child:before {
+  content: "*";
+  color: #ed4014;
+  margin: 0 20px;
+  vertical-align: sub;
+}
+
+.miss-type {
+  display: inline-block;
+  width: calc(100% - 136px);
+}
+</style>

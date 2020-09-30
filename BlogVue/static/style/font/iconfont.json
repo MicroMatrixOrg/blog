@@ -1,0 +1,65 @@
+{
+  "id": "1637394",
+  "name": "学习中心",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "13021554",
+      "name": "首页",
+      "font_class": "home",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "13016465",
+      "name": "工具",
+      "font_class": "gongju",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "13016466",
+      "name": "退出",
+      "font_class": "tuichu",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "13016467",
+      "name": "教研",
+      "font_class": "jiaoyan",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "13016468",
+      "name": "消息",
+      "font_class": "xiaoxi",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "13016469",
+      "name": "资源",
+      "font_class": "ziyuan",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "13016470",
+      "name": "直播",
+      "font_class": "zhibo",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "13016471",
+      "name": "作业",
+      "font_class": "zuoye",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    }
+  ]
+}

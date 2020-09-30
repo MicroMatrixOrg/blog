@@ -1,0 +1,508 @@
+<template>
+  <!-- 已收到 -->
+  <div>
+    <div class="main-box">
+        <div class="main-contents">
+          <header>
+            <p style="font-size:18px;">我的讨论</p>
+          </header>
+          <footer class="mainBody">
+            <header>
+                <div class="left" >
+                    <Select v-model="subject" style="width:148px" placeholder="请选择学科" @on-change ="getTree" clearable>
+                        <Option v-for="item in subjectList" :value="item.subjectId" :key="item.subjectId">{{  item.subjectName }}</Option>
+                    </Select>
+                    <!-- <Select v-model="year" style="width:148px" placeholder="请选择年级" filterable @on-change="getTree" clearable>
+                        <Option v-for="item in yearList" :value="item.systemGrade" :key="item.id">{{ item.gradeName }}</Option>
+                    </Select> -->
+                    <div class="dib" style="width:148px">
+                      <SelectTree  ref="select" :props="props" :options="courseList" @getValue="getValue($event)" />
+                    </div>
+                    <DatePicker :value="screateDate" @on-change="getSearchDate" type="date" placeholder="请选择日期" format="yyyy-MM-dd" style="width: 148px;line-height: inherit;margin-right:10px;"></DatePicker>
+                    <Button type="primary" @click="searchKey">筛选</Button> 
+                </div>
+                <div class="right">
+                    <span class="searchBtn">
+                        <Input v-model="searchParameterStu"  placeholder="请输入任务名称" clearable style="width: 287px" />
+                        <Button type="primary" @click="searchKey">搜索</Button>                                
+                    </span>
+                </div>
+            </header>
+            <section>
+                <Table stripe :columns="dColumns"  :data="dataListStu">
+                  
+                  <template slot-scope="{ row, index }" slot="states">
+                    <div style="">
+                      <span v-if="row.states == 1 && row.stuStates == 0" style="color:red;">未参与</span>
+                      <span v-else-if="row.states == 1 && row.stuStates == 1" style="color:#19be6b;">已完成</span>                      
+                      <span v-else style="">讨论关闭</span>
+                       
+                    </div>
+                  </template>
+                  <template slot-scope="{ row, index }" slot="courseName">
+                    <div style="">
+                      <span>{{row.courseName ? row.courseName : "/"}}</span>
+                    </div>
+                  </template>
+                  <template slot-scope="{ row, index }" slot="stuClassName">
+                    <div style="">
+                      <span>{{row.stuClassName ? row.stuClassName : '/' }}</span>
+                    </div>
+                  </template>
+                  <template slot-scope="{ row, index }" slot="action">
+                    <div style="">
+                      <a @click.stop.prevent="showMiss(row,index)" v-if="row.states == 1 && row.stuStates == 0">参与讨论</a>                  
+                      <a @click.stop.prevent="showMiss(row,index)" v-if="row.states == 1 && row.stuStates == 1">查看详情</a>
+                      <!-- <a @click.stop.prevent="correctMission(row,index)"  v-if="row.isCommit == 4">去订正</a>
+                      <a @click.stop.prevent="doMyMissionAgain(row,index)" v-if="row.isCommit == 5">再次提交</a> -->
+                      
+                    </div>
+                  </template>
+                </Table>
+            </section>
+            <footer>
+              <Page :total="miTotalStu" :page-size="pageSizeStu" :page-size-opts="[20,50,100]"  @on-page-size-change="miPageSizeUpdate" placement="top" @on-change="miPageUpdate" show-sizer show-total/>
+            </footer>
+          </footer>
+        </div>
+      
+    </div>
+  </div>
+</template>
+
+<script>
+import SelectTree from "@/components/ztree/treeSelect.vue";
+export default {
+  components: {
+    SelectTree
+  },
+  data() {
+    return {
+      props: {
+        // 配置项（必选）
+        value: "id",
+        label: "name",
+        children: "child"
+        // disabled:true
+      },
+      yearList: [],
+      year: "",
+      gradeList: [],
+      grade: "",
+      subjectList: [],
+      subject: "",
+      classList: [],
+      classes: "",
+      schollId: "",
+      cdate: "",
+      cdateList: [],
+      courseList: [],
+      course: "",
+      dColumns: [
+        {
+          title: "序号",
+          type: "index",
+          width: 80,
+          align: "center"
+        },
+        {
+          title: "讨论名称",
+          key: "discussName",
+          minWidth: 120,
+          align: "center"
+        },
+        {
+          title: "课堂",
+          slot: "courseName",
+          minWidth: 120,
+          align: "center"
+        },
+        {
+          title: "班级",
+          slot: "stuClassName",
+          minwidth: 120,
+          align: "center"
+        },
+        {
+          title: "发布者",
+          key: "publishUserName",
+          width: 120,
+          align: "center"
+        },
+        {
+          title: "发布时间",
+          key: "dPd",
+          align: "center",
+          minWidth: 180
+        },
+        {
+          title: "状态",
+          slot: "states",
+          minWidth: 120,
+          align: "center"
+        },
+        {
+          title: "操作",
+          slot: "action",
+          align: "center",
+          width: 200
+        }
+      ],
+      dataListStu: [],
+      uniqNjList: [], //唯一的年级列表
+
+      screateDate: "",
+
+      pageSizeStu: 20,
+      pageNoStu: 0, //页面从0开始
+      miTotalStu: 0, //任务总数
+      searchParameterStu: "",
+
+      searchxk: "",
+      selectZszj: "",
+
+      myGrade: null
+    };
+  },
+  created() {
+    // var url='http://basedebug.bestsch.com/BschQuestionnaire/api/GetUserInfo';
+    // this.$api.get(url, null, resp => {
+    //   console.log(233);
+    // });
+  },
+  mounted() {
+    const _this = this;
+    _this.groupSet();
+    _this.searchKeyStu();
+    _this.getMygrade();
+  },
+  methods: {
+    getMygrade() {
+      const _this = this;
+      _this.$api.get(APIConfig.ClassAndCourse.GetMyGrade, {}, resp => {
+        if (resp.code == 0) {
+          _this.myGrade = resp.data;
+        } else {
+          _this.$Message.info(resp.msg);
+        }
+      });
+    },
+    searchKey() {
+      const _this = this;
+      console.log(_this.searchParameterStu);
+      _this.searchKeyStu();
+    },
+    showMiss(row, index) {
+      const _this = this;
+      _this.$store.commit("setMyMission", row);
+      let path = this.routerCfg.options.pathById(232);
+      this.$router.push(path);
+    },
+
+    searchKeyStu() {
+      var _this = this;
+      var params = {
+        keyword: _this.searchParameterStu,
+        subjectName: _this.searchxk,
+        chapterId:
+          _this.selectZszj == "" || _this.selectZszj == null
+            ? ""
+            : _this.selectZszj.id,
+        createDate: _this.screateDate,
+        gradeName: _this.year,
+        page: _this.pageNoStu,
+        size: _this.pageSizeStu,
+        sort: "id,desc"
+      };
+      _this.$api.get(
+        APIConfig.StuDiscussion.SearchStuDiscusses,
+        params,
+        function(resp) {
+          if (resp.code == 0) {
+            // _this.$Message.info("搜索完成");
+            _this.dataListStu = resp.data.myStuDiscusses;
+            _this.miTotalStu = parseInt(resp.data.totalElements);
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    miPageUpdate(page) {
+      var _this = this;
+      _this.pageNoStu = page - 1; //page从0开始
+      _this.searchKeyStu();
+    },
+    miPageSizeUpdate(size) {
+      var _this = this;
+      _this.pageSizeStu = size;
+      _this.searchKeyStu();
+    },
+    getSearchDate(e) {
+      this.screateDate = e;
+      console.log(this.screateDate);
+    },
+    groupSet(value) {
+      const _this = this;
+      _this.$api.get(APIConfig.ClassAndCourse.GetSchoolSubject, {}, function(
+        resp
+      ) {
+        if (resp.code == 0) {
+          _this.tClassAndCourse = resp.data;
+          _this.$nextTick(() => {
+            for (let i = 0; i < _this.tClassAndCourse.length; i++) {
+              let temxk = {
+                subjectName: _this.tClassAndCourse[i].subjectName,
+                subjectId: _this.tClassAndCourse[i].subjectId,
+                sub_id: _this.tClassAndCourse[i].sub_id
+              };
+              // console.log(temxk);
+              // console.log(_this.subjectList);
+
+              if (
+                _this.subjectList.findIndex(
+                  x => x.subjectId == _this.tClassAndCourse[i].subjectId
+                ) == -1
+              ) {
+                _this.subjectList.push(temxk);
+              }
+              _this.getnj();
+            }
+          });
+        }
+      });
+    },
+    getValue(value) {
+      this.selectZszj = value;
+      // console.log("选择的", value);
+    },
+    getTree(value) {
+      const _this = this;
+      _this.courseList = [];
+      let temxk = "";
+
+      for (let i = 0; i < _this.subjectList.length; i++) {
+        // console.log(_this.subjectList[i]);
+        if (_this.subjectList[i].subjectId == _this.subject) {
+          temxk = _this.subjectList[i].sub_id;
+          _this.subId = _this.subjectList[i].sub_id;
+        }
+      }
+      // console.log(value);
+      if (typeof value == "undefined") {
+        this.$refs.select.init();
+        return;
+      }
+      var params = {
+        grade: _this.myGrade.systemGrade,
+        subId: temxk
+      };
+
+      // console.log("	_this.courseList抓话后", _this.courseList);
+      _this.$api.get(APIConfig.Zszj.GetTree, params, resp => {
+        if (resp.code == 0) {
+          for (let i = 0; i < resp.data.tree.child.length; i++) {
+            _this.courseList.push(resp.data.tree.child[i]);
+          }
+          // console.log(resp);
+          // let temData = [];
+          // temData.push(resp.data.tree);
+          // // _this.flat(temData);
+          // _this.$set(_this.courseList, 0, temData);
+          // _this.courseList = temData;
+          // console.log(_this.courseList);
+
+          // _this.courseList = resp.data;
+        }
+      });
+    },
+    getnj() {
+      const _this = this;
+      for (let i = 0; i < _this.tClassAndCourse.length; i++) {
+        let temNj = {
+          subjectName: _this.tClassAndCourse[i].subjectName,
+          subjectId: _this.tClassAndCourse[i].subjectId,
+          sub_id: _this.tClassAndCourse[i].sub_id
+        };
+        if (_this.uniqNjList.findIndex(x => x.id == temNj.id) == -1) {
+          _this.uniqNjList.push(temNj);
+        }
+      }
+    }
+    // getNjByXk(value) {
+    //   //选择了学科 >出现年级列表
+    //   const _this = this;
+    //   _this.yearList = [];
+    //   _this.courseList = [];
+    //   _this.year = "";
+    //   if (typeof value != "undefined") {
+    //     for (let i = 0; i < _this.subjectList.length; i++) {
+    //       if (_this.subjectList[i].subjectId == value) {
+    //         _this.searchxk = _this.subjectList[i].subjectName;
+    //       }
+    //     }
+    //   } else {
+    //     _this.searchxk = "";
+    //   }
+    //   // console.log("选择的学科", value);
+    //   // console.log("选择的学科", _this.tClassAndCourse);
+    //   for (let i = 0; i < _this.tClassAndCourse.length; i++) {
+    //     let temNj = {
+    //       subjectName: _this.tClassAndCourse[i].subjectName,
+    //       subjectId: _this.tClassAndCourse[i].subjectId,
+    //       sub_id: _this.tClassAndCourse[i].sub_id
+    //     };
+    //     if (
+    //       temNj.subjectId == value &&
+    //       _this.yearList.findIndex(x => x.systemGrade == temNj.systemGrade) ==
+    //         -1
+    //     ) {
+    //       _this.yearList.push(temNj);
+    //     }
+    //   }
+    //   if (typeof value != "undefined") {
+    //     for (let i = 0; i < _this.subjectList.length; i++) {
+    //       // console.log(_this.subjectList[i]);
+    //       if (_this.subjectList[i].subjectId == _this.subject) {
+    //         _this.subId = _this.subjectList[i].sub_id;
+    //         break;
+    //       }
+    //     }
+    //   } else {
+    //     _this.subId = "";
+    //   }
+    // }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.main-contents {
+  min-width: 1276px;
+  overflow: auto;
+}
+.main-contents > header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  .add-btn {
+    color: #fff;
+    background-color: #51aafe;
+    border-color: #51aafe;
+  }
+}
+.other-contents {
+  min-width: 1276px;
+  overflow: auto;
+}
+.other-contents > header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  .add-btn {
+    color: #fff;
+    background-color: #51aafe;
+    border-color: #51aafe;
+  }
+}
+
+* /deep/ .el-input__inner {
+  height: 32px;
+  line-height: 32px;
+  vertical-align: middle;
+}
+.wrap-main .main-box {
+  min-width: 800px;
+  overflow: auto;
+}
+.mainBody {
+  padding-top: 20px;
+}
+.mainBody > header {
+  display: flex;
+  margin: 0 15px 20px 15px;
+  justify-content: space-between;
+}
+.mainBody > section {
+  .ivu-table-wrapper {
+    border-left: none;
+  }
+
+  .ivu-table-wrapper > .ivu-table td,
+  .ivu-table th {
+    border-bottom: none;
+  }
+
+  .ivu-table-wrapper > .ivu-table:before,
+  .ivu-table:after {
+    background-color: #fff;
+  }
+}
+
+.mainBody > footer {
+  margin-top: 20px;
+  text-align: end;
+}
+
+.miss-li-from {
+  // display: flex;
+  // align-items: Center;
+  height: calc(100%);
+  padding-top: calc(2%);
+}
+.other-miss-title {
+  width: 136px;
+  text-align: left;
+  font-size: 16px;
+}
+.other-miss-title:first {
+  padding: 5px 0;
+}
+.miss-title {
+  width: 136px;
+  text-align: left;
+  font-size: 16px;
+}
+.miss-title:first {
+  padding: 5px 0;
+}
+.miss-title::before {
+  content: "*";
+  color: #ed4014;
+  margin: 0 20px;
+  vertical-align: sub;
+}
+.miss-content {
+  display: inline-block;
+  width: calc(100% - 435px);
+}
+.miss-content > div {
+  display: flex;
+  justify-content: space-around;
+}
+.grade-class {
+  div {
+    display: inline-block;
+  }
+}
+.grade-class > div:first-child {
+  padding-left: 179px;
+}
+.course-class {
+  padding-left: 124px;
+  margin-top: 20px;
+  div {
+    display: inline-block;
+  }
+}
+
+.course-class > span:first-child:before {
+  content: "*";
+  color: #ed4014;
+  margin: 0 20px;
+  vertical-align: sub;
+}
+
+.miss-type {
+  display: inline-block;
+  width: calc(100% - 136px);
+}
+</style>
+

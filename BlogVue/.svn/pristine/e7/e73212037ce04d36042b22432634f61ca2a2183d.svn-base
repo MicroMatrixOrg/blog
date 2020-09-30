@@ -1,0 +1,108 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+
+
+//新版
+// const missions = () => import('../page/teacher/missions/missions.vue')
+const discussionManager = () => import("../page/teacher/discussion/discussionManager.vue")
+const dReleManager = () => import("../page/teacher/discussion/releaseManager.vue")
+const editDiscTea = () => import("@/components/discussionManager/editDiscussion.vue");
+const showDiscTea = () => import("@/components/discussionManager/viewModal.vue");
+const showDiscTeaManager = () => import("@/components/discussionRelease/viewModal.vue");
+// const reviewStu = () => import("@/components/discussionRelease/reviewStudent.vue");
+//学生的页面
+const stuDiscussion = () => import("../page/student/discussion/discussion.vue");
+// const stuDoDiscussion = () => import("../page/student/discussion/doDiscussion.vue");
+const stuViewDisc = () => import("../page/student/discussion/viewDiscussion.vue");
+
+
+
+const jump = () => import("../page/teacher/discussion/jump.vue");
+const user_back = () => import('../frame/userback.vue')
+
+Vue.use(Router)
+
+//全部的
+var routes = [
+
+  {
+    path: '/discussionManager',
+    component: discussionManager,
+    meta: { title: "应用列表", modId: 21, },
+  },
+  {
+    path: '/editDiscTea',
+    component: editDiscTea,
+    meta: { title: "应用列表", modId: 211, activeId: 21, activePath: '/discussionManager' },
+  },
+  {
+    path: '/showDiscTea',
+    component: showDiscTea,
+    meta: { title: "应用列表", modId: 212, activeId: 21, activePath: '/discussionManager' },
+  },
+
+  {
+    path: '/dReleManager',
+    component: dReleManager,
+    meta: { title: "应用列表", modId: 22 },
+  },
+  {
+    path: '/showDiscTeaManager',
+    component: showDiscTeaManager,
+    meta: { title: "应用列表", modId: 221, activeId: 22, activePath: '/dReleManager' },
+  },
+  // {
+  //   path: '/reviewStu',
+  //   component: reviewStu,
+  //   meta: { title: "应用列表", modId: 222, activeId: 22, activePath: '/dReleManager' },
+  // },
+
+  //学生
+  {
+    path: '/stuDiscussion',
+    component: stuDiscussion,
+    meta: { title: "应用列表", modId: 23 },
+  },
+  // {
+  //   path: '/stuDoDiscussion',
+  //   component: stuDoDiscussion,
+  //   meta: { title: "应用列表", modId: 231, activeId: 23, activePath: '/stuDiscussion' },
+  // },
+  {
+    path: '/stuViewDisc',
+    component: stuViewDisc,
+    meta: { title: "应用列表", modId: 232, activeId: 23, activePath: '/stuDiscussion' },
+  },
+
+
+
+
+
+
+  {
+    path: '/jump',
+    component: jump,
+    meta: { title: "", modId: 8, activeId: 21, activePath: '/discussionManager' },
+  },
+  {
+    path: '/user/back',
+    component: user_back,
+    meta: { title: "", modId: 0 },
+  },
+];
+
+var pathById = (id) => {
+  var path = '';
+  routes.forEach(element => {
+    if (element.meta.modId == id) path = element.path;
+  });
+  return path;
+}
+
+
+// export default new Router({mode: 'history',routes})
+// export default new Router({ routes })
+export default new Router({ routes, pathById })
+// export default new Router(myRouter)
+

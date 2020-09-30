@@ -1,0 +1,15 @@
+var conf = {
+    // baseUrl:'http://basedebug.bestsch.com/BschQuestionnaire/api/',
+    // baseUrl: 'http://learn.bestsch.com/missiond/api/',
+    baseUrl: 'http://learn.bestsch.com/discussion/api/',
+    // baseUrl: 'http://192.168.0.121:9527/mission/api/',
+
+    userUrl: 'http://learn.bestsch.com/api/',
+    basecenterUrl: 'http://learn.bestsch.com/api/',
+    fileUrl: 'http://basedebug.bestsch.com/BschQuestionnaire/api/',
+    ssoHost: 'http://ssodebug.bestsch.com',
+    baseHost: 'http://basedebug.bestsch.com',
+    isDebug: true,
+}
+
+export { conf }

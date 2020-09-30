@@ -1,0 +1,39 @@
+var conf = {
+  baseUrl: "http://learn.bestsch.com/discussion/api/",
+  userUrl: "http://learn.bestsch.com/api/",
+  basecenterUrl: "http://learn.bestsch.com/api/",
+  fileUrl: "http://basedebug.bestsch.com/BschQuestionnaire/api/",
+  ssoHost: "http://ssodebug.bestsch.com",
+  baseHost: "http://basedebug.bestsch.com",
+  isDebug: true,
+
+  // baseRedirectArr: ['/discussion/front/#/', '/learn/front/#/discussion/'],//华阳放开
+
+};
+//本地测试
+// var linkTypeMap = {
+//   beike: "/beike/#",
+//   zuoye: "/zuoye/#",
+//   gongju: "/mission/#",
+//   discussion: "/#"
+// };
+
+//铃铛
+var linkTypeMap = {
+  beike: "/beike/#",
+  zuoye: "/zuoye/#",
+  gongju: "/gongju/#",
+  discussion: "/discussion/#"
+};
+
+//华阳和铃铛的项目目录不同，所以下面三个要修改 铃铛是没有/front/这层目录的
+// var linkTypeMap = {
+//   beike: "/beike/front/#",
+//   zuoye: "/zuoye/front/#",
+//   gongju: "/mission/front/#",
+//   discussion: "/discussion/front/#"
+// };
+
+// export { conf }
+window.linkTypeMap = linkTypeMap;
+window.conf = conf;

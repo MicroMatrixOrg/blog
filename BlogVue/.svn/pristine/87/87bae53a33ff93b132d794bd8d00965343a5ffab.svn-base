@@ -1,0 +1,463 @@
+<template>
+  <!-- 已收到 -->
+  <div style="width:100%">
+    <div
+      class="pr"
+      style="height:100px;width:150px; margin:10px;    text-align: left;float:left"
+      v-for="(item, id) in uploadfile.pics"
+      :key="'pics' + id"
+    >
+      <img
+        :id="'selectImg' + id"
+        :src="typeof item.url == 'undefined' ? '' : item.url"
+        class="pr"
+        style="top:0px;height:100px;width:150px;"
+      />
+      <Icon
+        type="md-close-circle"
+        class="pa cp"
+        style="top: -5px;right: -5px;cursor: pointer;"
+        @click="remove(id)"
+      />
+
+      <div
+        style="position: absolute;width: 155px;top: 75px;"
+        v-if="typeof item.percent != 'undefined' && item.percent != 100"
+      >
+        <Progress
+          :stroke-width="15"
+          :stroke-color="['#fe9a38', '#fe9a38']"
+          :percent="item.percent"
+        ></Progress>
+      </div>
+    </div>
+    <div
+      class="pr"
+      style="height:100px;width:150px;margin:10px;    text-align: left;float:left"
+      v-for="(item, id) in uploadfile.videos"
+      :key="'videos' + id"
+      :id="'videos' + id"
+    >
+      <video
+        :src="typeof item.url == 'undefined' || !item.url ? '' : item.url"
+        style="height:100%;width:100%"
+        :id="'video' + id"
+        autoplay
+        name="media"
+        controls
+        v-if="flag"
+      ></video>
+      <Icon
+        type="md-close-circle"
+        class="pa cp"
+        style="top: -5px;right: -5px;    cursor: pointer;"
+        @click="removevideo(id)"
+      />
+
+      <div
+        style="position: absolute;width: 155px;top: 75px;"
+        v-if="typeof item.percent != 'undefined' && item.percent != 100"
+      >
+        <Progress
+          :stroke-width="15"
+          :stroke-color="['#fe9a38', '#fe9a38']"
+          :percent="item.percent"
+        ></Progress>
+      </div>
+    </div>
+    <div
+      class="pr"
+      style="height:100px;width:300px;margin:10px;    text-align: left;float:left"
+      v-for="(item, id) in uploadfile.musics"
+      :key="'musics' + id"
+    >
+      <audio
+        :id="'audio' + id"
+        style="height:100%;width:100%;padding-bottom: 20px;"
+        controls
+        :src="typeof item.url == 'undefined' ? '' : item.url"
+      >
+        Your browser can't support HTML5 Audio
+      </audio>
+      <!-- <audio :id="'audio'+temName+id" controls autoplay loop>Your browser can't support HTML5 Audio</audio> -->
+
+      <Icon
+        type="md-close-circle"
+        class="pa cp"
+        style="top: 20px;right: 0;    cursor: pointer;"
+        @click="removemusic(id)"
+      />
+      <div
+        style="position: absolute;width: 155px;top: 75px;"
+        v-if="typeof item.percent != 'undefined' && item.percent != 100"
+      >
+        <Progress
+          :stroke-width="15"
+          :stroke-color="['#fe9a38', '#fe9a38']"
+          :percent="item.percent"
+        ></Progress>
+      </div>
+    </div>
+
+    <div
+      class="pr"
+      style="height:100px;width:150px;margin:10px 0;    text-align: left;float:left; border: 1px solid #eee;"
+    >
+      <Upload
+        ref="uploadvideo"
+        multiple
+        :show-upload-list="false"
+        :on-success="resultvideo"
+        :on-error="errorvideo"
+        :action="ImportUrl"
+        :before-upload="videohandleUpload"
+        :headers="{ bschapirequest: 1 }"
+        :on-progress="handleProgress"
+        name="upfile"
+        with-credentials
+        :max-size="20480"
+        :on-exceeded-size="exceededSize"
+        style="text-align: left;display: inline-block;padding: 25px 58px;position:relatively;"
+        class="pr"
+      >
+        <a class="fa fa-plus" style="font-size:40px;color:#eee"></a>
+      </Upload>
+    </div>
+  </div>
+</template>
+
+<script>
+// import bsch from '../components/bschztree.vue'
+import FileNameMatch from "../../utils/fileNameMatch.js";
+
+export default {
+  components: {
+    // bsch
+  },
+
+  props: {
+    temName: String
+    //进度条是否显示
+  },
+  model: {
+    // prop: "question",
+    event: "pics"
+  },
+  data() {
+    return {
+      disabledGroup: "1",
+      ImportUrl: APIConfig.File.UploadFile,
+
+      disnone: true,
+      zuoye: "",
+      picList: [],
+      uploadfile: {
+        pics: [],
+        videos: [],
+        musics: []
+      },
+
+      yulanImg: "",
+
+      fileIds: [],
+      fileLength: 0,
+
+      isUpload: false,
+      filePercent: 0,
+
+      imgLength: 0,
+      musicLength: 0,
+      videoLength: 0,
+
+      isEnable: false,
+
+      flag: true
+    };
+  },
+  created() {},
+  mounted() {},
+  methods: {
+    init() {
+      this.uploadfile = {
+        pics: [],
+        videos: [],
+        musics: []
+      };
+      this.fileIds = [];
+      this.fileLength = 0;
+
+      this.yulanImg = "";
+
+      this.isUpload = false;
+      this.filePercent = 0;
+
+      this.imgLength = 0;
+      this.musicLength = 0;
+      this.videoLength = 0;
+      this.$emit("fileIds", this.fileIds);
+    },
+    handleProgress(event, file, fileList) {
+      var _this = this;
+      let tempList = [
+        _this.uploadfile.pics,
+        _this.uploadfile.musics,
+        _this.uploadfile.videos
+      ];
+      _this.$nextTick(() => {
+        _this.filePercent = 0;
+        _this.uploadfile.pics.forEach((ele, index) => {
+          if (file.uid == ele.uid) {
+            ele.percent = +event.percent.toFixed(2);
+            _this.$set(_this.uploadfile.pics, index, ele);
+          }
+        });
+        _this.uploadfile.musics.forEach((ele, index) => {
+          if (file.uid == ele.uid) {
+            ele.percent = +event.percent.toFixed(2);
+            _this.$set(_this.uploadfile.musics, index, ele);
+            // this.uploadfile.musics.splice(index, 1);
+          }
+        });
+        _this.uploadfile.videos.forEach((ele, index) => {
+          if (file.uid == ele.uid) {
+            ele.percent = +event.percent.toFixed(2);
+            _this.$set(_this.uploadfile.videos, index, ele);
+            // this.uploadfile.videos.splice(index, 1);
+          }
+        });
+      });
+    },
+    exceededSize(file, fileList) {
+      this.$Message.info(
+        "文件上传的最大限制为20Mb，你上传的名为《" +
+          file.name +
+          "》的文件大小约为：" +
+          (file.size / (1024 * 1024)).toFixed(2) +
+          "Mb"
+      );
+      if (FileNameMatch.isPicture(file.name)) {
+        let index = this.uploadfile.pics.findIndex(
+          x => x.lastModified == file.lastModified
+        );
+        if (index != -1) {
+          this.uploadfile.pics.splice(index, 1);
+          // this.uploadfile.pics.push(response.data);
+        }
+      } else if (FileNameMatch.isVideo(file.name)) {
+        let index = this.uploadfile.videos.findIndex(
+          x => x.lastModified == file.lastModified
+        );
+        if (index != -1) {
+          this.uploadfile.videos.splice(index, 1);
+          // this.uploadfile.pics.push(response.data);
+        }
+      } else if (FileNameMatch.isAudio(file.name)) {
+        let index = this.uploadfile.musics.findIndex(
+          x => x.lastModified == file.lastModified
+        );
+        if (index != -1) {
+          this.uploadfile.musics.splice(index, 1);
+          // this.uploadfile.pics.push(response.data);
+        }
+      }
+      console.log(file);
+      console.log(this.uploadfile);
+      this.$emit("isUpload", false);
+    },
+    removemusic(id) {
+      let deleObj = this.uploadfile.musics[id];
+      console.log("music", deleObj);
+      let index = this.fileIds.findIndex(x => x == deleObj.id);
+      // console.log("删除音频的", index);
+
+      this.fileIds.splice(index, 1);
+      this.uploadfile.musics.splice(id, 1);
+      this.$emit("pics", this.uploadfile);
+      this.$emit("fileIds", this.fileIds);
+    },
+    removevideo(id) {
+      let deleObj = this.uploadfile.videos[id];
+      // console.log("video", deleObj);
+      let index = this.fileIds.findIndex(x => x == deleObj.id);
+      // console.log("删除视频的", index);
+
+      this.fileIds.splice(index, 1);
+      this.uploadfile.videos.splice(id, 1);
+      this.$emit("pics", this.uploadfile);
+      this.$emit("fileIds", this.fileIds);
+    },
+    remove(id) {
+      var _this = this;
+      let deleObj = this.uploadfile.pics[id];
+      // console.log("pics", deleObj);
+      let index = this.fileIds.findIndex(x => x == deleObj.id);
+      // console.log("删除图片的", index);
+      this.fileIds.splice(index, 1);
+      this.uploadfile.pics.splice(id, 1);
+      this.$emit("pics", this.uploadfile);
+      this.$emit("fileIds", this.fileIds);
+    },
+    GetFileById(ids) {
+      var _this = this;
+      var url = APIConfig.File.SearchTeaFilesByIds;
+      if (ids != "") {
+        this.$api.get(url, { ids: ids }, resp => {
+          if (resp.code == 0) {
+            this.uploadfile.pics = [];
+            this.uploadfile.musics = [];
+            this.uploadfile.videos = [];
+
+            this.imgLength = 0;
+            this.musicLength = 0;
+            this.videoLength = 0;
+
+            this.fileIds = [];
+
+            resp.data.forEach((file, index, arr) => {
+              if (FileNameMatch.isPicture(file.name)) {
+                this.uploadfile.pics.push(file); //需要传给后台的file文件
+                this.fileIds.push(file.id);
+                this.imgLength++;
+                // this.$emit("pics", this.uploadfile);
+              } else if (FileNameMatch.isAudio(file.name)) {
+                this.uploadfile.musics.push(file);
+                this.fileIds.push(file.id);
+
+                this.musicLength++;
+              } else if (FileNameMatch.isVideo(file.name)) {
+                this.uploadfile.videos.push(file);
+                this.fileIds.push(file.id);
+                this.videoLength++;
+              }
+            });
+          }
+          this.$emit("fileIds", this.fileIds);
+          // debugger;
+        });
+      }
+    },
+    upload() {},
+    errorvideo(response) {
+      this.$Message.error("保存失败");
+
+      this.$emit("isUpload", false);
+    },
+    resultvideo(response, file, fileList) {
+      console.log("上传成功", file, fileList);
+      // debugger;
+      if (response.code == 0) {
+        this.isUpload = false;
+        if (FileNameMatch.isPicture(response.data.name)) {
+          this.imgLength++;
+          let index = this.uploadfile.pics.findIndex(x => x.uid == file.uid);
+          if (index != -1) {
+            this.uploadfile.pics.splice(index, 1, response.data);
+            // this.uploadfile.pics.push(response.data);
+          }
+          // this.uploadfile.pics.pop();
+
+          this.fileIds.push(response.data.id);
+        } else if (FileNameMatch.isVideo(response.data.name)) {
+          this.videoLength++;
+          let index = this.uploadfile.videos.findIndex(x => x.uid == file.uid);
+          if (index != -1) {
+            this.uploadfile.videos.splice(index, 1, response.data);
+          }
+
+          //自动播放
+          // console.log($("#video" + index));
+          //  $(`#videos${index}`)[0]
+          // $(`#video${index}`)[0].src = response.data.url;
+          _this.flag = false;
+          setTimeout(() => {
+            $(`#video${index}`)[0].src = response.data.url;
+            _this.flag = true;
+          }, 300);
+
+          this.fileIds.push(response.data.id);
+        } else if (FileNameMatch.isAudio(response.data.name)) {
+          this.musicLength++;
+          let index = this.uploadfile.musics.findIndex(x => x.uid == file.uid);
+          if (index != -1) {
+            this.uploadfile.musics.splice(index, 1, response.data);
+          }
+
+          this.fileIds.push(response.data.id);
+        }
+        console.log("替换后", this.uploadfile);
+        this.$emit("fileIds", this.fileIds);
+        this.$emit("isUpload", this.isUpload);
+      } else {
+        this.$Message.error(response.msg);
+      }
+    },
+    videohandleUpload(file) {
+      let myname = this.temName;
+
+      this.isUpload = true;
+      if (FileNameMatch.isPicture(file.name)) {
+        this.uploadfile.pics.push(file); //需要传给后台的file文件
+        var _this = this;
+        // this.$emit("pics", this.uploadfile);
+        _this.$nextTick(() => {
+          for (let i = this.imgLength; i < this.uploadfile.pics.length; i++) {
+            var url = URL.createObjectURL(this.uploadfile.pics[i]);
+            document.getElementById("selectImg" + i).src = url;
+          }
+        });
+      } else if (FileNameMatch.isAudio(file.name)) {
+        this.uploadfile.musics.push(file);
+        this.$nextTick(() => {
+          for (
+            let k = this.musicLength;
+            k < this.uploadfile.musics.length;
+            k++
+          ) {
+            var url = URL.createObjectURL(this.uploadfile.musics[k]);
+            document.getElementById("audio" + k).src = url;
+            // debugger;
+          }
+        });
+      } else if (FileNameMatch.isVideo(file.name)) {
+        // console.log(file);
+        this.uploadfile.videos.push(file);
+        this.$nextTick(() => {
+          for (
+            let j = this.videoLength;
+            j < this.uploadfile.videos.length;
+            j++
+          ) {
+            var url = URL.createObjectURL(this.uploadfile.videos[j]);
+            // console.log(document.getElementById("video" + j));
+            // document.getElementById("video" + j).src = null;
+            // $("#videos" + j).attr(
+            //   "src",
+            //   window.URL.createObjectURL(this.uploadfile.videos[j])
+            // );
+          }
+        });
+      } else {
+        this.$Message.warning("不支持的格式类型");
+        return false;
+      }
+      this.$emit("isUpload", this.isUpload);
+
+      return true; //阻止图片继续上传，使得form表单提交时统一上传
+    },
+    choose(val) {
+      if (val == 2) {
+        this.$refs.bsch.init();
+      }
+    },
+    bschinfo(i, array) {}
+  }
+};
+</script>
+<style lang="scss">
+.uploading-pro {
+  position: absolute;
+}
+.ivu-progress-outer {
+  width: 96%;
+}
+</style>

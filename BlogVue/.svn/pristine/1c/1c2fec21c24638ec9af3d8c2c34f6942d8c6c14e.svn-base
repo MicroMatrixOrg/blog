@@ -1,0 +1,545 @@
+<template>
+  <div class="main-box">
+    <div class="main-content">
+      <div class="other-contents">
+        <header style="display: flex;justify-content: space-between;">
+          <div>
+            <span style="font-size:18px;">讨论管理</span> >
+            <span style="font-size:16px;">编辑讨论</span>
+          </div>
+          <!-- <div  @click="goback()" style="width: 55px;height: 30px; border: 1px solid #eee;text-align: center;border-radius: 20px;">
+                <i style="vertical-align: sub;" class='fa fa-reply'></i>
+              </div> -->
+          <Button
+            @click="goback()"
+            type="primary"
+            style=" display: inline-block;float:right;margin: 12px;"
+            >返回</Button
+          >
+        </header>
+        <footer>
+          <ul>
+            <li
+              class="miss-li-from miss-li"
+              style="justify-content: space-between;"
+            >
+              <div style="display: flex;">
+                <span class="miss-title">选择学科:</span>
+                <div class="miss-content">
+                  <Select
+                    v-model="xk"
+                    style="width:131px"
+                    placeholder="请选择学科"
+                    @on-change="getNjByXk"
+                  >
+                    <Option
+                      v-for="item in xkList"
+                      :value="item.subjectId"
+                      :key="item.subjectId"
+                      >{{ item.subjectName }}</Option
+                    >
+                  </Select>
+                </div>
+              </div>
+              <div style="display: flex;">
+                <span class="miss-title">选择年级:</span>
+                <div class="miss-content">
+                  <Select
+                    v-model="nj"
+                    style="width:131px"
+                    placeholder="请选择年级"
+                    @on-change="getTree"
+                  >
+                    <Option
+                      v-for="item in njList"
+                      :value="item.systemGrade"
+                      :key="item.id"
+                      >{{ item.gradeName }}</Option
+                    >
+                  </Select>
+                </div>
+              </div>
+              <div style="display: flex;">
+                <span class="miss-title-no">知识章节:</span>
+                <div class="miss-content">
+                  <SelectTree
+                    ref="select"
+                    :props="props"
+                    :value="editNode"
+                    :options="knowledgeList"
+                    @getValue="getValue($event)"
+                  />
+                </div>
+              </div>
+            </li>
+            <li class="miss-li-from">
+              <span class="miss-title">讨论主题:</span>
+              <div class="miss-content">
+                <Input
+                  v-model="missionTitle"
+                  maxlength="30"
+                  show-word-limit
+                  placeholder="请输入讨论名称"
+                />
+              </div>
+            </li>
+            <li class="miss-li-from" style="border-bottom:none;">
+              <span class="miss-title-no">讨论内容:</span>
+              <div class="miss-content">
+                <Input
+                  v-model="missionContent"
+                  maxlength="1000"
+                  show-word-limit
+                  type="textarea"
+                  :autosize="{ minRows: 5, maxRows: 6 }"
+                  placeholder="请输入讨论内容"
+                />
+              </div>
+            </li>
+            <li class="miss-li-from" style="border-bottom:none;">
+              <span class="miss-title-no">讨论文件:</span>
+              <div class="miss-content">
+                <fileupload
+                  ref="fileUpload"
+                  @fileIds="getFileIds"
+                  @isUpload="isEnable"
+                ></fileupload>
+              </div>
+            </li>
+            <li class="miss-li-end">
+              <Button
+                type="primary"
+                style="margin-right:44px;"
+                @click="editMiss()"
+                :disabled="isDisable"
+                >确认</Button
+              >
+              <Button @click="goback()">取消</Button>
+            </li>
+          </ul>
+        </footer>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import myStorge from "../../utils/localStorge.js";
+import UEditor from "@/components/ueditor/ueditor.vue";
+import SelectTree from "@/components/ztree/treeSelect.vue";
+import fileupload from "@/components/fileupload/fileupload.vue";
+
+export default {
+  components: {
+    UEditor,
+    SelectTree,
+    fileupload
+  },
+  data() {
+    const _this = this;
+    return {
+      missionTitle: myStorge.get("teaEditMission").name,
+      missionContent: myStorge.get("teaEditMission").content,
+
+      props: {
+        // 配置项（必选）
+        value: "id",
+        label: "name",
+        children: "child"
+        // disabled:true
+      },
+      knowledgeList: [],
+      zsList: [],
+      xkList: [],
+      njList: [],
+      zszjList: [],
+      xk: "",
+      nj: "",
+      selectZszj: null,
+      isDisable: false,
+      uniqNjList: [],
+      editNode: 0,
+
+      editMission: myStorge.get("teaEditMission"),
+
+      uploadFile: []
+    };
+  },
+  mounted() {
+    const _this = this;
+    _this.groupSet();
+
+    // _this.$refs.missContent.setUEContent(
+    //   _this.$store.getters.getTeaEditMiss.content
+    // );
+    // console.log(this.editMission);
+    this.$nextTick(() => {
+      this.$refs.fileUpload.GetFileById(_this.editMission.fileId);
+    });
+  },
+  beforeUpdate() {},
+  updated() {},
+  methods: {
+    isEnable(flag) {
+      this.isDisable = flag;
+    },
+    getFileIds(fileIds) {
+      this.uploadFile = [...fileIds];
+      // console.log(this.uploadFile);
+    },
+    goback() {
+      let path = this.routerCfg.options.pathById(21);
+      this.$router.push(path);
+    },
+    infoback(info) {},
+    showModal(item) {
+      // console.log("item", item);
+    },
+
+    //添加任务
+    editMiss() {
+      const _this = this;
+      _this.isDisable = true;
+
+      if (_this.xk == "") {
+        _this.$Message.info("学科未选择");
+        // console.log("学科未选择");
+        _this.isDisable = false;
+        return;
+      }
+      if (_this.nj == "") {
+        // console.log("年级未选择");
+        _this.$Message.info("年级未选择");
+        _this.isDisable = false;
+        return;
+      }
+      // if (_this.selectZszj == null || _this.selectZszj == "") {
+      //   // console.log("知识点未选择");
+      //   _this.$Message.info("知识点未选择");
+      //   _this.isDisable = false;
+      //   return;
+      // }
+
+      if (_this.missionTitle == "" || _this.missionTitle == undefined) {
+        _this.$Message.info("任务名称不能为空");
+        // console.log("任务名称不能为空");
+        _this.isDisable = false;
+        return;
+      }
+      // if (_this.missionContent == "" || _this.missionContent == undefined) {
+      //   _this.$Message.info("任务内容不能为空");
+      //   // console.log("任务内容不能为空");
+      //   _this.isDisable = false;
+      //   return;
+      // }
+
+      let temxk = {};
+      let temnj = {};
+
+      temxk =
+        _this.xkList[_this.xkList.findIndex(x => x.subjectId == _this.xk)];
+      temnj =
+        _this.njList[_this.njList.findIndex(x => (x.systemGrade = _this.nj))];
+
+      // console.log("w我竟来了，for循环之前");
+      console.log;
+      let params = {
+        id: _this.editMission.id,
+        name: _this.missionTitle,
+        subId: temxk.sub_id,
+        subjectName: temxk.subjectName,
+        content: _this.missionContent,
+        chapterId: _this.selectZszj ? +_this.selectZszj.id : null,
+        fileIds: _this.uploadFile.join(","),
+        //知识章节名
+        chapterName: _this.selectZszj ? _this.selectZszj.name : null,
+        gradeName: temnj.gradeName,
+        gradeId: temnj.systemGrade
+      };
+      // console.log("添加", params);
+      _this.$api.post(
+        APIConfig.DiscussionLibrary.UpdateDisLibrary,
+        params,
+        resp => {
+          if (resp.code == 0) {
+            _this.$Message.info("修改讨论成功");
+            setTimeout(() => {
+              _this.goback();
+            }, 1000);
+          } else {
+            _this.$Message.info("修改讨论失败");
+          }
+        },
+        resp => {
+          _this.$Message.info("添加讨论失败");
+        }
+      );
+    },
+
+    onCancle() {
+      this.missionTitle = "";
+      this.missionContent = "";
+      this.knowledgeList = [];
+      this.zsList = [];
+      this.xkList = [];
+      this.njList = [];
+      this.zszjList = [];
+      this.xk = "";
+      this.nj = "";
+      this.$refs.select.init();
+      this.$emit("on-cancle", true);
+    },
+    groupSet(value) {
+      const _this = this;
+      _this.$api.get(
+        APIConfig.ClassAndCourse.GetTeacherClassAndCourse,
+        {},
+        function(resp) {
+          if (resp.code == 0) {
+            _this.zsList = resp.data;
+            _this.$nextTick(() => {
+              for (let i = 0; i < _this.zsList.length; i++) {
+                let temxk = {
+                  subjectName: _this.zsList[i].subjectName,
+                  subjectId: _this.zsList[i].subjectId,
+                  gradeId: _this.zsList[i].gradeId,
+                  gradeName: _this.zsList[i].gradeName,
+                  name: _this.zsList[i].name,
+                  sub_id: _this.zsList[i].sub_id,
+                  systemGrade: _this.zsList[i].systemGrade,
+                  systemId: _this.zsList[i].systemId,
+                  schoolId: _this.zsList[i].schoolId
+                };
+                // console.log(temxk);
+                // console.log(_this.xkList);
+
+                if (
+                  _this.xkList.findIndex(
+                    x => x.subjectId == _this.zsList[i].subjectId
+                  ) == -1
+                ) {
+                  _this.xkList.push(temxk);
+                }
+              }
+            });
+            _this.$nextTick(() => {
+              for (let i = 0; i < _this.xkList.length; i++) {
+                if (
+                  _this.xkList[i].sub_id ==
+                  _this.$store.getters.getTeaEditMiss.subId
+                ) {
+                  _this.xk = _this.xkList[i].subjectId;
+                  _this.$nextTick(() => {
+                    _this.getnj();
+                    _this.$nextTick(() => {
+                      _this.getNjByXk(_this.xk);
+                    });
+                  });
+                  // console.log(_this.xkList[i]);
+                }
+              }
+            });
+          }
+        }
+      );
+    },
+    getValue(value) {
+      this.selectZszj = value;
+      // console.log("选择的", this.selectZszj);
+    },
+    getTree(value) {
+      const _this = this;
+      _this.knowledgeList = [];
+      let temxk = "";
+      let temgrade = "";
+
+      // for (let i = 0; i < _this.njList.length; i++) {
+      //   if (_this.njList[i].id == _this.nj) {
+      //     temgrade = _this.njList[i].systemGrade;
+      //   }
+      // }
+      for (let i = 0; i < _this.xkList.length; i++) {
+        // console.log(_this.xkList[i]);
+        if (_this.xkList[i].subjectId == _this.xk) {
+          temxk = _this.xkList[i].sub_id;
+          _this.subId = _this.xkList[i].sub_id;
+        }
+      }
+      // console.log("ddd", value);
+      if (typeof value == "undefined") {
+        return;
+      }
+      var params = {
+        grade: value,
+        subId: temxk
+      };
+
+      // console.log("	_this.courseList抓话后", _this.knowledgeList);
+      _this.$api.get(APIConfig.Zszj.GetTree, params, resp => {
+        if (resp.code == 0) {
+          // console.log(resp);
+          let temData = [];
+          temData.push(resp.data.tree);
+          // _this.flat(temData);
+          _this.$set(_this.knowledgeList, 0, temData);
+          _this.knowledgeList = temData;
+          if (resp.data.tree == null) {
+            _this.$nextTick(() => {
+              this.$refs.select.init();
+            });
+          } else {
+            _this.$nextTick(() => {
+              _this.editNode = _this.$store.getters.getTeaEditMiss.chapterId;
+            });
+          }
+
+          // console.log(_this.knowledgeList);
+
+          // _this.knowledgeList = resp.data;
+        }
+      });
+    },
+    getnj() {
+      const _this = this;
+
+      for (let i = 0; i < _this.zsList.length; i++) {
+        let temNj = {
+          subjectName: _this.zsList[i].subjectName,
+          subjectId: _this.zsList[i].subjectId,
+          gradeId: _this.zsList[i].gradeId,
+          gradeName: _this.zsList[i].gradeName,
+          name: _this.zsList[i].name,
+          sub_id: _this.zsList[i].sub_id,
+          systemGrade: _this.zsList[i].systemGrade,
+          systemId: _this.zsList[i].systemId,
+          schoolId: _this.zsList[i].schoolId,
+          id: _this.zsList[i].id
+        };
+        if (_this.uniqNjList.findIndex(x => x.id == temNj.id) == -1) {
+          _this.uniqNjList.push(temNj);
+        }
+      }
+    },
+
+    getNjByXk(value) {
+      //选择了学科 >出现年级列表
+      const _this = this;
+      _this.njList = [];
+      _this.knowledgeList = [];
+      _this.nj = "";
+      // console.log("wojinglai", value);
+      // console.log("选择的学科", value);
+      // console.log("选择的学科", _this.zsList);
+      _this.$nextTick(() => {
+        for (let i = 0; i < _this.zsList.length; i++) {
+          let temNj = {
+            id: _this.zsList[i].id,
+            subjectName: _this.zsList[i].subjectName,
+            subjectId: _this.zsList[i].subjectId,
+            gradeId: _this.zsList[i].gradeId,
+            gradeName: _this.zsList[i].gradeName,
+            name: _this.zsList[i].name,
+            sub_id: _this.zsList[i].sub_id,
+            systemGrade: _this.zsList[i].systemGrade,
+            systemId: _this.zsList[i].systemId,
+            schoolId: _this.zsList[i].schoolId
+          };
+          if (
+            temNj.subjectId == value &&
+            _this.njList.findIndex(x => x.systemGrade == temNj.systemGrade) ==
+              -1
+          ) {
+            _this.njList.push(temNj);
+          }
+        }
+        _this.$nextTick(() => {
+          {
+            _this.nj = _this.$store.getters.getTeaEditMiss.gradeId;
+            // console.log("ced", _this.nj);
+            _this.$nextTick(() => {
+              _this.getTree(_this.nj);
+            });
+          }
+        });
+      });
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.main-content > ul {
+  padding: 0 65px;
+}
+
+.miss-li {
+  padding: 14px 0 36px 0 !important;
+}
+
+.miss-li-end {
+  display: flex;
+  padding: 36px 0;
+  justify-content: center;
+}
+
+.miss-li-from {
+  display: flex;
+  padding: 36px 0;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.miss-title {
+  width: 153px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.miss-title:first {
+  //   padding: 12px 0;
+}
+.miss-title::before {
+  content: "*";
+  color: #ed4014;
+  margin: 0 20px 0 0;
+  vertical-align: middle;
+}
+.miss-content {
+  display: inline-block;
+  width: calc(100% - 136px);
+  // overflow: auto;
+}
+.miss-title-no {
+  width: 153px;
+  line-height: 32px;
+  text-align: left;
+  font-size: 16px;
+  padding-left: 30px;
+}
+* /deep/ .el-input__inner {
+  height: 32px;
+  line-height: 32px;
+  vertical-align: middle;
+}
+
+* /deep/ .ivu-select-dropdown {
+  max-height: 150px;
+}
+
+.other-contents {
+  min-width: 1276px;
+  overflow: auto;
+  > footer {
+    padding: 20px 50px;
+  }
+}
+.other-contents > header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  .add-btn {
+    color: #fff;
+    background-color: #51aafe;
+    border-color: #51aafe;
+  }
+}
+</style>

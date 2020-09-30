@@ -1,0 +1,775 @@
+<template>
+  <div>
+    <div class="main-box">
+      <div class="main-contents">
+        <header style="display: flex;justify-content: space-between;">
+          <div>
+            <span style="font-size:18px;vertical-align: middle;"
+              >我的讨论></span
+            >
+            <span style="font-size:16px;vertical-align: middle;">{{
+              discussInfo.name
+            }}</span>
+            <span style="font-size:16px;vertical-align: middle;"
+              >>{{ discussInfo.states ? "查看详情" : "参与讨论" }}</span
+            >
+          </div>
+          <Button
+            @click="goback()"
+            type="primary"
+            style=" display: inline-block;float:right;"
+            >返回</Button
+          >
+        </header>
+        <footer>
+          <section>
+            <header>
+              <div style="padding: 0 10px;">
+                <div
+                  style="border-bottom: 2px solid #3587FF;display:inline-block;margin:10px 0 0;padding-bottom:10px;font-size:16px;cursor: context-menu;"
+                >
+                  讨论内容
+                </div>
+              </div>
+              <div style="border-top:1px solid #eee;padding:10px;">
+                <p style="font-size:16px;">{{ discussInfo.content }}</p>
+                <div
+                  style="display:inline-block;height:100px;width:150px;"
+                  v-for="(item, index) in discussFiles.photos"
+                  :key="item.webUrl + index"
+                  @click="showImg(item.webUrl)"
+                >
+                  <img
+                    :src="item.webUrl"
+                    alt=""
+                    style="height:100px;width:150px;object-fit:contain;"
+                  />
+                </div>
+                <div
+                  style="display:inline-block;height:100px;width:150px;"
+                  v-for="(item, index) in discussFiles.videos"
+                  :key="item.webUrl + index"
+                >
+                  <video
+                    style="height:100%;width:100%"
+                    :src="typeof item.webUrl == 'undefined' ? '' : item.webUrl"
+                    controls
+                  >
+                    Your browser can't support Video
+                  </video>
+                </div>
+                <div
+                  style="display:inline-block;height:100px;width:300px;"
+                  v-for="(item, index) in discussFiles.audios"
+                  :key="item.webUrl + index"
+                >
+                  <audio
+                    style="height:100%;width:100%;padding-bottom: 20px;"
+                    controls
+                    :src="typeof item.webUrl == 'undefined' ? '' : item.webUrl"
+                  >
+                    Your browser can't support Audio
+                  </audio>
+                </div>
+              </div>
+            </header>
+            <footer>
+              <div style="padding: 0 10px;">
+                <div
+                  style="border-bottom: 2px solid #3587FF;display:inline-block;margin:10px 0 0;padding-bottom:10px;font-size:16px;cursor: context-menu;"
+                >
+                  教师总结
+                </div>
+              </div>
+              <div style="border-top:1px solid #eee;padding:10px;">
+                <div style="margin-top:10px;" class="teaSay">
+                  <Input
+                    type="textarea"
+                    disabled
+                    v-model="discussInfo.teaSay"
+                    :autosize="{ minRows: 4, maxRows: 5 }"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+            </footer>
+          </section>
+          <footer>
+            <header style="padding: 10px;">
+              <div style="display:flex;">
+                <div
+                  style="border-bottom: 2px solid #3587FF;display:inline-block;margin:10px 0 0;padding-bottom:10px;font-size:16px;cursor: context-menu;"
+                >
+                  讨论区
+                </div>
+              </div>
+              <div style="border-top:1px solid #eee;padding-top:20px;">
+                <span style="vertical-align: top;font-size:16px;"
+                  >发表观点:</span
+                >
+                <div style="display:inline-block;width: calc(100% - 80px);">
+                  <Input
+                    v-model="stuReview"
+                    type="textarea"
+                    :autosize="{ minRows: 4, maxRows: 5 }"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+              <div style="text-align:end;margin-top:10px;">
+                <fileupload
+                  style="display:inline-block;text-align: center; width: calc(100% - 126px);"
+                  ref="fileUpload"
+                  @fileIds="getFileIds"
+                  @pics="getFiles"
+                  @isUpload="studentUpload"
+                ></fileupload>
+                <Button
+                  type="primary"
+                  @click="commitDiscussion()"
+                  :disabled="viewPointer"
+                  >提交</Button
+                >
+              </div>
+            </header>
+            <section
+              style="margin-top:40px;padding: 0 10px;padding-bottom: 10px;"
+            >
+              <p style="border-bottom: 1px solid #eee;margin-bottom:10px;">
+                <span style="font-size:16px;">讨论列表</span
+                ><span style="font-size:14px;"> (共{{ msgTotal }}条)</span>
+                <span type="text" style="float: right;">
+                  <span style="font-size:16px;">排序方式:&nbsp;</span>
+                  <Dropdown trigger="click" @on-click="setDown">
+                    <a
+                      href="javascript:void(0)"
+                      style="color:#FF3302;font-size:16px;"
+                    >
+                      {{ downName }}
+                      <Icon type="ios-arrow-down"></Icon>
+                    </a>
+                    <DropdownMenu slot="list">
+                      <DropdownItem name="时间倒序" style="font-size:16px;"
+                        >时间倒序</DropdownItem
+                      >
+                      <DropdownItem name="时间正序" style="font-size:16px;"
+                        >时间正序</DropdownItem
+                      >
+                    </DropdownMenu>
+                  </Dropdown>
+                </span>
+              </p>
+              <div
+                v-for="(item, index) in stuDiscussList"
+                style="position:relative;margin-bottom:20px;padding-bottom:20px;padding-left: 20px;border-bottom:1px solid #eee;"
+                :key="index"
+              >
+                <p style="margin-bottom: 10px;">{{ item.stuName }}</p>
+                <div>
+                  <div
+                    style="display:inline-block;"
+                    v-for="(item2, index2) in item.fileList"
+                    :key="index2"
+                  >
+                    <img
+                      :src="item2.url"
+                      alt=""
+                      style="height:100px;width:150px;object-fit:contain;"
+                      v-if="item2.fileType == 1"
+                      @click="showImg(item2.url)"
+                    />
+                    <video
+                      style="height:100px;width:250px;"
+                      :src="typeof item2.url == 'undefined' ? '' : item2.url"
+                      controls
+                      v-if="item2.fileType == 2"
+                    >
+                      Your browser can't support Video
+                    </video>
+                    <audio
+                      style="height:100px;width:250px;padding-bottom: 20px;"
+                      controls
+                      :src="typeof item2.url == 'undefined' ? '' : item2.url"
+                      v-if="item2.fileType == 3"
+                    >
+                      Your browser can't support Audio
+                    </audio>
+                  </div>
+                </div>
+                <p style="margin-bottom: 10px;">{{ item.stuDiscussContent }}</p>
+                <p
+                  style="display:flex;justify-content: space-between;margin-bottom:10px;"
+                >
+                  <span>{{ item.createDate }}</span>
+                  <span style="">
+                    <div
+                      style="display:inline-block;cursor:pointer;"
+                      @click="setStu(item)"
+                    >
+                      回复
+                    </div>
+                    <div style="display:inline-block;margin-left:10px;">
+                      <i
+                        :class="[
+                          item.isThumbUp ? 'thumbs-active' : '',
+                          'fa',
+                          'fa-thumbs-o-up'
+                        ]"
+                        style="margin-right:5px;font-size: 20px;cursor:pointer;"
+                        @click="thumbUp(item, index)"
+                      >
+                      </i
+                      >{{ item.thumbsUpNum }}
+                    </div>
+                  </span>
+                </p>
+                <div
+                  style="position:absolute;right:10px;cursor:pointer;z-index:2;"
+                  @click="hideReview(item, index)"
+                  v-if="item.reviewDis && item.reviewDis.length != 0"
+                >
+                  <span>{{ item.isShow ? "收起" : "展开" }} </span>
+                </div>
+                <div
+                  style="height:134px;width:calc(100%);background-color:#F6F6F6;padding:5px 10px;overflow: auto;"
+                  :class="'re' + index"
+                  v-if="item.reviewDis && item.reviewDis.length != 0"
+                >
+                  <ul>
+                    <li>
+                      <p
+                        style="cursor:pointer;margin-bottom:10px;"
+                        v-for="(item1, index1) in item.reviewDis"
+                        :key="index1"
+                        @click="ringSomeone(item1)"
+                        v-if="item1.reviewedName == null"
+                      >
+                        <span>{{ item1.name }}:</span>{{ item1.content }}
+                      </p>
+                      <p
+                        v-else
+                        @click="ringSomeone(item1)"
+                        style="cursor:pointer;margin-bottom:10px;"
+                      >
+                        {{ item1.name
+                        }}{{ item1.type == 0 ? "同学" : "老师" }} 回复
+                        {{ item1.reviewedName
+                        }}{{
+                          item1.reviewedType == 0
+                            ? "同学"
+                            : item1.reviewedType == 1
+                            ? "老师"
+                            : ""
+                        }}
+                        : {{ item1.content }}
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+            <footer style="text-align:end;">
+              <!-- <Page  show-total :total="msgTotal" show-elevator /> -->
+              <Page
+                :total="msgTotal"
+                :page-size="pageSizeStu"
+                :page-size-opts="[10, 50, 100]"
+                @on-page-size-change="miPageSizeUpdate"
+                placement="top"
+                @on-change="miPageUpdate"
+                show-sizer
+                show-total
+              />
+            </footer>
+          </footer>
+        </footer>
+        <Modal v-model="commentFlag" width="786">
+          <p slot="header" style="text-align:left">
+            <span>评论</span>
+          </p>
+          <div style="">
+            <Input
+              v-model="ringWorld"
+              type="textarea"
+              :autosize="{ minRows: 4, maxRows: 5 }"
+              placeholder="请输入评论最多1000字"
+              maxlength="1000"
+              show-word-limit
+            />
+          </div>
+          <div slot="footer" style="text-align:center">
+            <Button type="primary" @click="review()" :disabled="reviewFlag"
+              >确认</Button
+            >
+            <Button @click="commentFlag = false">取消</Button>
+          </div>
+        </Modal>
+        <Modal v-model="ringSomeoneFlag" width="786">
+          <p slot="header" style="text-align:left">
+            <span>回复{{ beReivewStuName }}</span>
+          </p>
+          <div style="">
+            <Input
+              v-model="ringSomeoneWorld"
+              type="textarea"
+              :autosize="{ minRows: 4, maxRows: 5 }"
+              placeholder="请输入评论最多1000字"
+              maxlength="1000"
+              show-word-limit
+            />
+          </div>
+          <div slot="footer" style="text-align:center">
+            <Button
+              type="primary"
+              @click="reviewSomeone()"
+              :disabled="reviewFlag"
+              >确认</Button
+            >
+            <Button @click="ringSomeoneFlag = false">取消</Button>
+          </div>
+        </Modal>
+        <imgViewer ref="imgViewer"></imgViewer>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import myStorge from "../../../utils/localStorge.js";
+import "../../../../static/media-master/jquery.media.js";
+
+import fileNameMatch from "../../../utils/fileNameMatch.js";
+import imgViewer from "@/components/imgViewer.vue";
+import fileupload from "@/components/fileupload/fileupload.vue";
+export default {
+  components: {
+    imgViewer,
+    fileupload
+  },
+  data() {
+    return {
+      downName: "时间倒序",
+      discStore: myStorge.get("myMission"),
+      stuDiscussList: [],
+      hurryAlongFlag: false,
+      commentFlag: false,
+
+      discussInfo: {
+        content: "",
+        teaSay: ""
+      },
+      discussFiles: {
+        photos: [],
+        videos: [],
+        audios: []
+      },
+      stuReview: "",
+
+      viewPointer: false, //学生发表观点
+      msgTotal: 0,
+      pageSizeStu: 10,
+      pageNoStu: 0, //页面从0开始
+
+      ringWorld: "", //回复的内容
+
+      ringSomeoneFlag: false,
+      ringSomeoneWorld: "",
+
+      beRingedStuParams: null, //被回复的学生
+      beReivewStuName: "", //被回复人的名字
+
+      reviewFlag: false,
+      uploadFile: [],
+
+      stuDisId: null,
+      whoAmI: null
+    };
+  },
+  watch: {},
+  mounted() {
+    var _this = this;
+    _this.getDiscussInfo();
+  },
+  methods: {
+    readMessage() {
+      //阅读信息，关闭小红点
+      const _this = this;
+      _this.$api.post(
+        APIConfig.Discussion.readMyReviewAndThumb,
+        {
+          stuDisId: _this.discStore.id
+        },
+        resp => {
+          if (resp.code == 0) {
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    isOver() {
+      const _this = this;
+      let flag = _this.discStore.deadline
+        ? new Date(_this.discStore.deadline) - new Date() > 0
+          ? true
+          : false
+        : true;
+      return flag;
+    },
+    reviewSomeone() {
+      const _this = this;
+      _this.beRingedStuParams.content = _this.ringSomeoneWorld;
+      _this.stuRing();
+    },
+    ringSomeone(item) {
+      const _this = this;
+      if (this.isOver()) {
+        _this.ringSomeoneFlag = true;
+        _this.beReivewStuName = item.name;
+        _this.beRingedStuParams = {
+          stuDiscussionsId: item.stuDiscussionsId,
+          content: "",
+          reviewedName: item.name,
+          reviewedType: item.type
+        };
+      } else {
+        this.$Message.info("截止时间已过");
+      }
+    },
+    miPageUpdate(page) {
+      var _this = this;
+      _this.pageNoStu = page - 1; //page从0开始
+      _this.getStuDisc();
+    },
+    miPageSizeUpdate(size) {
+      var _this = this;
+      _this.pageSizeStu = size;
+      _this.getStuDisc();
+    },
+    setStu(item) {
+      if (this.isOver()) {
+        this.commentFlag = true;
+        this.beRingedStuParams = {
+          stuDiscussionsId: item.id,
+          content: this.ringWorld
+        };
+      } else {
+        this.$Message.info("截止时间已过");
+      }
+    },
+    review() {
+      this.beRingedStuParams.content = this.ringWorld;
+      this.stuRing();
+    },
+    stuRing() {
+      const _this = this;
+      _this.reviewFlag = true;
+      if (this.beRingedStuParams.content == "") {
+        _this.reviewFlag = false;
+        return;
+      }
+      _this.$api.post(
+        APIConfig.Review.AddReview,
+        this.beRingedStuParams,
+        resp => {
+          if (resp.code == 0) {
+            this.ringWorld = "";
+            _this.ringSomeoneWorld = "";
+            _this.reviewFlag = false;
+            _this.commentFlag = false;
+            _this.ringSomeoneFlag = false;
+            _this.getStuDisc();
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    getStuDisc() {
+      const _this = this;
+      let params = {
+        discussId: _this.discussInfo.id,
+        classId: _this.whoAmI.stuClassId,
+        page: _this.pageNoStu,
+        size: _this.pageSizeStu
+      };
+      if (this.downName == "时间倒序") {
+        params.sort = "create_date,desc";
+      } else {
+        params.sort = "create_date,asc";
+      }
+      _this.$api.get(APIConfig.StuDiscussion.GetStuDiscusses, params, resp => {
+        if (resp.code == 0) {
+          // _this.stuDiscussList = resp.data.stuDiscusses;
+          _this.stuDiscussList = resp.data.stuDiscusses.map(item => {
+            item.isShow = true;
+            if (item.fileList) {
+              item.fileList.forEach(params => {
+                if (fileNameMatch.isPicture(params.name)) {
+                  params["fileType"] = 1;
+                } else if (fileNameMatch.isVideo(params.name)) {
+                  params["fileType"] = 2;
+                } else if (fileNameMatch.isAudio(params.name)) {
+                  params["fileType"] = 3;
+                }
+              });
+            }
+            return item;
+          });
+          // console.log(_this.stuDiscussList);
+          _this.msgTotal = +resp.data.totalElements;
+        } else {
+          _this.$Message.info(resp.msg);
+        }
+      });
+    },
+    studentUpload(flag) {
+      this.viewPointer = flag;
+    },
+    getFiles(files) {},
+    getFileIds(fileIds) {
+      this.uploadFile = [...fileIds];
+    },
+    getMyStuByDiscussId() {
+      const _this = this;
+      _this.$api.get(
+        APIConfig.StuDiscussion.GetMyStuByDiscussId,
+        {
+          discussionId: _this.discussInfo.id
+        },
+        resp => {
+          if (resp.code == 0) {
+            _this.whoAmI = resp.data.stuDiscussInfo;
+            _this.getStuDisc();
+            _this.getDiscId();
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    getDiscId() {
+      const _this = this;
+      _this.$api.get(
+        APIConfig.StuDiscussion.GetMyStuByDiscussIdAndClassId,
+        {
+          discussionId: _this.discussInfo.id,
+          classId: _this.whoAmI.stuClassId
+        },
+        resp => {
+          if (resp.code == 0) {
+            _this.stuDisId = resp.data.stuDiscussInfo;
+          } else {
+            _this.$Message.inof(resp.msg);
+          }
+        }
+      );
+    },
+    commitDiscussion() {
+      const _this = this;
+      if (this.isOver()) {
+        _this.viewPointer = true;
+        if (_this.stuReview == "" && _this.uploadFile.length == 0) {
+          _this.viewPointer = false;
+          return;
+        }
+        let params = {
+          stuDisId: _this.whoAmI.id,
+          discussionId: _this.discussInfo.id,
+          content: _this.stuReview,
+          fileIds:
+            _this.uploadFile.length == 0 ? "" : _this.uploadFile.join(",")
+        };
+        // console.log(_this.whoAmI);
+        _this.$api.post(
+          APIConfig.StuDiscussion.CommitStuDiscuss,
+          params,
+          resp => {
+            if (resp.code == 0) {
+              _this.stuReview = "";
+              _this.$refs.fileUpload.init();
+              _this.$Message.info("发表观点成功");
+              _this.getStuDisc();
+            } else {
+              _this.$Message.info(resp.msg);
+            }
+            _this.viewPointer = false;
+          }
+        );
+      } else {
+        this.$Message.info("截止时间已过");
+      }
+    },
+    showImg(params) {
+      const _this = this;
+      _this.$refs.imgViewer.show(_this.genImages(params));
+    },
+    genImages(url) {
+      const sourceImages = [];
+      const base = Math.floor(Math.random() * 60, 10) + 10;
+      sourceImages.push({
+        thumbnail: url,
+        source: url
+      });
+
+      return sourceImages;
+    },
+    getDiscussInfo() {
+      const _this = this;
+      _this.$api.get(
+        APIConfig.Discussion.GetDiscussionInfo,
+        {
+          id: _this.discStore.discussId
+        },
+        resp => {
+          if (resp.code == 0) {
+            //文件归类
+            _this.discussFiles.photos = resp.data.files.filter(params => {
+              return fileNameMatch.isPicture(params.realName);
+            });
+            _this.discussFiles.videos = resp.data.files.filter(params => {
+              return fileNameMatch.isVideo(params.realName);
+            });
+            _this.discussFiles.audios = resp.data.files.filter(params => {
+              return fileNameMatch.isAudio(params.realName);
+            });
+
+            _this.discussInfo = resp.data.discussion;
+            _this.getMyStuByDiscussId();
+            _this.readMessage();
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    setDown(val) {
+      console.log(val);
+      this.downName = val;
+      this.getStuDisc();
+    },
+    goback() {
+      let path = this.routerCfg.options.pathById(23);
+      this.$router.push(path);
+    },
+    thumbUp(item, index) {
+      const _this = this;
+      console.log(item);
+      if (this.isOver()) {
+        if (item.isThumbUp == 1) {
+          _this.$api.post(
+            APIConfig.Thumb.UpdateThumb,
+            {
+              thumbId: item.tid,
+              isThumbUp: 0
+            },
+            resp => {
+              if (resp.code == 0) {
+                this.stuDiscussList[index].isThumbUp = 0;
+                this.stuDiscussList[index].thumbsUpNum--;
+                _this.getStuDisc();
+              } else {
+                _this.$Message.info(resp.msg);
+              }
+            }
+          );
+        } else if (item.isThumbUp == 0) {
+          _this.$api.post(
+            APIConfig.Thumb.UpdateThumb,
+            {
+              thumbId: item.tid,
+              isThumbUp: 1
+            },
+            resp => {
+              if (resp.code == 0) {
+                this.stuDiscussList[index].isThumbUp = 1;
+                this.stuDiscussList[index].thumbsUpNum++;
+                _this.getStuDisc();
+              } else {
+                _this.$Message.info(resp.msg);
+              }
+            }
+          );
+        } else {
+          _this.$api.post(
+            APIConfig.Thumb.AddThumb,
+            {
+              stuDiscussId: item.id
+            },
+            resp => {
+              if (resp.code == 0) {
+                this.stuDiscussList[index].isThumbUp = 1;
+                this.stuDiscussList[index].thumbsUpNum++;
+                _this.getStuDisc();
+              } else {
+                _this.$Message.info(resp.msg);
+              }
+            }
+          );
+        }
+      } else {
+        this.$Message.info("截止时间已过");
+      }
+      // if (this.stuDiscussList[index].isThumbUp == 1) {
+
+      // } else {
+
+      // }
+    },
+    hideReview(item, index) {
+      const _this = this;
+      const dom = document.querySelector(".re" + index);
+      _this.$nextTick(() => {
+        if (item.isShow) {
+          $(dom).hide("slow");
+          item.isShow = false;
+        } else {
+          $(dom).show("slow");
+          item.isShow = true;
+        }
+      });
+      console.log(item);
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.main-contents {
+  min-width: 1276px;
+  //   overflow: auto;
+  > footer {
+    margin: 10px 20px;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+.main-contents > header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  .add-btn {
+    color: #fff;
+    background-color: #51aafe;
+    border-color: #51aafe;
+  }
+}
+.activeClass {
+  background-color: #fff;
+  border-top: 2px solid #4fadfe;
+}
+
+.thumbs-active {
+  color: red;
+}
+
+.teaSay {
+  /deep/ .ivu-input[disabled],
+  fieldset[disabled] .ivu-input {
+    background-color: #fff;
+    opacity: 1;
+    cursor: not-allowed;
+    color: #000;
+  }
+}
+</style>

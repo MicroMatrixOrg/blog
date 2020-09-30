@@ -1,0 +1,553 @@
+<template>
+  <div>
+    <div class="main-box">
+      <div class="main-contents">
+        <header style="display: flex;justify-content: space-between;">
+          <div>
+            <span style="font-size:18px;vertical-align: middle;"
+              >我的任务></span
+            >
+            <span style="font-size:16px;vertical-align: middle;">{{
+              missionQutail.name
+            }}</span>
+            <span style="font-size:16px;vertical-align: middle;"
+              >>查看详情</span
+            >
+          </div>
+          <Button
+            @click="goback()"
+            type="primary"
+            style=" display: inline-block;float:right;"
+            >返回</Button
+          >
+        </header>
+        <footer style="margin:10px;height: calc(100% - 117px);overflower:auto;">
+          <div style="border:1px solid #eee;padding:10px;">
+            <div style="padding: 0 10px;">
+              <div
+                style="border-bottom: 2px solid #3587FF;display:inline-block;margin:10px 0 0;padding-bottom:10px;font-size:16px;"
+              >
+                任务内容
+              </div>
+              <div style="height:170px;border-top:1px solid #eee;">
+                <div class="missContent" v-html="missionQutail.content"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid #eee;padding:10px;margin-top:10px;">
+            <div style="padding: 0 10px;">
+              <div
+                style="border-bottom: 2px solid #3587FF;display:inline-block;margin:10px 0 0;padding-bottom:10px;font-size:16px;"
+              >
+                做任务
+              </div>
+              <div style="border-top:1px solid #eee;">
+                <div class="missContent" style="margin:20px; 0">
+                  <ul style="margin-bottom:10px;">
+                    <li style="margin-bottom:10px;">
+                      <span class="whx" style="margin-right: 6px;"
+                        >文字描述:</span
+                      >
+                      <div
+                        style="display: inline-block;width: calc(100% - 80px);"
+                      >
+                        <Input
+                          v-model="writing"
+                          type="textarea"
+                          :autosize="{ minRows: 2, maxRows: 5 }"
+                          placeholder=""
+                        />
+                      </div>
+                    </li>
+                    <li>
+                      <span class="hx">上传附件格式要求:{{ fileFormat }}</span>
+                    </li>
+                    <li>
+                      <div
+                        style="margin-top:10px;display: inline-block;margin-left: 80px;"
+                      >
+                        <Upload
+                          ref="upload"
+                          multiple
+                          :show-upload-list="false"
+                          :default-file-list="defaultList"
+                          :action="importStuPro.uploadUrl"
+                          :accept="acceptType"
+                          :on-success="uploadSuccess"
+                          :on-error="uploadError"
+                          :before-upload="commitPd"
+                          :on-format-error="formatError"
+                          name="upfile"
+                          :max-size="102400"
+                          :on-exceeded-size="exceededSize"
+                          :on-remove="removeFile"
+                          :with-credentials="true"
+                          :headers="headers"
+                        >
+                          <Button type="primary">上传文件</Button>
+                        </Upload>
+                      </div>
+                    </li>
+                    <li>
+                      <div
+                        style="margin-top:10px;margin-left: 80px;border:1px solid #eee;padding:10px 8px;border-radius:5px;"
+                        v-for="(item, index) in uploadFiles"
+                        :key="index"
+                      >
+                        <a class="fa fa-paperclip">附件</a>
+                        <span>{{ item.name }}</span>
+                        <span
+                          style="color:#3F8FD8;float:right;margin-right:10px;cursor: pointer;"
+                          @click="handleView(item)"
+                          >预览</span
+                        >
+                        <span
+                          style="color:#3F8FD8;float:right;margin-right:10px;cursor: pointer;"
+                          @click="handleRemove(item)"
+                          >删除</span
+                        >
+                      </div>
+                    </li>
+                    <li style="text-align:center;">
+                      <Button
+                        type="primary"
+                        @click="saveUpload"
+                        :disabled="uploadFlag"
+                        >确认提交</Button
+                      >
+                      <Button @click="goback()">取消</Button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+        <imgViewer ref="imgViewer"></imgViewer>
+        <!-- <Modal title="预览" v-model="visible">
+                    <div style="height:calc(100%);overflow: auto;text-align:center;">
+                      <viewer :images="images" >
+                        <img v-for="(src,index) in images" :src="src" :key="index">
+                      </viewer>
+                    </div>
+                </Modal> -->
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import myStorge from "../../../utils/localStorge.js";
+import imgViewer from "@/components/imgViewer.vue";
+
+import Canvas from "@/components/canvasNew.vue";
+export default {
+  components: {
+    Canvas,
+    imgViewer
+  },
+  data() {
+    return {
+      headers: {
+        bschapirequest: 1
+      },
+      handleViewImg: {},
+      canvasModel: false,
+      writing: "",
+      columns: [
+        {
+          title: "序号",
+          type: "index",
+          width: 120,
+          align: "center"
+        },
+        {
+          title: "组员",
+          key: "member",
+          width: 160,
+          align: "center"
+        },
+        {
+          title: "作品名称",
+          key: "productionName",
+          align: "left"
+        },
+        {
+          title: "状态",
+          key: "states",
+          align: "center",
+          width: 80
+        },
+        {
+          title: "操作",
+          slot: "action",
+          width: 400,
+          align: "center",
+          className: "demo-table-info-column"
+        }
+      ], //小任务表格头部的渲染
+      dataList: [{}],
+      defaultList: [],
+      myMission: myStorge.get("myMission"),
+      missionQutail: "",
+      importStuPro: {
+        url: "",
+        errorInfo: [],
+        uploadUrl: APIConfig.Mission.UploadStuMission
+      },
+      missionType: [],
+      acceptType: "",
+      typeList: [],
+      lastDataBaseFileName: "", //上一次返回的文件名（带有时间戳的）
+      pdfUrl: "",
+      suffix: "",
+      commitType: "",
+      selectType: 0,
+      files: "",
+      uploadModel: false,
+      uploadFiles: [],
+      conrrr: "",
+      uploadFlag: false,
+      visible: false,
+
+      images: ["http://learn.bestsch.com/upload/mission/3487e0cc-3d.jpeg"],
+      fileFormat: ""
+    };
+  },
+  mounted() {
+    var _this = this;
+    _this.getMissionDetail();
+    _this.pdfUrl =
+      "https://view.officeapps.live.com/op/view.aspx?src=" +
+      _this.myMission.stuProduction;
+    _this.setTyprForMission();
+    _this.getMissionCommitType();
+    _this.$nextTick(function() {
+      _this.AddImgClickEvent();
+    });
+    _this.getFiles();
+  },
+  methods: {
+    genImages(url) {
+      const sourceImages = [];
+      const base = Math.floor(Math.random() * 60, 10) + 10;
+      sourceImages.push({
+        thumbnail: url,
+        source: url
+      });
+
+      return sourceImages;
+    },
+    handleView(name) {
+      const _this = this;
+      if (name.response.code == 0) {
+        _this.handleViewImg = name.response.data;
+        // console.log(name.response.data.url);
+        // console.log(_this.genImages(name.response.data.url));
+
+        _this.$refs.imgViewer.show(_this.genImages(name.response.data.url));
+        // this.images = [];
+        // this.images.push(name.response.data.url);
+      }
+      this.visible = true;
+    },
+    handleRemove(file) {
+      const fileList = this.$refs.upload.fileList;
+      this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+    },
+    deleteFile(item, index) {
+      const _this = this;
+      console.log(item, index);
+      if (this.files.length > 1) {
+        this.files.splice(index);
+        _this.$api.post(
+          APIConfig.Mission.deleteFile,
+          {
+            id: item.id
+          },
+          resp => {
+            if (resp.code == 0) {
+              _this.fileList.splice(index);
+            } else {
+              _this.$Message.info("删除失败");
+            }
+          }
+        );
+      } else {
+        _this.$Message.info("必须保留一张作品");
+      }
+    },
+    open() {
+      var _this = this;
+      if (_this.writing == "") _this.writing = _this.myMission.writing;
+      _this.uploadModel = true;
+    },
+    getFiles() {
+      var _this = this;
+      _this.$api.post(
+        APIConfig.File.GetFilesByStuProId,
+        { stuProId: _this.myMission.id },
+        function(resp) {
+          if (resp.code == 0) {
+            _this.files = resp.data;
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    AddImgClickEvent() {
+      var objs = document.getElementsByTagName("img");
+      var _this = this;
+      for (var i = 0; i < objs.length; i++) {
+        console.log(objs[i]);
+        if (
+          objs[i].id != "return" &&
+          objs[i].id != "logo" &&
+          objs[i].id != "img1" &&
+          objs[i].id != "img2"
+        ) {
+          objs[i].onclick = function() {
+            _this.canvasModel = true;
+            this.crossOrigin = "anonymous";
+            _this.$refs.canvasimg.setImg(this.src);
+          };
+          objs[i].style.cursor = "pointer";
+        }
+      }
+    },
+    goback() {
+      var _this = this;
+      // var path = _this.routerCfg.pathById(_this.routerCfg.MISSION_ID);
+      _this.$router.push("/studentMission");
+    },
+    commitPd(file) {
+      var _this = this;
+      // console.log(_this.acceptType.toLowerCase());
+      console.log("上传前");
+      var fileName = file.name;
+      // console.log("wenjian", file);
+      var suffix = "." + fileName.substr(fileName.lastIndexOf(".") + 1);
+      // console.log(suffix.toLowerCase());
+      // console.log(_this.selectType);
+      if (_this.selectType != 8) {
+        if (suffix.toLowerCase() != _this.acceptType.toLowerCase()) {
+          _this.$Message.info("请上传" + _this.acceptType + "格式的作品");
+          return false;
+        }
+        return true;
+      } else {
+        // var acceptType = _this.acceptType.toLowerCase().split(",");
+        // var index = acceptType.findIndex(x => x == suffix.toLowerCase());
+        // if (index == -1) {
+        //   _this.$Message.info("请上传" + _this.acceptType + "格式的作品");
+        //   return false;
+        // } else return true;
+      }
+      _this.uploadFlag = true;
+    },
+    doMission(row, index) {},
+    setRepresentative(row, index) {},
+    checkMyMission(row, index) {},
+    getMissionDetail() {
+      var _this = this;
+      var params = {
+        id: _this.myMission.missionId
+      };
+      _this.$api.get(APIConfig.Mission.GetMissionById, params, function(resp) {
+        if (resp.code == 0) {
+          console.log(resp.data.type);
+          _this.missionQutail = resp.data;
+          _this.selectType = resp.data.type;
+          _this.setStuCommitType(resp.data.type);
+          _this.setType(resp.data.commitType);
+        } else {
+          _this.$Message.info(resp.msg);
+        }
+      });
+    },
+    setType(params) {
+      var _this = this;
+      if (params == 1) {
+        _this.commitType = "个人任务";
+      } else if (params == 2) {
+        _this.commitType = "小组任务";
+      } else if (params == 3) {
+        _this.commitType = "活动";
+      }
+    },
+    setTyprForMission() {
+      var _this = this;
+      var fileName = _this.myMission.productionName;
+      var suffixTemp = fileName.substr(fileName.lastIndexOf(".") + 1);
+      //_this.suffix = suffixTemp;
+      _this.suffix = suffixTemp.toLowerCase();
+    },
+    changeCode: function(index) {
+      if (index == 0) {
+        return "还未评分";
+      }
+      return String.fromCharCode(index + 64);
+    },
+    getMissionCommitType() {
+      var _this = this;
+      _this.$api.get(APIConfig.Mission.GetMissionCommitType, {}, function(
+        resp
+      ) {
+        if (resp.code == 0) {
+          _this.typeList = resp.data;
+          _this.$nextTick(() => {
+            _this.fileFormat =
+              _this.typeList[
+                _this.typeList.findIndex(x => x.value == _this.selectType)
+              ].label;
+          });
+        } else {
+          _this.$Message.info(resp.msg);
+        }
+      });
+    },
+    setStuCommitType(temValue) {
+      var _this = this;
+      switch (temValue) {
+        case 1:
+          _this.acceptType = ".PNG";
+          break;
+        case 2:
+          _this.acceptType = ".DOC";
+          break;
+        case 3:
+          _this.acceptType = ".XLS";
+          break;
+        case 4:
+          _this.acceptType = ".MP4";
+          break;
+        case 5:
+          _this.acceptType = ".JPG";
+          break;
+        case 6:
+          _this.acceptType = ".MP3";
+          break;
+        case 7:
+          _this.acceptType = ".PDF";
+          break;
+        // case 8:
+        //   _this.acceptType = ".PNG,.DOC,.XLS,.MP4,.JPG,.MP3,.PDF";
+        // break;
+      }
+    },
+    uploadSuccess(response, file, fileList) {
+      var _this = this;
+      _this.uploadFiles = fileList;
+      if (response.code != 0) {
+        console.log(file);
+        _this.$Message.info("文件<" + file.name + ">上传失败,请重试！！！");
+        var index = fileList.findIndex(x => x.uid == file.uid);
+        fileList.splice(index, 1);
+        _this.uploadFiles = fileList;
+        _this.getFiles();
+        _this.setTyprForMission();
+      }
+      _this.uploadFlag = false;
+    },
+    saveUpload() {
+      var _this = this;
+      if (_this.uploadFiles.length == 0 && _this.writing == "") {
+        _this.$Message.info("学生作品上传或文字不能全部都为空");
+        return;
+      }
+      var array = [];
+      if (_this.uploadFiles.length > 0) {
+        var arr = _this.uploadFiles;
+        arr.forEach(function(val, index, arr) {
+          var json = {};
+          json["id"] = val.response.data.id;
+          json["name"] = val.response.data.name;
+          array.push(json);
+        });
+      }
+      var params = {
+        id: _this.myMission.id,
+        files: JSON.stringify(array),
+        writing: _this.writing
+      };
+      _this.$api.post(APIConfig.Production.SaveStuProFiles, params, function(
+        resp
+      ) {
+        if (resp.code == 0) {
+          _this.$Message.info("任务提交成功");
+          _this.myMission.writing = _this.writing;
+          myStorge.set("myMission", _this.myMission);
+          // _this.getFiles();
+          // _this.setTyprForMission();
+          //我提交一次后清空
+          _this.uploadModel = false;
+          _this.$refs.upload.clearFiles();
+          _this.writing = "";
+          _this.goback();
+        } else {
+          _this.$Message.info(resp.msg);
+        }
+      });
+
+      console.log(_this.writing);
+    },
+    removeFile(file, fileList) {
+      var _this = this;
+      _this.uploadFiles = fileList;
+      console.log(_this.uploadFiles);
+    },
+    exceededSize(file, fileList) {
+      this.$Message.info(
+        "文件上传的最大限制为100Mb，你上传的名为《" +
+          file.name +
+          "》的文件大小约为：" +
+          (file.size / (1024 * 1024)).toFixed(2) +
+          "Mb"
+      );
+    },
+    uploadError(response, file, fileList) {
+      this.$Message.info("文件上传失败");
+      _this.uploadFlag = false;
+    },
+    formatError(file, fileList) {
+      this.$Message.info("你上传的文件不符合任务的要求");
+      _this.uploadFlag = false;
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.whx:before {
+  content: "*";
+  color: #fff;
+}
+.hx:before {
+  content: "*";
+  color: red;
+}
+.main-contents {
+  min-width: 1276px;
+  overflow: auto;
+  height: calc(100%);
+}
+.main-contents > header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+.missContent {
+  img {
+    max-width: 100%;
+    width: 66px;
+    height: 100px;
+    object-fit: contain;
+    display: inline-block;
+  }
+}
+.main-box {
+  height: calc(100%);
+  padding: 0;
+}
+</style>

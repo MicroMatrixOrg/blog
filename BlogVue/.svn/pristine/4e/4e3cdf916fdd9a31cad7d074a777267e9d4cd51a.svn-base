@@ -1,0 +1,854 @@
+<template>
+    <div class="main-box">
+        <div class="main-content">
+          <div class="other-contents">
+            <header style="display: flex;justify-content: space-between;">
+                <div>
+                    <span style="font-size:18px;">发布管理</span> > <span style="font-size:16px;">{{curStu.missionName}}</span> > <span style="font-size:16px;">批阅</span>
+                </div>
+                <Button @click="goback()" type="primary" style=" display: inline-block;float:right;margin: 12px;">返回</Button>
+            </header>
+            <footer class="mainBody">
+                <header style="display:inline-block;width: calc(100%);padding-bottom: 10px;border-bottom: 1px solid #eee;">
+                  <div style="display:flex;justify-content: space-between;">
+                    <div>
+                      <span style="font-size:16px;margin-right: 10px;">当前学生:</span>
+                      <div class="stuNameClass" style="">{{stuList[curIndex].stuName}}</div>
+                      <div class="nextClass" style="" @click="nextStu">下一个</div>
+                    </div>
+                    <div>
+                        <div style="display:inline-block;">
+                        <Button type="primary" style="" @click="rework()">打回(重新提交)</Button>
+                      </div>
+                    </div>
+                  </div>
+                </header>
+                <section>
+                    <div style="padding: 0 10px;">
+                      <div style="border-bottom: 2px solid #3587FF;display:inline-block;margin:10px 0 0;padding-bottom:10px;font-size:16px;">作业内容:</div>
+                    </div>
+                    <div style="border: 1px solid #eee;padding:10px;border-radius:10px;">
+                      <p style="margin:10px 0;font-size:16px;">{{stuList[curIndex].writer}}</p>
+                      <!-- 学生作业预览 -->
+                      <div class="stuContent" v-if="filesImg.length > 0 || filesOther.length > 0">
+                        <div v-for="(item) in filesOther" :key="item.id">
+                          <div style="font-size:16px;padding:10px 5px;border:1px solid #eee;border-radius:10px;margin-bottom:10px;" >
+                            <a class="fa fa-paperclip" :href ="item.webUrl">附件</a>
+                            <span>{{item.realName}}</span>
+                            <a :href ="item.webUrl" style="color:#959595;">
+                              <Icon type="ios-cloud-download" style="font-size:20px;float: right;margin-right: 10px;cursor: pointer;" title="下载"/>  
+                            </a>
+                          </div>
+                        </div>
+                        <div v-for="(item,index) in filesImg" :key="item.id"  class="cdiv">
+                          <div class="reviewImg" style="" >
+                            <img :src="item.webUrl" :alt="item.name"   style="max-width: 100%;width: 66px;height: 100px;object-fit: contain;display:inline-block;" >
+                            <div class="imgIndex" style="">
+                              <span>{{index + 1}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div ref="canvasImgDom" class="canvasImgDom" style="margin-top:10px;" v-if="canvasModal">
+                      <!-- 批改学生作业 -->
+                        <Canvas ref="canvasimg" style="margin:0 auto;" >您的浏览器不支持 canvas</Canvas>
+                      
+                      <div class="canvasLeft " @click="prePhoto()"><Icon style="color: #3ea4e2;line-height: 40px;width: 35px;font-size: 19px;" type="ios-arrow-back" /></div>
+                      <div class="canvasRight" @click="nextPhoto()"><Icon style="color: #3ea4e2;line-height: 40px;width: 38px;font-size: 19px;" type="ios-arrow-forward" /></div>
+                      <div style="height:115px;margin-top:10px;">
+                        <!-- 批改学生小图 -->
+                        <div v-for="(item,index) in reviewImgList" :key="item.id"  class="rdiv">
+                          <div class="reviewedImg" style="">
+                            
+                            <img :src="item.webUrl" :alt="item.fileName" @dblclick="showImg(item)"  style="max-width: 100%;width: 66px;height: 100px;object-fit: contain;display:inline-block;" >
+                            <div class="imgIndex" style="">
+                              <span>{{index + 1}}</span>
+                            </div>
+                            <div class="delImg" @click="removeImg(item,index)">
+                              <Icon type="ios-trash-outline" />
+                            </div>
+                          </div>
+                          <!-- <video :src="item.webUrl" controls="controls" v-else-if="item.name.substr(item.name.lastIndexOf('.') + 1).toLowerCase() == 'mp4'" style="max-width:100%;">您的浏览器不支持 video 标签。</video>
+                          <audio :src="item.webUrl" controls="controls"  type="audio/mpeg"  v-else-if="item.name.substr(item.name.lastIndexOf('.') + 1).toLowerCase() == 'mp3'">
+                            你的浏览器不支持audio标签。
+                          </audio>
+                          <iframe :src='"https://view.officeapps.live.com/op/view.aspx?src="+item.webUrl' width='100%' height='100%' frameborder='1' v-else-if="item.name.substr(item.name.lastIndexOf('.') + 1).toLowerCase() == 'doc' || item.name.substr(item.name.lastIndexOf('.') + 1).toLowerCase() == 'xls'" style="height:500px;"></iframe> 
+                          <iframe :src="item.webUrl" v-else-if="item.name.substr(item.name.lastIndexOf('.') + 1).toLowerCase() == 'pdf'"  style="height:600px;width:100%"></iframe>
+                          <a v-else :href ="item.webUrl">{{item.realName}}</a> -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="teaReview">
+                      <!-- 批阅记录 -->
+                        <ul>
+                          <li>
+                              <p style="font-size:15px;">评分:</p>
+                                <div class="right" style="display:block">
+                                    <div style="margin-right:10px;display: inline-block;" v-for="(item,index) in gradeOptions" :key="index" @click="select(item,index+1)">
+                                      <span :class="item.status?'chose':'option'">{{changeCode(index+1)}}</span><span style="color:#999;font-size:14px;"></span>
+                                    </div>
+                                    <Checkbox style="font-size:16px;" v-model="isCorrect">是否需要订正</Checkbox>  
+                                </div> 
+                          </li>
+                          <li>
+                              <p style="font-size:15px;">评语:</p>
+                              <div class="right" >
+                                <UEditor style="width:calc(100%);" id="correctContent"  ref="correctUeditor" @getContent="getContent"></UEditor>
+                                  <!-- <Input type="textarea" v-model="reviewWorld"  placeholder="请输入评语，最多可评200字" :maxlength="200" :autosize="{minRows: 6}" />       -->
+                              </div>
+                          </li>
+                          <li>
+                            <div style="margin:0 auto;">
+                              <Button type="primary" @click="ReviewStu()" :disabled="saveReview">以上全部保存并上次</Button>
+                            </div>
+                          </li>
+                        </ul>   
+                      
+                    </div>
+                </section>
+                <footer>
+                    <div style="padding: 0 10px;">
+                      <div style="border-bottom: 2px solid #3587FF;display:inline-block;margin:10px 0 0;padding-bottom:10px;font-size:16px;">作业内容:</div>
+                    </div>
+                    <div style="border-top:1px solid #eee;padding-top:10px;">
+                      <Timeline>
+                          <TimelineItem v-if="(discussion.commitType=='个人任务' && stuList[curIndex].isReview==1) || (discussion.commitType=='小组任务' && stuList[curIndex].is_review==1)">
+                              <div >
+                                <div style="display: table-cell;padding: 10px 100px 5px">
+                                  <div v-if="discussion.commitType=='个人任务'">{{stuList[curIndex].reviewTime}}  {{stuList[curIndex].name}}教师评语</div>
+                                  <div v-else>{{timestampToTime(stuList[curIndex].review_time) }}  {{stuList[curIndex].name}}教师评语</div>
+                                </div>
+                                <div class="stuProduction" style="height:100px;margin-left: 100px; margin-right: 100px;">
+                                  <div v-if="discussion.commitType=='个人任务'"><span style="font-size:16px">等级：{{changeCode(stuList[curIndex].reviewGrade)}}</span></div>
+                                  <div v-else><span style="font-size:16px">等级：{{changeCode(stuList[curIndex].review_grade)}}</span></div>
+                                  <div style="white-space: normal;word-break: break-all;word-wrap: break-word;font-size: 16px;">评语：{{stuList[curIndex]}}</div>
+                                </div>
+                              </div> 
+                          </TimelineItem>
+                          <TimelineItem v-for="(item,index) in reviewList" :key="index">
+                            
+                              <p class="time">
+                                <span style="margin-right:20px;">{{item.createTime}}</span>
+                                <span v-if="item.createUserType==1" style="margin-right:20px;"><span style="color:#217FFF;">{{item.createUserName}}老师</span><span v-if="true">批阅</span><span v-else>打回</span></span>
+                                <span v-else style="margin-right:20px;"><span style="color:#217FFF;">{{item.createUserName}}同学</span><span >订正</span></span>
+                                <span v-if="index == 0 && stuList[curIndex].reviewGrade !=0"><span>评分:</span><span style="color:#217FFF;">{{changeCode(stuList[curIndex].reviewGrade)}}</span></span>
+                                <!-- <span v-if="false"><span>要求订正</span></span> -->
+                              </p>
+                              <div class="content" style="padding:10px;border:1px solid #eee;">
+                                  <div v-if="item.createUserType==1" class="cccimg" v-html="item.writing"> </div> 
+                                  <div v-else>
+                                  <div style="display: flex;-webkit-box-pack: end;justify-content: flex-end;">
+                                  <Icon type="ios-cloud-download" style="font-size:20px;cursor:pointer;" title="下载" @click="downloadPro(item)"/>
+                                  </div>
+                                  <div>
+                                    <div style="padding-top: 2px;white-space: normal;word-break: break-all;word-wrap: break-word;font-size: 15px;"><span style="font-size:16px">文字描述：</span>{{item.writing}}</div>
+                                  </div>
+                                  <div v-for="(item2,index2) in item.files" :key ="index2" :style="item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'png' || item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'jpg' || item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'jpeg' ? 'display:inline-block;margin-right:10px;':''" >
+                                    <img :src="item2.appendix" alt="" @click="showStuImg(item2)" v-if="item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'png' || item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'jpg' || item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'jpeg'" style="max-width: 100%;width:13em;height:13em;object-fit: contain;display:inline-block;">
+                                    <video :src="item2.appendix" controls="controls" v-else-if="item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'mp4'" style="max-width: 100%;">您的浏览器不支持 video 标签。</video>
+                                    <audio :src="item2.appendix" controls="controls"  type="audio/mpeg"  v-else-if="item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'mp3'">
+                                      你的浏览器不支持audio标签。
+                                    </audio>
+                                    <iframe :src='"https://view.officeapps.live.com/op/view.aspx?src="+item2.appendix' width='100%' height='100%' frameborder='1' v-else-if="item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'doc' || item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'xls'" style="height:500px;"></iframe> 
+                                    <iframe :src="item2.appendix" v-else-if="item2.appendixName.substr(item2.appendixName.lastIndexOf('.') + 1).toLowerCase() == 'pdf'"  style="height:600px;width:100%"></iframe>                                               
+                                    <a v-else :href ="item2.webUrl">{{item2.realName}}</a>
+                                  </div>
+                                                    
+                                  </div>   
+                              </div>
+                          </TimelineItem>
+                      </Timeline>
+                    </div>
+                </footer>
+            </footer>
+            <imgViewer ref="imgViewer"></imgViewer>
+          </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import myStorge from "../../utils/localStorge.js";
+import Canvas from "@/components/canvasNew.vue";
+import UEditor from "@/components/ueditor/ueditor.vue";
+import imgViewer from "@/components/imgViewer.vue";
+
+export default {
+  components: {
+    Canvas,
+    UEditor,
+    imgViewer
+  },
+  data() {
+    return {
+      stuList: myStorge.get("stuList"),
+      curStu: myStorge.get("student"),
+      curIndex: myStorge.get("student").stuListIndex,
+      discussion: myStorge.get("discussion"),
+      // productId: myStorge.get("student").id,
+      gradeOptions: [
+        { id: 1, status: false },
+        { id: 2, status: false },
+        { id: 3, status: false },
+        { id: 4, status: false }
+      ], //评价等级
+
+      files: "",
+      filesImg: "",
+      filesOther: "",
+      pdfUrl: "",
+      suffix: "", //文件后缀名
+
+      reviewImgList: [],
+
+      reviewList: [], //回复列表
+      reviewTotal: 0,
+
+      canvasModal: false,
+
+      reviewWorld: "",
+      isCorrect: false,
+
+      photoIndex: 0,
+      saveReview: false,
+
+      reviewGrade: 0
+    };
+  },
+  mounted() {
+    var _this = this;
+    _this.setReviewFGrade();
+    _this.setTyprForMission();
+    _this.getReviewsByProductId();
+    if (_this.discussion.commitType == 1) {
+      _this.pdfUrl =
+        "https://view.officeapps.live.com/op/view.aspx?src=" +
+        _this.stuList[_this.curIndex].stuProduction;
+    } else {
+      _this.pdfUrl =
+        "https://view.officeapps.live.com/op/view.aspx?src=" +
+        _this.stuList[_this.curIndex].stu_production;
+    }
+
+    _this.getFiles();
+    _this.$nextTick(() => {
+      const imgs = $(".cccimg");
+      console.log(imgs);
+    });
+  },
+  watch: {
+    reviewImgList: function() {
+      this.$nextTick(function() {
+        //////方法
+        this.AddImgClickEvent();
+      });
+    },
+    reviewList: function() {
+      this.$nextTick(function() {
+        //////方法
+        this.AddImgClickEvent();
+      });
+    },
+    filesImg: function() {
+      this.$nextTick(function() {
+        //////方法
+        this.AddImgClickEvent();
+      });
+    }
+  },
+  methods: {
+    genImages(url) {
+      const sourceImages = [];
+      const base = Math.floor(Math.random() * 60, 10) + 10;
+      sourceImages.push({
+        thumbnail: url,
+        source: url
+      });
+
+      return sourceImages;
+    },
+    showStuImg(value) {
+      const _this = this;
+      _this.$refs.imgViewer.show(_this.genImages(value.appendix));
+    },
+    showImg(value) {
+      const _this = this;
+      // console.log();
+      console.log(value);
+      console.log(_this.genImages(value.webUrl));
+      _this.$refs.imgViewer.show(_this.genImages(value.webUrl));
+    },
+    downloadPro(content) {
+      var _this = this;
+      if (content != "stu_id") {
+        if (content.id != "") {
+          console.log("1", content);
+          window.location.href =
+            APIConfig.Production.DownloadStuProFiles +
+            "?" +
+            "reviewId=" +
+            content.id;
+        } else {
+          _this.$Message.info("无作品可下载");
+        }
+      } else {
+        if (_this.filesImg.length > 0) {
+          console.log("2", content);
+          window.location.href =
+            APIConfig.Production.DownloadStuProFiles +
+            "?" +
+            "stuProId=" +
+            content.id;
+        } else _this.$Message.info("无作品可下载");
+      }
+    },
+    ReviewStu() {
+      const _this = this;
+      _this.saveReview = true;
+      if (
+        _this.stuList[_this.curIndex].isCommit == 0 ||
+        _this.stuList[_this.curIndex].isCommit == 5
+      ) {
+        _this.$Message.info("该学生还未提交作品不可评分");
+        _this.saveReview = false;
+        return;
+      }
+      let params = {
+        content: _this.reviewWorld,
+        photoImg: JSON.stringify(_this.reviewImgList),
+        missionId: _this.stuList[_this.curIndex].missionId,
+        productId: _this.stuList[_this.curIndex].id,
+        needChange: _this.isCorrect ? 1 : 0,
+        reviewGrade: _this.reviewGrade
+      };
+      // console.log(params);
+      _this.$api.post(APIConfig.Mission.uploadTeaFilesId, params, resp => {
+        if (resp.code == 0) {
+          _this.$Message.info("保存成功");
+          _this.$refs.correctUeditor.clearContentTxt();
+          _this.saveReview = false;
+          _this.stuList[_this.curIndex].isReview = 1;
+          _this.stuList[_this.curIndex].review = _this.reviewWorld;
+          _this.stuList[_this.curIndex].reviewGrade = _this.reviewGrade;
+          _this.stuList[_this.curIndex].reviewTime = _this.timestampToTime(
+            new Date()
+          );
+          myStorge.set("student", _this.stuList[_this.curIndex]);
+          _this.getReviewsByProductId();
+        } else {
+          _this.$Message.info("保存失败", resp.msg);
+        }
+      });
+    },
+    timestampToTime(cjsj) {
+      var date = new Date(cjsj); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D =
+        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+      var h =
+        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+      var m =
+        date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      return Y + M + D + h + m;
+    },
+    prePhoto() {
+      const _this = this;
+      let imgs = document.getElementsByTagName("img");
+      console.log(imgs);
+      // console.log("上一张");
+      if (_this.photoIndex == 0) {
+        _this.$Message.info("前面没有了");
+        return;
+      }
+      _this.photoIndex--;
+      if (
+        _this.photoIndex > _this.filesImg.length - 1 &&
+        _this.photoIndex < _this.filesImg.length + _this.reviewImgList.length
+      ) {
+        _this.photoIndex -= _this.reviewImgList.length;
+      }
+      for (let i = 0; i < imgs.length; i++) {
+        imgs[i].parentNode.style.border = "2px solid #eee";
+      }
+      $(imgs[_this.photoIndex])
+        .parent()
+        .css({
+          border: "2px solid #51aafe",
+          borderRadiuus: "10px"
+        });
+      // console.log(_this.photoIndex);
+      _this.$refs.canvasimg.setImg(imgs[_this.photoIndex].src);
+      // _this.AddImgClickEvent();
+    },
+    nextPhoto() {
+      const _this = this;
+      let imgs = document.getElementsByTagName("img");
+      if (_this.photoIndex == imgs.length - 1) {
+        _this.$Message.info("后面没有了");
+        return;
+      }
+      _this.photoIndex++;
+      if (
+        _this.photoIndex > _this.filesImg.length - 1 &&
+        _this.photoIndex < _this.filesImg.length + _this.reviewImgList.length
+      ) {
+        _this.photoIndex += _this.filesImg.length + _this.reviewImgList.length;
+      }
+      // console.log("下一张");
+      for (let i = 0; i < imgs.length; i++) {
+        imgs[i].parentNode.style.border = "2px solid #eee";
+      }
+      $(imgs[_this.photoIndex])
+        .parent()
+        .css({
+          border: "2px solid #51aafe",
+          borderRadiuus: "10px"
+        });
+      _this.$refs.canvasimg.setImg(imgs[_this.photoIndex].src);
+      // _this.$refs.canvasimg.setImg("../../static/assets/logo.png");
+    },
+    //作业打回重做
+    rework() {
+      const _this = this;
+      if (
+        _this.stuList[_this.curIndex].isCommit == 0 ||
+        _this.stuList[_this.curIndex].isCommit == 5
+      ) {
+        _this.$Message.info("该学生还未提交作品不可打回");
+        return;
+      }
+      _this.$api.post(
+        APIConfig.Mission.repulseStuMission,
+        {
+          stuProId: _this.curStu.id
+        },
+        resp => {
+          if (resp.code == 0) {
+            _this.stuList[_this.curIndex].isCommit = 5;
+            _this.$Message.info("该学生的作业已被打回");
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    getContent(msg) {
+      this.reviewWorld = msg;
+    },
+    select: function(option, index) {
+      var _this = this;
+      _this.gradeOptions.forEach(ele => {
+        ele.status = false;
+      });
+      option.status = !option.status;
+      _this.reviewGrade = index;
+    },
+    changeCode: function(index) {
+      return String.fromCharCode(index + 64);
+    },
+    uploadTea() {
+      var _this = this;
+      // _this.isDisable = true;
+      // console.log("ddd");
+      let blob = _this.$refs.canvasimg.upload();
+      var formData = new FormData();
+      formData.append("upfile", blob, new Date().valueOf() + ".jpg"); //fileData为自定义
+      // formData.append("missionId", _this.discussion.id);
+      // formData.append("productId", _this.stuList[_this.curIndex].id);
+      $.ajax({
+        type: "POST",
+        url: APIConfig.Mission.uploadTeaPhoto,
+        data: formData,
+        contentType: false,
+        processData: false,
+        xhrFields: { withCredentials: true },
+        crossDomain: true,
+        headers: {
+          bschapirequest: 1
+        },
+        success: function(resp) {
+          if (resp.code == 0) {
+            // _this.isDisable = false;
+            _this.reviewImgList.push(resp.data);
+            _this.$Message.info("回复成功");
+            _this.getReviewsByProductId();
+          }
+        }
+      });
+    },
+    removeImg(item, index) {
+      const _this = this;
+      _this.reviewImgList.splice(index, 1);
+      console.log(item, index);
+    },
+    getReviewsByProductId() {
+      var _this = this;
+      // console.log(_this.productId, _this.page, _this.count);
+      _this.$api.post(
+        APIConfig.Review.GetReviewsByProductId,
+        {
+          productId: _this.stuList[_this.curIndex].id,
+          sort: "id,desc"
+        },
+        function(resp) {
+          if (resp.code == 0) {
+            _this.reviewList = resp.data.content;
+            _this.reviewTotal = Number(resp.data.totalElements);
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    setTyprForMission() {
+      var _this = this;
+      var fileName = "";
+      if (_this.discussion.commitType == 1) {
+        fileName = _this.stuList[_this.curIndex].productionName;
+      } else {
+        fileName = _this.stuList[_this.curIndex].production_name;
+      }
+      var suffixTemp = "";
+      if (typeof fileName != "undefined") {
+        suffixTemp = fileName.substr(fileName.lastIndexOf(".") + 1);
+      }
+      //_this.suffix = suffixTemp;
+      _this.suffix = suffixTemp.toLowerCase();
+    },
+    setReviewFGrade() {
+      var _this = this;
+      _this.gradeOptions.forEach(ele => {
+        ele.status = false;
+      });
+      if (_this.discussion.commitType == 1) {
+        //个人任务
+        var index = _this.gradeOptions.findIndex(
+          x => x.id == _this.stuList[_this.curIndex].reviewGrade
+        );
+        if (index != -1) {
+          _this.$set(_this.gradeOptions[index], "status", true);
+          _this.reviewGrade = index + 1;
+
+          // _this.gradeOptions[index].status = true;
+        }
+      } else {
+        var index = _this.gradeOptions.findIndex(
+          x => x.id == _this.stuList[_this.curIndex].review_grade
+        );
+        if (index != -1) {
+          _this.$set(_this.gradeOptions[index], "status", true);
+          console.log(_this.gradeOptions[index]);
+          _this.reviewGrade = index + 1;
+
+          // _this.gradeOptions[index].status = true;
+        }
+      }
+    },
+    getFiles() {
+      var _this = this;
+      _this.$api.post(
+        APIConfig.Mission.GetFilesByStuProIdOrder,
+        { stuProId: _this.stuList[_this.curIndex].id },
+        function(resp) {
+          if (resp.code == 0) {
+            // console.log("获取学生提交的数据", resp.data);
+            _this.files = resp.data;
+            if (!$.isEmptyObject(resp.data)) {
+              _this.filesImg = resp.data.photoList;
+              _this.filesOther = resp.data.fileList;
+            } else {
+              _this.filesImg = [];
+              _this.filesOther = [];
+            }
+          } else {
+            _this.$Message.info(resp.msg);
+          }
+        }
+      );
+    },
+    AddImgClickEvent() {
+      var _this = this;
+      var objs = document.getElementsByTagName("img");
+      // var objs = $("div.reviewImg");
+
+      // console.log(objs[3]);
+      for (let i = 0; i < objs.length; i++) {
+        console.log(objs[i]);
+        if (
+          objs[i].id != "return" &&
+          objs[i].id != "stuStar" &&
+          objs[i].id != "logo"
+        ) {
+          objs[i].ondblclick = function() {
+            _this.canvasModal = true;
+            console.log(i, "张图片");
+            _this.photoIndex = i; //记录照片地址
+            _this.$nextTick(() => {
+              _this.$nextTick(() => {
+                $("div.reviewImg").css({ border: "2px solid #eee" });
+                _this.canvasModel = true;
+                // this.setAttribute("crossOrigin", "anonymous");
+                this.crossOrigin = "anonymous";
+                _this.$refs.canvasimg.setImg(this.src);
+                _this.$refs.canvasimg.setImg("../../static/assets/1.png");
+
+                this.parentNode.style.border = "2px solid #51aafe";
+              });
+            });
+          };
+          console.log(i);
+          if (i > _this.reviewImgList.length + _this.filesImg.length - 1) {
+            //对于其他图片做缩小处理
+            objs[i].style.cursor = "pointer";
+            objs[i].style.maxWidth = "100%";
+            objs[i].style.width = "13em";
+            objs[i].style.height = "13em";
+            objs[i].style.objectFit = "contain";
+            objs[i].style.display = "inline-block";
+          }
+        }
+      }
+    },
+    nextStu() {
+      const _this = this;
+      if (_this.curIndex == _this.stuList.length - 1) {
+        _this.$Message.info("该学生为最后一个学生");
+        return;
+      } else {
+        _this.curIndex++;
+      }
+      _this.reviewImgList = [];
+      _this.canvasModal = false;
+      _this.setTyprForMission();
+      _this.getReviewsByProductId();
+      _this.getFiles();
+
+      _this.setReviewFGrade();
+    },
+    goback() {
+      this.$router.push("/showmissionTeaManager");
+    }
+  }
+};
+</script>
+
+
+<style lang="scss" scoped>
+.other-contents {
+  // min-width: 1276px;
+  //   overflow: auto;
+  > footer {
+    // overflow: auto;
+    border: 1px solid #eee;
+    margin: 20px 30px;
+    padding: 10px 20px;
+  }
+}
+.other-contents > header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  .add-btn {
+    color: #fff;
+    background-color: #51aafe;
+    border-color: #51aafe;
+  }
+}
+
+.mainBody {
+  //禁止复制
+
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.stuNameClass {
+  height: 35px;
+  width: 100px;
+  display: inline-block;
+  border: 1px solid #5ba2fa;
+  vertical-align: middle;
+  border-radius: 20px;
+  text-align: center;
+  line-height: 32px;
+}
+.nextClass {
+  height: 35px;
+  width: 63px;
+  cursor: pointer;
+  background: #3687fd;
+  line-height: 32px;
+  color: #fff;
+  text-align: center;
+  display: inline-block;
+  position: relative;
+}
+.nextClass:before {
+  width: 0px;
+  height: 0px;
+  border: 17.5px transparent solid;
+  border-left-color: #3687fd;
+  position: absolute;
+  top: 0px;
+  left: 100%;
+  content: "";
+}
+.nextClass:active {
+  background: #558fe7;
+}
+
+//学生提交的图片
+.cdiv {
+  margin: 0 10px;
+  display: inline-block;
+  position: relative;
+}
+
+.imgIndex {
+  height: 20px;
+  width: 20px;
+  background-color: #858585;
+  text-align: center;
+  position: absolute;
+  bottom: 5px;
+  border-radius: 20px;
+  left: calc((100% - 20px) / 2);
+  text-align: center;
+  color: #fff;
+}
+.cdiv:last-child:after {
+  content: "(双击图片进行修改)";
+  position: absolute;
+  width: max-content;
+  color: #51aafe;
+  margin-left: 20px;
+  top: calc((100% - 21px) / 2);
+}
+.reviewImg {
+  display: inline-block;
+  border: 2px solid #eee;
+  position: relative;
+  border-radius: 10px;
+}
+
+//批改后的图片
+.reviewedImg {
+  display: inline-block;
+  border: 2px solid #eee;
+  position: relative;
+  border-radius: 10px;
+}
+.rdiv {
+  cursor: pointer;
+  margin: 0 10px;
+  display: inline-block;
+  position: relative;
+}
+.delImg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  > i {
+    font-size: 24px;
+    color: red;
+  }
+}
+.rdiv:last-child:after {
+  content: "(已批改的图片可以双击查看或者删除)";
+  position: absolute;
+  width: max-content;
+  color: #51aafe;
+
+  margin-left: 20px;
+  top: calc((100% - 21px) / 2);
+}
+
+.teaReview {
+  ul {
+    padding: 10px;
+    li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      p {
+        width: 6rem;
+      }
+      .right {
+        width: -webkit-fill-available;
+        display: flex;
+        justify-content: space-between;
+        width: -moz-available;
+        .option {
+          border: 1px solid #999;
+          border-radius: 50%;
+          color: #999;
+          padding: 3px 7px;
+        }
+        .chose {
+          border: 1px solid #999;
+          border-radius: 50%;
+          background-color: #3ea4e2;
+          color: #fff;
+          padding: 3px 7px;
+        }
+      }
+    }
+    li:first-child {
+      p {
+        margin: auto 0;
+      }
+    }
+    li:nth-child(2) {
+      p {
+        margin: auto 0;
+      }
+    }
+  }
+}
+
+.canvasImgDom {
+  position: relative;
+}
+
+.canvasLeft {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background: #ccc7c1;
+  border-radius: 20px;
+  left: 0;
+  top: calc((100% - 40px) / 2);
+  opacity: 0.5;
+  border: 1px solid #3ea4e2;
+}
+.canvasRight {
+  height: 40px;
+  width: 40px;
+  background: #ccc7c1;
+  border-radius: 20px;
+  position: absolute;
+  right: 0;
+  top: calc((100% - 40px) / 2);
+  opacity: 0.5;
+  border: 1px solid #3ea4e2;
+}
+.cccimg {
+  word-break: break-all;
+  display: inline-block;
+  img {
+    max-width: 100%;
+    width: 13em;
+    height: 13em;
+    object-fit: contain;
+    display: inline-block;
+  }
+}
+</style>

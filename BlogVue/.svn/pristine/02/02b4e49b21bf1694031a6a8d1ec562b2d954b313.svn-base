@@ -1,0 +1,52 @@
+<template>
+    <div v-if="beforeDeleFlag">
+        <Modal v-model="deleteModalFlag"  width="786">
+            <p slot="header" style="text-align:left">
+                <span>编辑</span>
+            </p>
+            <div style="text-align:center;height:300px;width:754px;padding:90px;">
+               <div style="background-color:#FFEDE6;height:calc(100%);width:calc(100%);display: flex;align-items: center;justify-content: center;">
+                  您将删除本条讨论记录，删除后将不可恢复，确定要删除么？
+               </div>
+            </div>
+            <div slot="footer" style="text-align:center">
+                <Button type="primary" >确认</Button>
+                <Button @click="cancle()">取消</Button>   
+            </div>
+        </Modal>
+    </div>
+</template>
+
+
+<script>
+export default {
+  components: {},
+  props: {
+    beforeDeleFlag: {
+      type: Boolean,
+      default: () => {
+        return false;
+      }
+    }
+  },
+  data() {
+    return {
+      deleteModalFlag: false
+    };
+  },
+  mounted() {},
+  methods: {
+    showModal(item) {
+      console.log("item", item);
+      this.deleteModalFlag = true;
+    },
+    cancle() {
+      this.deleteModalFlag = false;
+    }
+  }
+};
+</script>
+
+
+<style lang="scss" scoped>
+</style>
