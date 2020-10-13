@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e35f457a-a902-4c10-a4d6-17c8c39dc9c7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/davidmorgan.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/MailDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/EmailController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/MailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/MailServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/util/StringRandom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/Verify.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/FileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/FileServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/Header.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/static/js/conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/static/js/conf.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -212,6 +200,7 @@
       <workItem from="1601370363276" duration="955000" />
       <workItem from="1602290565892" duration="1549000" />
       <workItem from="1602293422707" duration="17167000" />
+      <workItem from="1602551112324" duration="364000" />
     </task>
     <servers />
   </component>

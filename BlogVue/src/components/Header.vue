@@ -129,7 +129,8 @@ export default {
         name: "",
         email: "",
         password: "",
-        checkPass: ""
+        checkPass: "",
+        verifiCode: ""
       },
       rules: {
         name: [{ validator: validateName, trigger: "blur" }],
@@ -146,6 +147,16 @@ export default {
       const _this = this;
       _this.dialogVisible = true;
     },
+
+    /**
+     * @description: 验证
+     * @param {String}
+     * @return {Boolean}
+     * @Date: 2020-10-10 16:28:58
+     * @Author: David
+     */
+
+    verificationCode() {},
 
     /**
      * @description: 注册

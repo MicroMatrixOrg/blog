@@ -1,5 +1,5 @@
 var conf = {
-  baseUrl: "http://localhost:9527",
+  baseUrl: "http://matrixblog.gq:8880",
   fileUrl: ""
 };
 
