@@ -62,6 +62,9 @@ export default {
     }
   },
   mounted() {
+    window.addEventListener("message", e => {
+      console.log(e);
+    });
     this.page(1);
   }
 };

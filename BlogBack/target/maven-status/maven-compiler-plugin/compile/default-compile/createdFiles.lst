@@ -6,9 +6,12 @@ com/luobo/common/exception/GlobalExceptionHandler.class
 com/luobo/mapper/UserMapper.class
 com/luobo/service/impl/UserServiceImpl.class
 com/luobo/shiro/JwtFilter.class
+com/luobo/service/impl/MailServiceImpl.class
 com/luobo/controller/AccountController.class
 com/luobo/service/impl/BlogServiceImpl.class
+com/luobo/service/MailService.class
 com/luobo/service/UserService.class
+com/luobo/common/dto/MailDto.class
 com/luobo/shiro/AccountProfile.class
 com/luobo/shiro/JwtToken.class
 com/luobo/controller/BlogController.class
@@ -24,9 +27,12 @@ com/luobo/mapper/BlogMapper.class
 com/luobo/common/dto/RegisterUser.class
 com/luobo/entity/Blog.class
 com/luobo/controller/FileController.class
+com/luobo/config/UndertowHttpsConfig.class
 com/luobo/controller/UserController.class
+com/luobo/util/StringRandom.class
 com/luobo/common/dto/LoginDto.class
 com/luobo/config/CorsConfig.class
+com/luobo/controller/EmailController.class
 com/luobo/shiro/AccountRealm.class
 com/luobo/CodeGenerator$1.class
 com/luobo/entity/File.class

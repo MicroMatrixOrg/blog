@@ -1,7 +1,9 @@
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/UserService.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/VueblogApplication.java
+/Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/MailService.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/mapper/UserMapper.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/entity/File.java
+/Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/common/dto/MailDto.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/config/CorsConfig.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/common/lang/Result.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/common/exception/GlobalExceptionHandler.java
@@ -10,6 +12,8 @@
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/util/JwtUtils.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/util/ShiroUtil.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/controller/AccountController.java
+/Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/impl/MailServiceImpl.java
+/Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/util/StringRandom.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/impl/FileServiceImpl.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/config/MybatisPlusConfig.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/common/dto/RegisterUser.java
@@ -27,5 +31,7 @@
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/config/ShiroConfig.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/impl/BlogServiceImpl.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/shiro/AccountRealm.java
+/Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/config/UndertowHttpsConfig.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/shiro/AccountProfile.java
+/Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/controller/EmailController.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/common/dto/LoginDto.java

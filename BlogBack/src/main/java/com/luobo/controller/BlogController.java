@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luobo.common.lang.Result;
 import com.luobo.entity.Blog;
-import com.luobo.entity.User;
 import com.luobo.service.BlogService;
 import com.luobo.service.UserService;
 import com.luobo.util.ShiroUtil;
