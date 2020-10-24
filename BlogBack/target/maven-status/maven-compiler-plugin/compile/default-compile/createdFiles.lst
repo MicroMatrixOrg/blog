@@ -27,7 +27,6 @@ com/luobo/mapper/BlogMapper.class
 com/luobo/common/dto/RegisterUser.class
 com/luobo/entity/Blog.class
 com/luobo/controller/FileController.class
-com/luobo/config/UndertowHttpsConfig.class
 com/luobo/controller/UserController.class
 com/luobo/util/StringRandom.class
 com/luobo/common/dto/LoginDto.class

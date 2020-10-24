@@ -17,27 +17,35 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
 
-#https请求配置
-#https端口号.
 server:
-  port: 9526
-  ssl:
-    #证书的路径.
-    key-store: classpath:ssl.keystore
-    #证书密码，请修改为您自己证书的密码.
-    key-password: 123456
-    #秘钥库类型
-    key-store-type: JKS
-    #证书别名
-    key-alias: undertow
-  http2:
-    enabled: true
+  port: 8880
 
-#http端口号
-custom:
-  server:
-    http:
-      port: 9527
+#https请求配置
+##https端口号.
+#server:
+#  port: 9526
+#  ssl:
+#    #证书的路径.
+#    key-store: classpath:ssl.keystore
+#    #证书密码，请修改为您自己证书的密码.
+#    key-password: 123456
+#    #秘钥库类型
+#    key-store-type: JKS
+#    #证书别名
+#    key-alias: undertow
+#  http2:
+#    enabled: true
+#  undertow:
+#    io-threads: 4
+#    worker-threads: 2
+#    buffer-size: 1024
+#    direct-buffers: true
+#
+##http端口号
+#custom:
+#  server:
+#    http:
+#      port: 8880
 
 
 #reis配置
