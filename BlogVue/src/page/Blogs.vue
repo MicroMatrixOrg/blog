@@ -1,6 +1,5 @@
 <template>
   <div class="m-container">
-    <Header></Header>
     <div class="block">
       <el-timeline>
         <el-timeline-item

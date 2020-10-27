@@ -7,6 +7,8 @@ const BlogEdit = () => import("../page/BlogEdit.vue");
 
 
 
+const test = () => import("../page/VerifyEmail.vue");
+
 Vue.use(Router)
 
 //全部的
@@ -61,6 +63,11 @@ var routes = [
 
     },
     component: BlogEdit
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: test,
   }
 ];
 
