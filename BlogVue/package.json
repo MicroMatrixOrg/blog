@@ -14,6 +14,7 @@
     "dll": "webpack --config build/webpack.dll.config.js"
   },
   "dependencies": {
+    "animejs": "^3.2.1",
     "axios": "^0.19.2",
     "babel-loader": "^7.1.5",
     "babel-polyfill": "^6.26.0",

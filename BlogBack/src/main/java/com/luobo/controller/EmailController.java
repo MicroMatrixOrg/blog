@@ -5,6 +5,7 @@ import com.luobo.common.lang.Result;
 import com.luobo.service.MailService;
 import com.luobo.util.StringRandom;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.TemplateEngine;
@@ -13,6 +14,7 @@ import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
+import java.util.Date;
 
 /**
  * @ClassName EmailConTroller
@@ -29,6 +31,9 @@ public class EmailController {
 
     @Resource
     private TemplateEngine templateEngine;
+
+    @Value("${blog-font-url}")
+    String fontUrl;
 
 
     /**
@@ -59,9 +64,13 @@ public class EmailController {
     @PostMapping("/verifytemplate")
     public Result sendVerifyTemplateMail(@Validated @RequestBody MailDto mailDto)  {
         Context context = new Context();
-        String random = StringRandom.getStringRandom(6);;
-        context.setVariable("randomCode",random);
-        String emailContent = templateEngine.process("Verify", context);
+        String random = StringRandom.getStringRandom(6);
+        String strUrl = fontUrl + "/#/verifyaccount?name="+mailDto.getToMail()+"&code="+random;
+        context.setVariable("username",mailDto.getUsername());
+        context.setVariable("url",strUrl);
+        context.setVariable("today", new Date());
+        context.setVariable("fontUrl",fontUrl);
+        String emailContent = templateEngine.process("VerifyTemplate", context);
         try {
             mailService.sendHtmlMail(mailDto.getToMail(),mailDto.getSubject(),emailContent);
             //调用radis将验证码存入其中，方便拿前台的验证码校验

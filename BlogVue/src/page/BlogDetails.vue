@@ -1,6 +1,5 @@
 <template>
   <div class="m-container">
-    <Header></Header>
     <div class="mblog">
       <h2>{{ blog.title }}</h2>
       <el-link icon="el-icon-edit" v-if="ownBlog"
@@ -24,12 +23,10 @@
 </template>
 <script>
 // import "github-markdown-css/github-markdown.css"; // 然后添加样式markdown-body
-import Header from "@/components/Header";
+
 export default {
   name: "BlogDetail",
-  components: {
-    Header
-  },
+
   data() {
     return {
       blog: {

@@ -4,6 +4,7 @@ import Router from 'vue-router'
 const Login = () => import("../page/Login.vue");
 const BlogDetail = () => import("../page/BlogDetails.vue");
 const BlogEdit = () => import("../page/BlogEdit.vue");
+const VerifyAccount = () => import("../page/VerifyAccount.vue");
 
 
 
@@ -64,6 +65,17 @@ var routes = [
     },
     component: BlogEdit
   },
+  {
+    path: '/verifyaccount',
+    name: 'BlogEdit',
+    meta: {
+      requireAuth: false,
+      modId: 3
+
+    },
+    component: VerifyAccount
+  },
+
   {
     path: "/test",
     name: "test",

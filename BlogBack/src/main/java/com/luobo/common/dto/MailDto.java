@@ -12,6 +12,7 @@ import lombok.Data;
 
 @Data
 public class MailDto {
+    private String username;//收信人称谓
     private String toMail;//收信人
     private String subject;//主题
     private String content;//内容

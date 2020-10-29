@@ -44,6 +44,9 @@ Vue.use(ElementUI);
 import "../static/style/base_html.css";
 // 默认主题文件 为以后的个性化主题
 import "../static/style/base_theme.css";
+//引入anime.js
+import anime from 'animejs/lib/anime.es.js';
+Vue.prototype.$anime = anime;
 
 // //第一次路由跳转验证
 // let isLoad = true;

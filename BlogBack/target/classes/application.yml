@@ -13,6 +13,9 @@ spring:
     port: 25
     protocol: smtp
     default-encoding: UTF-8
+  #模版位置配置
+  thymeleaf:
+    prefix: classpath:/templates/
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
@@ -48,6 +51,7 @@ server:
 #      port: 8880
 
 
+
 #reis配置
 shiro-redis:
   enabled: true
@@ -65,4 +69,6 @@ markerhub:
 
 file-storge:
   path: "/Users/davidmorgan/Pictures/uploadFile"
+
+blog-font-url: "http://localhost:8018"
 

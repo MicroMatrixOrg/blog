@@ -1,6 +1,7 @@
 <template>
   <div class="m-container">
-    <div class="block">
+    <Header></Header>
+    <!-- <div class="block">
       <el-timeline>
         <el-timeline-item
           v-bind:timestamp="blog.created"
@@ -29,7 +30,7 @@
       @current-change="page"
       :total="total"
     >
-    </el-pagination>
+    </el-pagination> -->
   </div>
 </template>
 <script>
@@ -61,9 +62,9 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener("message", e => {
-      console.log(e);
-    });
+    // window.addEventListener("message", e => {
+    //   console.log(e);
+    // });
     this.page(1);
   }
 };

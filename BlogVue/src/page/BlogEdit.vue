@@ -1,6 +1,5 @@
 <template>
   <div class="m-container">
-    <Header></Header>
     <div class="m-content">
       <el-form
         ref="editForm"
@@ -32,10 +31,8 @@
   </div>
 </template>
 <script>
-import Header from "@/components/Header";
 export default {
   name: "BlogEdit",
-  components: { Header },
   data() {
     return {
       editForm: {

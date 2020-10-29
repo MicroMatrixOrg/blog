@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar-header-wrap">
     <div class="m-content-theme toolbar-header">
-      <div class="m-icon-theme-default">
+      <a class="m-icon-theme-default logo">
         <svg
           width="60"
           height="40"
@@ -210,22 +210,60 @@
             </g>
           </g>
         </svg>
-      </div>
-      <ul class="m-routers-theme-default header-tabs">
-        <li class="m-router-theme-default">
-          <ul role="tab" class="m-router-ul-theme-default  phone-hide">
-            <li class="nav-item link-item">首页</li>
-          </ul>
-        </li>
-        <li class="m-person-theme-default add">
-          <div class="search-form-theme-default">
-            <searchbtn></searchbtn>
-          </div>
-          <div class="add-btn-group">
-            <button class="add-blog">写文章</button>
-          </div>
-        </li>
-      </ul>
+      </a>
+      <nav role="navigation" class="main-nav">
+        <ul class="m-routers-theme-default nav-list">
+          <li class="m-mian-navi-theme-default nav-item">
+            <ul role="tab" class="m-router-ul-theme-default phone-hide ">
+              <li class="link-item nav-item">
+                <a class="nav-item-a" href="#/blogs">首页</a>
+              </li>
+            </ul>
+          </li>
+          <li class="m-person-theme-default nav-item search">
+            <div class="search-form-theme-default ">
+              <searchbtn></searchbtn>
+            </div>
+          </li>
+          <li class="m-person-theme-default nav-item">
+            <div class="add-btn-group">
+              <button class="add-blog" @click="writeblog">写文章</button>
+            </div>
+          </li>
+          <!-- <li class="m-person-theme-default nav-item notifaction">
+            <a href=""></a>
+          </li> -->
+          <li v-if="user.id != 0" class="m-person-theme-default nav-item menu">
+            <div
+              class="lazy avatar avatar loaded immediate"
+              @click="showControl($event)"
+              :style="
+                `background-image:url(${
+                  user.id != 0 ? user.avatar : '../../static/image/m.ico'
+                })`
+              "
+            ></div>
+            <ul class="nav-menu user-dropdown-list" style="display:none;">
+              <div class="nav-menu-item-group">
+                <li class="nav-menu-item">
+                  <a>
+                    <i class="fa fa-pencil icon" aria-hidden="true"></i>
+                    <span>写文章</span>
+                  </a>
+                </li>
+              </div>
+              <div class="nav-menu-item-group">
+                <li class="nav-menu-item">
+                  <a @click="signout()">
+                    <i class="fa fa-sign-out icon" aria-hidden="true"></i>
+                    <span>退出</span>
+                  </a>
+                </li>
+              </div>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </template>
@@ -281,6 +319,7 @@ export default {
     return {
       hasLogin: false,
       user: {
+        id: 0,
         username: "请先登录",
         avatar:
           "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
@@ -302,12 +341,61 @@ export default {
         password: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }],
         email: [{ validator: validateEmail, trigger: "blur" }]
-      },
-      formLabelWidth: "120px"
+      }
     };
   },
   methods: {
-    handleClose() {},
+    /**
+     * @description: 退出
+     * @Date: 2020-08-08 10:57:47
+     * @Author: David
+     */
+
+    signout() {
+      const _this = this;
+      this.$axios
+        .get(APIConfig.Base.Logout, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          _this.$store.commit("REMOVE_INFO");
+          _this.$router.go(0);
+        });
+    },
+    /**
+     * @description: 控制头像下的列表显示和隐藏
+     * @param {Object} e 点击的对象
+     * @return {*}
+     * @Date: 2020-10-29 10:45:21
+     * @Author: David
+     */
+
+    showControl(e) {
+      const list = e.target.nextElementSibling;
+      if (list.style.display == "none") {
+        list.style.display = "unset";
+      } else {
+        list.style.display = "none";
+      }
+    },
+    /**
+     * @description: 写博客函数 如果登录了直接跳转到写文章页面 如何没有登录或者没有权限写文章，跳出登录框
+     * @Date: 2020-10-28 09:54:03
+     * @Author: David
+     */
+
+    writeblog() {
+      if (this.user.id == 0) {
+        let path = this.routerCfg.options.pathById(1);
+        this.$router.push(path);
+      } else {
+        let path = this.routerCfg.options.pathById(21);
+        this.$router.push(path);
+      }
+    },
+
     open() {
       const _this = this;
       _this.dialogVisible = true;
@@ -397,7 +485,8 @@ export default {
     }
   },
   created() {
-    if (this.$store.getters.getUser.username) {
+    if (this.$store.getters.getUser) {
+      this.user.id = this.$store.getters.getUser.id;
       this.user.username = this.$store.getters.getUser.username;
       this.user.avatar = this.$store.getters.getUser.avatar;
       this.hasLogin = true;
@@ -407,27 +496,49 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main-nav {
+  height: 100%;
+  flex: 1 0 auto;
+}
+
+.logo {
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
 .toolbar-header-wrap {
-  background-color: #fff;
+  background: #fff;
+  border-bottom: 1px solid #f1f1f1;
+  color: #909090;
+  height: 5rem;
+  z-index: 250;
 }
 .toolbar-header {
   display: flex;
   align-items: center;
-  justify-content: space-around;
 
   max-width: 960px;
   margin: 0 auto;
+
+  height: calc(100%);
 }
 
-.m-router-ul-theme-default {
-  li {
-    list-style: none;
-  }
-}
-
-.header-tabs {
+.nav-list {
   display: flex;
   align-items: center;
+  height: calc(100%);
+}
+
+.nav-item {
+  color: #71777c;
+  padding: 0 1.2rem;
+  font-size: 1.33rem;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.nav-item a {
+  color: #007fff;
 }
 
 .phone-hide {
@@ -445,6 +556,7 @@ export default {
   align-items: center;
   height: 100%;
   margin: 0;
+  user-select: none;
 }
 
 .link-item {
@@ -452,8 +564,10 @@ export default {
   height: 5rem;
 }
 
-.add {
-  display: flex;
+.search {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  cursor: auto;
 }
 
 .add-btn-group {
@@ -469,12 +583,100 @@ export default {
   font-size: 1.167rem;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-
   height: 100%;
   color: #fff;
   background-color: #007fff;
   border-radius: 3px;
-
   border: 1px solid #007fff;
+  cursor: pointer;
+}
+
+.lazy {
+  position: relative;
+}
+
+.lazy.loaded:before {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lazy:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: inherit;
+  border-radius: inherit;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  background-size: cover;
+  background-color: #eee;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.menu {
+  position: relative;
+}
+.nav-menu {
+  position: absolute;
+  width: 11rem;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #fff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(177, 180, 185, 0.45);
+  border-radius: 4px;
+  font-size: 1.2rem;
+}
+.user-dropdown-list {
+  width: 13.1rem;
+  right: 0;
+  left: auto;
+  transform: translateX(0);
+}
+.nav-menu-item-group {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 1rem 0;
+}
+.nav-menu-item {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.nav-menu-item {
+  > a {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: #71777c;
+
+    .icon {
+      width: 1em;
+      height: 1em;
+      margin-right: 0.8rem;
+      font-size: 1.2em;
+      vertical-align: middle;
+      color: #b2bac2;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+
+  > span {
+    margin-left: 0;
+    flex-grow: 1;
+  }
 }
 </style>
