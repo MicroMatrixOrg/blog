@@ -1,8 +1,12 @@
 package com.luobo.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.luobo.common.dto.MailDto;
 import com.luobo.common.lang.Result;
+import com.luobo.entity.User;
 import com.luobo.service.MailService;
+import com.luobo.service.UserService;
 import com.luobo.util.StringRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +18,7 @@ import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
+import javax.sql.RowSet;
 import java.util.Date;
 
 /**
@@ -34,6 +39,9 @@ public class EmailController {
 
     @Value("${blog-font-url}")
     String fontUrl;
+
+    @Autowired
+    UserService userService;
 
 
     /**
@@ -76,8 +84,8 @@ public class EmailController {
             //调用radis将验证码存入其中，方便拿前台的验证码校验
             Jedis jedis = new Jedis("localhost");
             jedis.set(mailDto.getToMail(),random);
-            //设置验证码过期时间 过期时间为300秒
-            jedis.expire(mailDto.getToMail(),300);
+            //设置验证码过期时间 过期时间为一周
+            jedis.expire(mailDto.getToMail(),604800);
             jedis.close();
 
             return Result.succ(mailDto.getToMail());
@@ -100,6 +108,11 @@ public class EmailController {
             jedis.close();
             return Result.fail("验证码过期");
         }else if(code.equals(str)){
+            User user = userService.getOne(new QueryWrapper<User>().eq("email",mailDto.getToMail()));
+            if(0 == user.getStatus()){
+                user.setStatus(1);
+            }
+            userService.saveOrUpdate(user);
             jedis.del(name);
             jedis.close();
             return Result.succ(name);

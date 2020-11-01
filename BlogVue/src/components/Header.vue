@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar-header-wrap">
     <div class="m-content-theme toolbar-header">
-      <a class="m-icon-theme-default logo">
+      <a href="#/blogs" class="m-icon-theme-default logo">
         <svg
           width="60"
           height="40"
@@ -213,13 +213,13 @@
       </a>
       <nav role="navigation" class="main-nav">
         <ul class="m-routers-theme-default nav-list">
-          <li class="m-mian-navi-theme-default nav-item">
+          <!-- <li class="m-mian-navi-theme-default nav-item">
             <ul role="tab" class="m-router-ul-theme-default phone-hide ">
               <li class="link-item nav-item">
                 <a class="nav-item-a" href="#/blogs">首页</a>
               </li>
             </ul>
-          </li>
+          </li> -->
           <li class="m-person-theme-default nav-item search">
             <div class="search-form-theme-default ">
               <searchbtn></searchbtn>
@@ -275,47 +275,6 @@ export default {
     searchbtn
   },
   data() {
-    var validateName = (rule, value, callback) => {
-      if (value == "") {
-        callback(new Error("请输入用户名"));
-      }
-      callback();
-    };
-
-    var validateEmail = (rule, value, callback) => {
-      if (value == "") {
-        callback(new Error("请输入邮箱"));
-      } else {
-        if (this.form.email !== "") {
-          let pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-          if (pattern.test(value)) {
-            callback();
-          } else {
-            callback(new Error("请输入正确的邮箱格式"));
-          }
-        }
-      }
-    };
-
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.form.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.form.password) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
     return {
       hasLogin: false,
       user: {
@@ -335,12 +294,6 @@ export default {
         password: "",
         checkPass: "",
         verifiCode: ""
-      },
-      rules: {
-        name: [{ validator: validateName, trigger: "blur" }],
-        password: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        email: [{ validator: validateEmail, trigger: "blur" }]
       }
     };
   },
@@ -394,94 +347,6 @@ export default {
         let path = this.routerCfg.options.pathById(21);
         this.$router.push(path);
       }
-    },
-
-    open() {
-      const _this = this;
-      _this.dialogVisible = true;
-    },
-
-    /**
-     * @description: 验证
-     * @param {String}
-     * @return {Boolean}
-     * @Date: 2020-10-10 16:28:58
-     * @Author: David
-     */
-
-    verificationCode() {},
-
-    /**
-     * @description: 注册
-     * @Date: 2020-08-08 10:57:54
-     * @Author: David
-     */
-
-    register() {
-      const _this = this;
-      // console.log(_this.form);
-      let params = {
-        username: _this.form.name,
-        password: _this.form.password,
-        email: _this.form.email
-      };
-
-      this.$axios.post(APIConfig.Base.Register, params).then(res => {
-        if (res.data.code == 200) {
-          _this.$message({
-            message: "恭喜你，注册成功",
-            type: "success"
-          });
-
-          _this.dialogVisible = false;
-          _this.form = {
-            name: "",
-            email: "",
-            password: "",
-            checkPass: ""
-          };
-        }
-      });
-    },
-    /**
-     * @description: 退出
-     * @Date: 2020-08-08 10:57:47
-     * @Author: David
-     */
-
-    logout() {
-      const _this = this;
-      this.$axios
-        .get(APIConfig.Base.Logout, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        })
-        .then(res => {
-          _this.$store.commit("REMOVE_INFO");
-          _this.$router.push("/loginPage");
-        });
-    },
-
-    /**
-     * @description: 发表文章
-     * @Date: 2020-09-27 17:22:24
-     * @Author: David
-     */
-
-    release() {
-      let path = this.routerCfg.options.pathById(21);
-      this.$router.push(path);
-    },
-
-    login() {
-      let path = this.routerCfg.options.pathById(1);
-      this.$router.push(path);
-    },
-
-    goMain() {
-      let path = this.routerCfg.options.pathById(2);
-      this.$router.push(path);
     }
   },
   created() {
@@ -512,6 +377,8 @@ export default {
   color: #909090;
   height: 5rem;
   z-index: 250;
+  position: sticky;
+  top: 0;
 }
 .toolbar-header {
   display: flex;

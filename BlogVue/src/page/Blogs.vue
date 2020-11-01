@@ -1,73 +1,106 @@
 <template>
   <div class="m-container">
     <Header></Header>
-    <!-- <div class="block">
-      <el-timeline>
-        <el-timeline-item
-          v-bind:timestamp="blog.created"
-          placement="top"
-          v-for="(blog, index) in blogs"
-          :key="index"
-        >
-          <el-card>
-            <h4>
-              <router-link
-                :to="{ name: 'BlogDetail', params: { blogId: blog.id } }"
-                >{{ blog.title }}</router-link
-              >
-            </h4>
-            <p>{{ blog.description }}</p>
-          </el-card>
-        </el-timeline-item>
-      </el-timeline>
-    </div>
-    <el-pagination
-      class="mpage"
-      background
-      layout="prev, pager, next"
-      :current-page="currentPage"
-      :page-size="pageSize"
-      @current-change="page"
-      :total="total"
-    >
-    </el-pagination> -->
+    <!-- <nav role="navigation" class="view-nav">
+      <ul class="nav-list left">
+        <li class="nav-item active" @click="searchParams($event)">推荐</li>
+        <li class="nav-item " @click="searchParams($event)">关注</li>
+        <li class="nav-item " @click="searchParams($event)">后端</li>
+        <li class="nav-item " @click="searchParams($event)">前端</li>
+        <li class="nav-item " @click="searchParams($event)">Android</li>
+        <li class="nav-item " @click="searchParams($event)">iOS</li>
+        <li class="nav-item " @click="searchParams($event)">人工智能</li>
+        <li class="nav-item " @click="searchParams($event)">开发工具</li>
+        <li class="nav-item nav-item-rigth" @click="searchParams($event)">
+          标签管理
+        </li>
+      </ul>
+    </nav> -->
+    <blog-list></blog-list>
   </div>
 </template>
 <script>
 import Header from "@/components/Header";
+import BlogList from "@/components/bloglist/BlogList";
 export default {
   name: "Blogs",
-  components: { Header },
+  components: { Header, BlogList },
   data() {
-    return {
-      blogs: {},
-      currentPage: 1,
-      total: 0,
-      pageSize: 5
-    };
+    return {};
   },
   methods: {
-    page(currentPage) {
+    /**
+     * @description: 激活点击的路由导航栏
+     * @param {Object} e
+     * @Date: 2020-10-31 11:16:35
+     * @Author: David
+     */
+
+    searchParams(e) {
       const _this = this;
-      console.log(APIConfig.Base.Blogs);
-      this.$axios
-        .get(`${APIConfig.Base.Blogs}?currentPage=` + currentPage)
-        .then(res => {
-          // console.log(res.data.data.records);
-          _this.blogs = res.data.data.records;
-          _this.currentPage = res.data.data.current;
-          _this.total = res.data.data.total;
-          _this.pageSize = res.data.data.size;
-        });
+      let aList = document.getElementsByClassName("nav-item");
+      for (let i = 0; i < aList.length; i++) {
+        if (aList[i].classList.contains("active")) {
+          aList[i].classList.remove("active");
+        }
+      }
+      e.target.classList.add("active");
     }
   },
-  mounted() {
-    // window.addEventListener("message", e => {
-    //   console.log(e);
-    // });
-    this.page(1);
-  }
+  mounted() {}
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="scss" scoped>
+.view-nav,
+.view-nav:before {
+  left: 0;
+  background-color: #fff;
+}
+.view-nav {
+  position: fixed;
+
+  width: 100%;
+  height: 3.833rem;
+  z-index: 100;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+  transform: translateZ(0);
+
+  > .nav-list {
+    max-width: 960px;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+}
+
+.nav-list {
+  position: relative;
+}
+.nav-item-rigth {
+  position: absolute;
+  right: 0;
+}
+.nav-item {
+  height: 100%;
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 1.16rem;
+  color: #71777c;
+  padding: 0 1rem;
+
+  cursor: pointer;
+}
+
+.nav-item:first-child {
+  padding: 0 1rem 0 0;
+}
+
+.nav-item.active {
+  color: #007fff;
+}
+</style>

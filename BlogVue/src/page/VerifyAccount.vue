@@ -1,33 +1,277 @@
 <template>
   <div>
+    <div class="logo-wrap" @click="goMain()">
+      <svg
+        width="50"
+        height="50"
+        viewBox="0 0 186 130"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <title>Matrix</title>
+        <defs>
+          <polygon
+            id="path-1"
+            points="18.845574 24.125929 40.0587774 2.91272556 115.012096 77.8660444 93.7988928 99.0792478"
+          ></polygon>
+          <filter
+            x="-0.5%"
+            y="-0.5%"
+            width="101.0%"
+            height="102.1%"
+            filterUnits="objectBoundingBox"
+            id="filter-2"
+          >
+            <feOffset
+              dx="0"
+              dy="1"
+              in="SourceAlpha"
+              result="shadowOffsetOuter1"
+            ></feOffset>
+            <feComposite
+              in="shadowOffsetOuter1"
+              in2="SourceAlpha"
+              operator="out"
+              result="shadowOffsetOuter1"
+            ></feComposite>
+            <feColorMatrix
+              values="0 0 0 0 1   0 0 0 0 0   0 0 0 0 0  0 0 0 1 0"
+              type="matrix"
+              in="shadowOffsetOuter1"
+            ></feColorMatrix>
+          </filter>
+          <polygon
+            id="path-3"
+            points="148.51968 3.08326112 169.916739 24.2597317 94.3137977 99.0832611 72.9167389 77.9067905"
+          ></polygon>
+          <filter
+            x="-0.5%"
+            y="-0.5%"
+            width="101.0%"
+            height="102.1%"
+            filterUnits="objectBoundingBox"
+            id="filter-4"
+          >
+            <feOffset
+              dx="0"
+              dy="1"
+              in="SourceAlpha"
+              result="shadowOffsetOuter1"
+            ></feOffset>
+            <feComposite
+              in="shadowOffsetOuter1"
+              in2="SourceAlpha"
+              operator="out"
+              result="shadowOffsetOuter1"
+            ></feComposite>
+            <feColorMatrix
+              values="0 0 0 0 1   0 0 0 0 0   0 0 0 0 0  0 0 0 1 0"
+              type="matrix"
+              in="shadowOffsetOuter1"
+            ></feColorMatrix>
+          </filter>
+          <polygon id="path-5" points="4 3 40 3 40 125 4 125"></polygon>
+          <filter
+            x="-18.1%"
+            y="-4.5%"
+            width="136.1%"
+            height="110.7%"
+            filterUnits="objectBoundingBox"
+            id="filter-6"
+          >
+            <feOffset
+              dx="0"
+              dy="1"
+              in="SourceAlpha"
+              result="shadowOffsetOuter1"
+            ></feOffset>
+            <feGaussianBlur
+              stdDeviation="2"
+              in="shadowOffsetOuter1"
+              result="shadowBlurOuter1"
+            ></feGaussianBlur>
+            <feComposite
+              in="shadowBlurOuter1"
+              in2="SourceAlpha"
+              operator="out"
+              result="shadowBlurOuter1"
+            ></feComposite>
+            <feColorMatrix
+              values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"
+              type="matrix"
+              in="shadowBlurOuter1"
+            ></feColorMatrix>
+          </filter>
+          <polygon id="path-7" points="146 3 182 3 182 125 146 125"></polygon>
+          <filter
+            x="-18.1%"
+            y="-4.5%"
+            width="136.1%"
+            height="110.7%"
+            filterUnits="objectBoundingBox"
+            id="filter-8"
+          >
+            <feOffset
+              dx="0"
+              dy="1"
+              in="SourceAlpha"
+              result="shadowOffsetOuter1"
+            ></feOffset>
+            <feGaussianBlur
+              stdDeviation="2"
+              in="shadowOffsetOuter1"
+              result="shadowBlurOuter1"
+            ></feGaussianBlur>
+            <feComposite
+              in="shadowBlurOuter1"
+              in2="SourceAlpha"
+              operator="out"
+              result="shadowBlurOuter1"
+            ></feComposite>
+            <feColorMatrix
+              values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"
+              type="matrix"
+              in="shadowBlurOuter1"
+            ></feColorMatrix>
+          </filter>
+        </defs>
+        <g
+          id="页面-1"
+          stroke="none"
+          stroke-width="1"
+          fill="none"
+          fill-rule="evenodd"
+        >
+          <g id="矩形">
+            <use
+              fill="black"
+              fill-opacity="1"
+              filter="url(#filter-2)"
+              xlink:href="#path-1"
+            ></use>
+            <path
+              stroke="#FF0000"
+              stroke-width="1"
+              d="M40.0587774,3.61983234 L114.304989,77.8660444 L93.7988928,98.372141 L19.5526808,24.125929 L40.0587774,3.61983234 Z"
+              stroke-linejoin="square"
+              fill="#FF0000"
+              fill-rule="evenodd"
+            ></path>
+          </g>
+          <g id="矩形">
+            <use
+              fill="black"
+              fill-opacity="1"
+              filter="url(#filter-4)"
+              xlink:href="#path-3"
+            ></use>
+            <path
+              stroke="#FF0000"
+              stroke-width="1"
+              d="M148.51968,3.78673246 L169.20594,24.2597317 L94.3137977,98.3797898 L73.627538,77.9067905 L148.51968,3.78673246 Z"
+              stroke-linejoin="square"
+              fill="#FF0000"
+              fill-rule="evenodd"
+            ></path>
+          </g>
+          <g id="矩形">
+            <use
+              fill="black"
+              fill-opacity="1"
+              filter="url(#filter-6)"
+              xlink:href="#path-5"
+            ></use>
+            <path
+              stroke="#000000"
+              stroke-width="1"
+              d="M39.5,3.5 L39.5,124.5 L4.5,124.5 L4.5,3.5 L39.5,3.5 Z"
+              stroke-linejoin="square"
+              fill="#000000"
+              fill-rule="evenodd"
+            ></path>
+          </g>
+          <g id="矩形">
+            <use
+              fill="black"
+              fill-opacity="1"
+              filter="url(#filter-8)"
+              xlink:href="#path-7"
+            ></use>
+            <path
+              stroke="#000000"
+              stroke-width="1"
+              d="M181.5,3.5 L181.5,124.5 L146.5,124.5 L146.5,3.5 L181.5,3.5 Z"
+              stroke-linejoin="square"
+              fill="#000000"
+              fill-rule="evenodd"
+            ></path>
+          </g>
+        </g>
+      </svg>
+    </div>
     <h1>欢迎加入</h1>
-    <p>你已经验证成功，快去书写你的博客</p>
+    <p>
+      {{
+        isSuccess
+          ? "你已经验证成功，快去书写你的博客"
+          : "你的验证并未成功，请重新注册"
+      }}
+    </p>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      isSuccess: false,
+
+      timer: null
+    };
   },
 
   mounted() {
     const _this = this;
     _this.getVerifiCode();
   },
-
+  beforeDestroy() {
+    this.timer = null;
+  },
   methods: {
+    goMain() {
+      const _this = this;
+      let path = _this.routerCfg.options.pathById(1);
+      _this.$router.push(path);
+    },
+
+    /**
+     * @description: 进行验证
+     * @Date: 2020-10-30 14:22:01
+     * @Author: David
+     */
     getVerifiCode() {
       const _this = this;
       let params = _this.getQueryVariable();
       let queryParam = {
-        name: params[0].value,
-        code: params[1].value
+        toMail: params[0].value,
+        verification: params[1].value
       };
-      console.log(queryParam);
+      this.$axios.post(APIConfig.Email.VerifyMail, queryParam).then(resp => {
+        if (resp.code == 200) {
+          _this.isSuccess = true;
+        }
+      });
     },
 
+    /**
+     * @description: 分离地址中的参数
+     * @Date: 2020-10-30 14:21:35
+     * @Author: David
+     */
+
     getQueryVariable() {
+      const _this = this;
       var query = window.location.href.substring(
         window.location.href.lastIndexOf("?") + 1,
         window.location.href.length
@@ -37,8 +281,8 @@ export default {
       for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split("=");
         let obj = {
-          key: pair[0],
-          value: pair[1]
+          key: _this.$utils.replaceStr(pair[0]),
+          value: _this.$utils.replaceStr(pair[1])
         };
         params.push(obj);
       }
@@ -48,4 +292,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.logo-wrap {
+  display: flex;
+  justify-content: center;
+  z-index: 9;
+  cursor: pointer;
+}
+</style>

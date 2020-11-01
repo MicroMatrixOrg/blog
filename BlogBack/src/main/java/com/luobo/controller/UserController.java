@@ -30,4 +30,6 @@ public class UserController {
     public Object testUser(@Validated @RequestBody User user){
         return user.toString();
     }
+
+    
 }

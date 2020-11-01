@@ -8,12 +8,14 @@ import com.luobo.common.lang.Result;
 import com.luobo.entity.User;
 import com.luobo.service.UserService;
 import com.luobo.util.JwtUtils;
+import com.luobo.util.StringRandom;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,6 +38,9 @@ public class AccountController {
         Assert.notNull(user,"用户不存在");
         if(!user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))){
             return Result.fail("密码错误");
+        }
+        if(0 == user.getStatus()){
+            return Result.fail("该账户还未验证");
         }
         String jwt = jwtUtils.generateToken(user.getId());
         response.setHeader("Authorization",jwt);
@@ -68,14 +73,29 @@ public class AccountController {
             newAccount.setUsername(user.getUsername());
             newAccount.setPassword(SecureUtil.md5(user.getPassword()));
             newAccount.setEmail(user.getEmail());
+            newAccount.setStatus(0);
             userService.saveOrUpdate(newAccount);
-
+        }else if(0 == temp.getStatus()){
+            temp.setUsername(user.getUsername());
+            temp.setPassword(SecureUtil.md5(user.getPassword()));
+            userService.saveOrUpdate(temp);
+//            邮箱有被记录，但是redis中没有验证吗
+            Jedis jedis = new Jedis("localhost");
+            String str = jedis.get(user.getEmail());
+            if(null == str){
+                //该账号未验证，验证码过期了
+                String random = StringRandom.getStringRandom(6);
+                jedis.set(user.getEmail(),random);
+                //设置验证码过期时间 过期时间为300秒
+                jedis.expire(user.getEmail(),604800);
+                jedis.close();
+            }
         }else{
             return Result.fail("该email已经被注册了",null);
 
         }
 
-        return Result.succ("注册成功",null);
+        return Result.succ("感谢你的注册,请去检测你的邮箱，已激活账户",null);
 
     }
 }

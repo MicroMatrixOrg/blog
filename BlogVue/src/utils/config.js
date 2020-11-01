@@ -5,7 +5,8 @@
 
 var APIConfig = function (_baseUrl, _fileUrl) {
   var BaseUrl = window.conf.baseUrl;
-  var BlogdUrl = BaseUrl + "/blog"
+  var BlogdUrl = BaseUrl + "/blog";
+  var BlogMail = BaseUrl + "/email"
   return {
     Base: {
       Login: BaseUrl + "/login",
@@ -16,6 +17,11 @@ var APIConfig = function (_baseUrl, _fileUrl) {
       BlogEdit: BlogdUrl + "/edit",
       BlogsImgUpload: BaseUrl + "/file/upload"
     },
+
+    Email: {
+      SendHtmlMail: BlogMail + "/verifytemplate",
+      VerifyMail: BlogMail + "/verifycode"
+    }
 
 
     //小讨论

@@ -1,5 +1,5 @@
 export default {
-  goodTime(str) {
+  goodTime (str) {
     let now = new Date().getTime()
     let oldTime = new Date(str).getTime()
     let difference = now - oldTime
@@ -33,7 +33,7 @@ export default {
     }
     return result
   },
-  dateFormat(_date, fmt) {
+  dateFormat (_date, fmt) {
     var date = new Date(_date);
     var o = {
       "M+": date.getMonth() + 1, //月份 
@@ -49,7 +49,7 @@ export default {
       if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
   },
-  dataFilter(_key, arry) {
+  dataFilter (_key, arry) {
     for (var key in arry) {
       if (arry.hasOwnProperty(key)) {
         var element = arry[key];
@@ -59,7 +59,7 @@ export default {
     }
     return '';
   },
-  myUpload(url, fileObj, data, callback) {
+  myUpload (url, fileObj, data, callback) {
     var FileController = "/api" + url;                    // 接收上传文件的后台地址
     if (!fileObj || fileObj.length == 0) {
       console.error('请选择上传文件'); return;
@@ -82,7 +82,7 @@ export default {
     };
     xhr.send(form);
   },
-  comSetting() {//公共插件基础配置，如有需要，覆盖即可
+  comSetting () {//公共插件基础配置，如有需要，覆盖即可
     const tree = {
       view: {
         dblClickExpand: false,
@@ -97,7 +97,7 @@ export default {
       tree: tree,
     }
   },
-  comSetting1() {//公共插件基础配置，如有需要，覆盖即可
+  comSetting1 () {//公共插件基础配置，如有需要，覆盖即可
     const tree = {
       view: {
         dblClickExpand: false,
@@ -126,7 +126,7 @@ export default {
     }
   },
 
-  openFistNode(_zNodes) {//展开一级节点
+  openFistNode (_zNodes) {//展开一级节点
     if (_zNodes && _zNodes.length > 0) {
       for (var key in _zNodes) {
         if (_zNodes.hasOwnProperty(key)) {
@@ -140,14 +140,14 @@ export default {
     }
     return _zNodes;
   },
-  editorFormat(val) {//富文本提取文字
+  editorFormat (val) {//富文本提取文字
     return val.replace(/<[^>]+>/g, "");
   },
-  mathFormat(val, number = 2) {//小数点截取，默认取2位
+  mathFormat (val, number = 2) {//小数点截取，默认取2位
     var num = Math.pow(10, number);
     return Math.floor(val * num) / num;
   },
-  fileSize(size) {//返回文件大小
+  fileSize (size) {//返回文件大小
     if (!size) return '';
     if (size / 1024 < 1024) {
       size = Math.ceil(size / 1024);
@@ -160,7 +160,7 @@ export default {
       return size + 'GB';
     }
   },
-  handleValidate(_this, name) {//表单验证
+  handleValidate (_this, name) {//表单验证
     let isValid = false;
     _this.$refs[name].validate(function (valid) {
       if (valid) {
@@ -173,24 +173,45 @@ export default {
     })
     return isValid;
   },
-  handleReset(_this, resetName, name) {//表单重置
+  handleReset (_this, resetName, name) {//表单重置
     if (name && _this.isModal && _this.isModal[name]) _this.isModal[name] = false;
     if (resetName) {
       _this.$refs[resetName].resetFields();
     }
   },
-  downFile(id) {//下载文件
+  downFile (id) {//下载文件
     location.href = APIConfig.Base.FileDown + '?id=' + id;
   },
 
   localStorage: {
-    get(key) {
+    get (key) {
       return localStorage.getItem(key);
     },
-    set(key, val) {
+    set (key, val) {
       localStorage.setItem(key, val);
     }
+  },
+
+  /**
+   * @description: 替换URL地址中的特殊字符
+   * @param {String} str url地址
+   * @return {*}
+   * @Date: 2020-10-30 14:15:31
+   * @Author: David
+   */
+  replaceStr (str) {
+    str = str.replace(/%3A/g, ":");
+    str = str.replace(/%2F/g, "/");
+    str = str.replace(/%3F/g, "?");
+    str = str.replace(/%3D/g, "=");
+    str = str.replace(/%26/g, "&");
+    str = str.replace(/%2B/g, "+");
+    str = str.replace(/%20/g, " ");
+    str = str.replace(/%23/g, "#");
+    str = str.replace(/%40/g, "@");
+    return str;
   }
+
 
 
 

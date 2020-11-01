@@ -152,13 +152,8 @@ export default {
           .post(APIConfig.Base.Register, _this.signUpAccount)
           .then(res => {
             if (res.data.code == 200) {
-              alert("感谢你的注册,请检查你的邮箱,激活你的账户");
               _this.dialogVisible = false;
-              _this.signUpAccount = {
-                username: "",
-                email: "",
-                password: ""
-              };
+              _this.sendHtmlMail();
             }
           });
       } else {
@@ -166,6 +161,37 @@ export default {
         return false;
       }
     },
+
+    /**
+     * @description: 注册成功 发送邮件至注册邮箱
+     * @Date: 2020-10-30 13:41:19
+     * @Author: David
+     */
+    sendHtmlMail() {
+      const _this = this;
+      let params = {
+        username: _this.signUpAccount.username,
+        toMail: _this.signUpAccount.email,
+        subject: "注册"
+      };
+      _this.$axios
+        .post(APIConfig.Email.SendHtmlMail, params, resp => {
+          if (resp.code == 200) {
+            //发送注册邮件成功
+            alert("感谢你的注册,请检查你的邮箱,激活你的账户");
+          } else {
+            alert("Opps!,发生了一些小问题，邮件没有发送成功,请稍后再试");
+          }
+        })
+        .then(() => {
+          _this.signUpAccount = {
+            username: "",
+            email: "",
+            password: ""
+          };
+        });
+    },
+
     /**
      * @description: 校验Email邮箱
      * @Date: 2020-10-29 10:02:21
@@ -199,7 +225,6 @@ export default {
             _this.$store.commit("SET_TOKEN", token);
             _this.$store.commit("SET_USERINFO", res.data.data);
             let path = this.routerCfg.options.pathById(2);
-            console.log(path);
             this.$router.push(path);
           }
         });
