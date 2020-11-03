@@ -6,6 +6,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luobo.common.dto.PageDto;
 import com.luobo.common.lang.Result;
 import com.luobo.entity.Blog;
 import com.luobo.service.BlogService;
@@ -35,12 +36,12 @@ public class BlogController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/blogs")
-    public Result blogs(Integer currentPage){
-        if(currentPage == null || currentPage < 1)
-            currentPage = 1;
-        Page page = new Page(currentPage,5);
-        IPage pageData =blogService.page(page, new QueryWrapper<Blog>().orderByDesc("created"));
+    @PostMapping    ("/blogs")
+    public Result blogs(@RequestBody PageDto pageParams){
+        if(pageParams.getCurrentPage() == null || pageParams.getCurrentPage() < 1)
+            pageParams.setCurrentPage(1);
+        Page page = new Page(pageParams.getCurrentPage(),pageParams.getPageSize());
+        IPage pageData =blogService.GetBlogsLeftInUser(page, new QueryWrapper<Blog>().orderByDesc("created"));
         return Result.succ(pageData);
     }
 

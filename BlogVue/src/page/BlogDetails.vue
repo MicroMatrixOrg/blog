@@ -1,7 +1,5 @@
 <template>
   <div class="m-container">
-    <Header></Header>
-
     <main class="detail-container-wrap" role="main">
       <div class="article-view column-view">
         <div class="main-conten shadow main-area">
@@ -48,32 +46,32 @@
                   style='background-image: url("https://sf6-ttcdn-tos.pstatp.com/img/user-avatar/e5d8e8cbb131ef979ad82e78a133d621~120x256.image");'
                 ></div
               ></a>
-              <div data-v-064b8453="" class="author-info-box">
+              <div class="author-info-box">
                 <a
-                  href="/user/1618109547953623"
+                  href=""
                   target="_blank"
                   rel=""
                   class="username username ellipsis"
-                  ><span
-                    data-v-1b6b7cba=""
-                    class="name"
-                    style="max-width: calc(100% - 50px);"
-                  >
-                    夏冰雹
+                  ><span class="name" style="max-width: calc(100% - 50px);">
+                    {{ userInfo.username }}
                   </span>
                 </a>
-                <div data-v-064b8453="" class="meta-box">
+                <div class="meta-box">
                   <time
-                    data-v-064b8453=""
                     datetime="2020-10-31T08:37:35.000Z"
                     title="Sat Oct 31 2020 16:37:35 GMT+0800 (中国标准时间)"
                     class="time"
                   >
-                    2020年10月31日
+                    {{ $utils.dateFormat(blog.created, "yyyy年MM月dd日") }}
                   </time>
-                  <span data-v-064b8453="" class="views-count">阅读 1</span>
-                  <span data-v-064b8453="" class="dot">·</span>
-                  <span data-v-064b8453="" class="edit-btn">编辑</span>
+                  <span class="views-count">阅读 1</span>
+                  <span class="dot">·</span>
+                  <span class="edit-btn" v-if="ownBlog"
+                    ><router-link
+                      :to="{ name: 'BlogEdit', query: { blogId: blog.id } }"
+                      >编辑</router-link
+                    ></span
+                  >
                 </div>
               </div>
             </div>
@@ -92,7 +90,44 @@
             </div>
           </article>
         </div>
-        <aside></aside>
+        <aside class="sidebar">
+          <div class="sidebar-block shadow">
+            <div class="block-title">
+              关于作者
+            </div>
+            <div class="block-body">
+              <a class="user-item item"
+                ><div
+                  :data-src="userInfo.avatar"
+                  class="lazy avatar avatar loaded"
+                  :style="`background-image:url(${userInfo.avatar})`"
+                ></div>
+                <div class="info-box">
+                  <a class="username"
+                    ><span class="name" style="max-width: 128px;">
+                      {{ userInfo.username }}
+                    </span>
+                    <!----> </a
+                  ><!---->
+                </div></a
+              >
+            </div>
+          </div>
+          <div class="sidebar-block shadow">
+            <!-- <div class="block-title">
+              广告栏
+            </div> -->
+            <div class="block-body">
+              <a href="https://www.vultr.com/?ref=8690574-6G"
+                ><img
+                  style="background-size:cover;"
+                  src="https://www.vultr.com/media/banners/banner_300x250.png"
+                  width="240"
+                  height="250"
+              /></a>
+            </div>
+          </div>
+        </aside>
         <div class="article-support-panle"></div>
       </div>
     </main>
@@ -122,13 +157,28 @@ export default {
         description: "",
         content: ""
       },
-      ownBlog: false
+      ownBlog: false, //是否是自己的博客
+      userInfo: {
+        avatar: "",
+        username: "未知",
+        created: "2020/10/1"
+      }
     };
   },
+
+  created() {
+    this.getBlog();
+  },
   methods: {
+    /**
+     * @description: 获得文章详情
+     * @Date: 2020-11-02 10:16:08
+     * @Author: David
+     */
+
     getBlog() {
-      const blogId = this.$route.params.blogId;
       const _this = this;
+      const blogId = this.$route.query.blogId;
       this.$axios.get(`${APIConfig.Base.Blog}/${blogId}`).then(res => {
         // console.log(res);
         // console.log(res.data.data);
@@ -139,12 +189,26 @@ export default {
 
         _this.blog.content = res.data.data.content;
         // 判断是否是自己的文章，能否编辑
-        _this.ownBlog = _this.blog.userId === _this.$store.getters.getUser.id;
+        if (_this.$store.getters.getUser) {
+          _this.ownBlog = _this.blog.userId === _this.$store.getters.getUser.id;
+        } else {
+          _this.ownBlog = false;
+        }
+        _this.getAuthoryInfo();
       });
+    },
+
+    getAuthoryInfo() {
+      const _this = this;
+      this.$axios
+        .get(`${APIConfig.User.GetUserBaseInfo}${_this.blog.userId}`)
+        .then(resp => {
+          if (resp.data.code == 200) {
+            _this.userInfo = resp.data.data;
+            _this.$forceUpdate();
+          }
+        });
     }
-  },
-  created() {
-    this.getBlog();
   }
 };
 </script>
@@ -199,6 +263,7 @@ export default {
   min-width: 0;
   flex-grow: 1;
   flex: 1;
+  text-align: start;
 }
 .username {
   display: inline-block;
@@ -235,5 +300,76 @@ export default {
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.5;
+}
+.article-content {
+  position: relative;
+  z-index: 0;
+}
+.sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20rem;
+}
+
+.sidebar-block:not(.pure) {
+  background-color: #fff;
+}
+.sidebar-block:not(.pure) .block-title {
+  padding: 1rem 1.3rem;
+  font-size: 1.16rem;
+  color: #333;
+  border-bottom: 1px solid hsla(0, 0%, 58.8%, 0.1);
+}
+
+.sidebar-block {
+  position: relative;
+  margin-bottom: 1.5rem;
+  border-radius: 2px;
+}
+.item {
+  display: flex;
+  align-items: center;
+}
+.user-item {
+  padding: 1.3rem;
+
+  .avatar {
+    flex: 0 0 auto;
+    margin-right: 1rem;
+    width: 4.167rem;
+    height: 4.167rem;
+    border-radius: 50%;
+  }
+
+  .info-box {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    .username {
+      text-align: start;
+      font-size: 1.333rem;
+      font-weight: 600;
+      color: #000;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: pre-wrap;
+      .name {
+        display: inline-block;
+        vertical-align: top;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 128px;
+      }
+    }
+  }
+}
+.avatar {
+  display: inline-block;
+  position: relative;
+  background-size: cover;
+  background-color: #eee;
 }
 </style>

@@ -1,8 +1,10 @@
 package com.luobo.controller;
 
 
+import com.luobo.common.lang.Result;
 import com.luobo.entity.User;
 import com.luobo.service.UserService;
+import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,10 @@ public class UserController {
 
     @GetMapping("/{id}")
     public Object test(@PathVariable("id") Long id) {
-        return userService.getById(id);
+        User user = new User();
+        user = userService.getById(id);
+        Assert.notNull(user,"用户不存在");
+        return Result.succ(user);
     }
 
     @PostMapping("/save")

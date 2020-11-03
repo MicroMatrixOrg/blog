@@ -63,6 +63,7 @@ Vue.prototype.$anime = anime;
 // })
 
 /* eslint-disable no-new */
+
 Vue.config.productionTip = false;
 var app = new Vue({
   el: '#app',

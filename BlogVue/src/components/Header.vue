@@ -227,7 +227,7 @@
           </li>
           <li class="m-person-theme-default nav-item">
             <div class="add-btn-group">
-              <button class="add-blog" @click="writeblog">写文章</button>
+              <button class="add-blog" @click="writeblog()">写文章</button>
             </div>
           </li>
           <!-- <li class="m-person-theme-default nav-item notifaction">
@@ -344,7 +344,7 @@ export default {
         let path = this.routerCfg.options.pathById(1);
         this.$router.push(path);
       } else {
-        let path = this.routerCfg.options.pathById(21);
+        let path = this.routerCfg.options.pathById(4);
         this.$router.push(path);
       }
     }

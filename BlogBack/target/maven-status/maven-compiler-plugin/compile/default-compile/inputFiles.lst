@@ -1,4 +1,5 @@
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/UserService.java
+/Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/entity/BlogUser.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/VueblogApplication.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/MailService.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/mapper/UserMapper.java
@@ -24,6 +25,7 @@
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/BlogService.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/entity/Blog.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/shiro/JwtFilter.java
+/Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/common/dto/PageDto.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/service/FileService.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/shiro/JwtToken.java
 /Users/davidmorgan/Documents/personal_project/BlogProject/BlogBack/src/main/java/com/luobo/entity/User.java

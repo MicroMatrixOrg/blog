@@ -53,20 +53,37 @@ export default {
       img_files: {}
     };
   },
-  created() {
-    const blogId = this.$route.params.blogId;
-    const _this = this;
-    if (blogId) {
-      this.$axios.get(`${window.conf.baseUrl}/blog/` + blogId).then(res => {
-        const blog = res.data.data;
-        _this.editForm.id = blog.id;
-        _this.editForm.title = blog.title;
-        _this.editForm.description = blog.description;
-        _this.editForm.content = blog.content;
-      });
-    }
+  mounted() {
+    this.initDate();
   },
+  created() {},
   methods: {
+    /**
+     * @description: 初始化数据，只有带了Id表明他是编辑
+     * @Date: 2020-11-03 10:47:30
+     * @Author: David
+     */
+
+    initDate() {
+      const _this = this;
+      const blogId = this.$route.query.blogId;
+      if (typeof blogId != "undefined") {
+        this.$axios.get(`${window.conf.baseUrl}/blog/` + blogId).then(res => {
+          const blog = res.data.data;
+          _this.editForm.id = blog.id;
+          _this.editForm.title = blog.title;
+          _this.editForm.description = blog.description;
+          _this.editForm.content = blog.content;
+        });
+      }
+    },
+
+    /**
+     * @description: 取消返回首页
+     * @Date: 2020-11-03 10:21:21
+     * @Author: David
+     */
+
     cancle() {
       this.$router.push("/blogs");
     },

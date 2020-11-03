@@ -10,9 +10,16 @@ spring:
     host: smtp.163.com
     username: davidmorgan@163.com
     password: RAWAETDLERPWZOYD
-    port: 25
     protocol: smtp
     default-encoding: UTF-8
+    port: 465
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.port: 465 #465或者994
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.smtp.ssl.enable: true
+
+
   #模版位置配置
   thymeleaf:
     prefix: classpath:/templates/

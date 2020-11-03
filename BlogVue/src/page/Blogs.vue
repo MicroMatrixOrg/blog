@@ -1,7 +1,7 @@
 <template>
   <div class="m-container">
     <Header></Header>
-    <!-- <nav role="navigation" class="view-nav">
+    <!-- <nav role="navigation" class="view-nav" v-show="showBlogList">
       <ul class="nav-list left">
         <li class="nav-item active" @click="searchParams($event)">推荐</li>
         <li class="nav-item " @click="searchParams($event)">关注</li>
@@ -16,7 +16,8 @@
         </li>
       </ul>
     </nav> -->
-    <blog-list></blog-list>
+    <blog-list v-show="showBlogList"></blog-list>
+    <router-view v-show="!showBlogList"></router-view>
   </div>
 </template>
 <script>
@@ -26,7 +27,28 @@ export default {
   name: "Blogs",
   components: { Header, BlogList },
   data() {
-    return {};
+    return {
+      showBlogList: true
+    };
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (to.meta.modId == 2) {
+        vm.showBlogList = true;
+      } else {
+        vm.showBlogList = false;
+      }
+    });
+  },
+
+  watch: {
+    $route(router) {
+      if (router.meta.modId == 2) {
+        this.showBlogList = true;
+      } else {
+        this.showBlogList = false;
+      }
+    }
   },
   methods: {
     /**

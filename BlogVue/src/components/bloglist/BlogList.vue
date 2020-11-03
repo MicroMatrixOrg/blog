@@ -25,10 +25,11 @@
               class="entry-item-wrap"
               v-for="(item, index) in aritcleList"
               :key="index"
+              @click="openDetail(item.id)"
             >
               <li class="entry-item">
                 <header>
-                  <span class="userinfo-span">六脉圣剑</span
+                  <span class="userinfo-span">{{ item.username }}</span
                   ><span class="userinfo-span">{{
                     $utils.goodTime(item.created)
                   }}</span>
@@ -36,19 +37,19 @@
                 </header>
                 <div class="title">
                   <span
-                    ><a :href="`#/blog/${item.id}`">{{ item.title }}</a></span
+                    ><a>{{ item.title }}</a></span
                   >
                 </div>
                 <div class="action-row">
                   <ul class="action-list">
                     <li class="like-btn">
-                      <a href="" class="title-box">
+                      <a class="title-box">
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                        <span>3</span>
+                        <span>0</span>
                       </a>
                     </li>
                     <li class="comment-btn">
-                      <a href="" class="title-box">
+                      <a class="title-box">
                         <i class="fa fa-commenting" aria-hidden="true"></i>
                       </a>
                     </li>
@@ -72,7 +73,7 @@
                   <div class="user-info">
                     <span class="username">测试开发人员</span>
                     <div class="user-description">
-                      DEV @ 公众号&Github：JavaGuide
+                      功能正在制作中
                     </div>
                   </div>
                 </a>
@@ -107,6 +108,13 @@ export default {
     _this.articles();
   },
   methods: {
+    openDetail(id) {
+      const _this = this;
+      let path = this.routerCfg.options.pathById(22);
+
+      this.$router.push({ path, query: { blogId: id } });
+    },
+
     /**
      * @description: 激活点击的路由导航栏
      * @param {Object} e
@@ -135,9 +143,10 @@ export default {
     articles(category) {
       const _this = this;
       let params = {
-        currentPage: this.currentPage
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
       };
-      this.$axios.get(APIConfig.Base.Blogs, params).then(res => {
+      this.$axios.post(APIConfig.Base.Blogs, params).then(res => {
         // console.log(res.data.data.records);
         _this.aritcleList = res.data.data.records;
         _this.currentPage = res.data.data.current;
@@ -151,7 +160,7 @@ export default {
 
 <style lang="scss" scoped>
 .view {
-  margin: 4.67rem auto 0;
+  margin: 1.67rem auto 0;
   max-width: 960px;
   position: relative;
 }
@@ -208,6 +217,7 @@ export default {
   align-items: center;
   padding: 1.5rem 2rem;
   min-width: 0;
+  cursor: pointer;
 }
 .entry-item-wrap:not(:last-child) {
   border-bottom: 1px solid rgba(178, 186, 194, 0.15);

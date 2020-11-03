@@ -36,38 +36,22 @@ var routes = [
     meta: {
       modId: 2
     },
-    children: []
-  },
-  {
-    path: '/blog/add',
-    name: 'BlogAdd',
-    component: BlogEdit,
-    meta: {
-      requireAuth: true,
-      modId: 21
-    }
-  },
-  {
-    path: '/blog/:blogId',
-    name: 'BlogDetail',
-    component: BlogDetail,
-    meta: {
-      modId: 22
-    }
-  },
-  {
-    path: '/blog/:blogId/edit',
-    name: 'BlogEdit',
-    meta: {
-      requireAuth: true,
-      modId: 23
+    children: [
+      {
+        path: '/blogDetails',
+        name: 'BlogDetail',
+        component: BlogDetail,
+        meta: {
+          modId: 22
+        }
+      },
 
-    },
-    component: BlogEdit
+    ]
   },
+
   {
     path: '/verifyaccount',
-    name: 'BlogEdit',
+    name: 'VerifyAccount',
     meta: {
       requireAuth: false,
       modId: 3
@@ -75,7 +59,16 @@ var routes = [
     },
     component: VerifyAccount
   },
+  {
+    path: '/blog/edit',
+    name: 'BlogEdit',
+    meta: {
+      requireAuth: true,
+      modId: 4
 
+    },
+    component: BlogEdit
+  },
   {
     path: "/test",
     name: "test",
@@ -86,8 +79,18 @@ var routes = [
 var pathById = (id) => {
   var path = '';
   routes.forEach(element => {
+    let children = [];
     if (typeof element.meta != "undefined") {
-      if (element.meta.modId == id) path = element.path;
+      if (element.meta.modId == id) {
+        path = element.path
+      };
+      children = typeof element.children != "undefined" ? element.children : [];
+      children.forEach(element => {
+        if (element.meta.modId == id) {
+          path = element.path;
+          // throw new Error("EndIterative");
+        }
+      });
     }
   });
   return path;

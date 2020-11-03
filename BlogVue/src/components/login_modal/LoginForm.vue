@@ -157,7 +157,7 @@ export default {
             }
           });
       } else {
-        console, log("注册失败");
+        console.log("注册失败");
         return false;
       }
     },
@@ -175,8 +175,10 @@ export default {
         subject: "注册"
       };
       _this.$axios
-        .post(APIConfig.Email.SendHtmlMail, params, resp => {
-          if (resp.code == 200) {
+        .post(APIConfig.Email.SendHtmlMail, params)
+        .then(resp => {
+          console.log(resp);
+          if (resp.data.code == 200) {
             //发送注册邮件成功
             alert("感谢你的注册,请检查你的邮箱,激活你的账户");
           } else {
