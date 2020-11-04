@@ -2,38 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e35f457a-a902-4c10-a4d6-17c8c39dc9c7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/PageDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/entity/BlogUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/BlogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/BlogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/BlogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/BlogMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/BlogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/BlogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/BlogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/BlogServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/BlogController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/BlogController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/mapper/BlogMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/mapper/BlogMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/BlogService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/BlogService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/BlogServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/BlogServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/BlogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/BlogMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/Header.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/bloglist/BlogList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/bloglist/BlogList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/BlogDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/BlogDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/BlogEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/BlogEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/Blogs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/Blogs.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/utils/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/utils/config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +77,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="editing.templates" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -248,6 +218,7 @@
       <workItem from="1604234277792" duration="337000" />
       <workItem from="1604278126973" duration="10436000" />
       <workItem from="1604363748714" duration="13589000" />
+      <workItem from="1604450584398" duration="1274000" />
     </task>
     <servers />
   </component>
@@ -397,11 +368,11 @@
     </state>
     <state x="880" y="187" key="Maven.ArtifactSearchDialog/0.23.1920.1003@0.23.1920.1003" timestamp="1596765123850" />
     <state x="880" y="187" key="Maven.ArtifactSearchDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1602831658003" />
-    <state x="820" y="65" width="1257" height="722" key="SettingsEditor" timestamp="1602299637217">
+    <state x="360" y="70" width="1257" height="722" key="SettingsEditor" timestamp="1604457062549">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="153" y="23" width="1257" height="722" key="SettingsEditor/0.23.1920.1003@0.23.1920.1003" timestamp="1598341766894" />
-    <state x="820" y="65" key="SettingsEditor/0.23.1920.1006@0.23.1920.1006" timestamp="1602299637217" />
+    <state x="360" y="70" key="SettingsEditor/0.23.1920.1006@0.23.1920.1006" timestamp="1604457062549" />
     <state width="877" height="503" key="XDebugger.FullValuePopup" timestamp="1604037254648">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>

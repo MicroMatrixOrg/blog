@@ -183,6 +183,11 @@ export default {
     location.href = APIConfig.Base.FileDown + '?id=' + id;
   },
 
+  /**
+   * @description: 操作localStorage 内存
+   * @Date: 2020-11-04 09:39:34
+   * @Author: David
+   */
   localStorage: {
     get (key) {
       return localStorage.getItem(key);
@@ -210,10 +215,7 @@ export default {
     str = str.replace(/%23/g, "#");
     str = str.replace(/%40/g, "@");
     return str;
-  }
-
-
-
+  },
 
 
 }

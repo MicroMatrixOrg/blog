@@ -1,5 +1,5 @@
 <template>
-  <div class="timeline-container view">
+  <div class="timeline-container view" id="timeline-contain">
     <div class="timeline-contain">
       <div class="timeline-enter-list">
         <header class="list-header">
@@ -103,11 +103,35 @@ export default {
       total: 0 //文章总数
     };
   },
+  destroyed() {
+    window.removeEventListener("scroll", _this.calcHeight);
+  },
   mounted() {
     const _this = this;
     _this.articles();
+    window.addEventListener("scroll", _this.calcHeight, true);
   },
   methods: {
+    /**
+     * @description: 全局计算距离底部多少的时候加载数据
+     * @param {*} height
+     * @Date: 2020-11-04 09:50:47
+     * @Author: David
+     */
+
+    calcHeight() {
+      let scrollHeight = document.documentElement.scrollHeight;
+      let scrollTop = document.documentElement.scrollTop;
+      let clientHeight = document.documentElement.clientHeight;
+      console.log(scrollHeight - scrollTop - 60);
+      console.log(clientHeight);
+
+      if (scrollHeight - scrollTop - 60 <= clientHeight) {
+        this.currentPage++;
+        this.articles();
+      }
+    },
+
     openDetail(id) {
       const _this = this;
       let path = this.routerCfg.options.pathById(22);
