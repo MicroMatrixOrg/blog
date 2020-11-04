@@ -19,7 +19,7 @@
           </ul>
         </header>
 
-        <div class="entry-list-wrap">
+        <div class="entry-list-wrap" v-show="requested">
           <ul class="entry-list">
             <div
               class="entry-item-wrap"
@@ -58,6 +58,38 @@
               </li>
             </div>
           </ul>
+        </div>
+        <div class="entry-list-wrap" v-show="!requested">
+          <skeleton>
+            <column class="entry-list">
+              <div class="entry-item-wrap">
+                <li class="entry-item">
+                  <header>
+                    <skeleton-square width="160px"></skeleton-square>
+                  </header>
+                  <div class="title">
+                    <skeleton-square
+                      width="400px"
+                      height="23px"
+                    ></skeleton-square>
+                  </div>
+
+                  <row style="display:flex;">
+                    <skeleton-square
+                      width="42px"
+                      height="26px"
+                      margin="5px 10px 5px 0"
+                    ></skeleton-square>
+                    <skeleton-square
+                      width="42px"
+                      height="26px"
+                      margin="5px 10px 5px 0"
+                    ></skeleton-square>
+                  </row>
+                </li>
+              </div>
+            </column>
+          </skeleton>
         </div>
       </div>
       <aside st:block="sidebar" class="index-aside">
@@ -101,9 +133,11 @@ export default {
       sortBy: 1, //排序类型
       aritcleList: [], //文章数组
       total: 0, //文章总数
-      totalPage: 0 //总共有多少页面
+      totalPage: 0, //总共有多少页面
+      requested: false //请求完成
     };
   },
+
   destroyed() {
     window.removeEventListener("scroll", _this.calcHeight);
   },
@@ -174,11 +208,12 @@ export default {
       };
       this.$axios.post(APIConfig.Base.Blogs, params).then(res => {
         // console.log(res.data.data.records);
-        _this.aritcleList = res.data.data.records;
+        _this.aritcleList = [...this.aritcleList, ...res.data.data.records];
         _this.currentPage = res.data.data.current;
         _this.total = res.data.data.total;
         _this.totalPage = res.data.data.pages;
         _this.pageSize = res.data.data.size;
+        _this.requested = true;
       });
     }
   }

@@ -4,6 +4,7 @@
       <div class="article-view column-view">
         <div class="main-conten shadow main-area">
           <article
+            v-show="requestedAritcle"
             class="article"
             itemscope="itemscope"
             itemtype="http://schema.org/Article"
@@ -89,6 +90,38 @@
               />
             </div>
           </article>
+
+          <article class="article" v-show="!requestedAritcle">
+            <skeleton>
+              <column>
+                <skeleton-square
+                  width="79px"
+                  height="22px"
+                  margin="0 0 10px 0"
+                ></skeleton-square>
+                <skeleton-square
+                  width="172px"
+                  height="22px"
+                  margin=""
+                ></skeleton-square>
+              </column>
+              <column style="align-items:unset !important;">
+                <skeleton-square
+                  width="300px"
+                  height="45px"
+                  margin="10px auto"
+                ></skeleton-square>
+              </column>
+              <column padding="8px 25px 15px 25px">
+                <skeleton-square
+                  width="600px"
+                  :count="10"
+                  height="24px"
+                  margin="10px auto 10px"
+                ></skeleton-square>
+              </column>
+            </skeleton>
+          </article>
         </div>
         <aside class="sidebar">
           <div class="sidebar-block shadow">
@@ -162,7 +195,9 @@ export default {
         avatar: "",
         username: "未知",
         created: "2020/10/1"
-      }
+      },
+      requestedAritcle: false, //文章详情请求
+      requestedAuthor: false //文章作者信息请求
     };
   },
 
@@ -194,6 +229,7 @@ export default {
         } else {
           _this.ownBlog = false;
         }
+        _this.requestedAritcle = true;
         _this.getAuthoryInfo();
       });
     },

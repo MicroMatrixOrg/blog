@@ -4,10 +4,9 @@
 
    <resultMap id="BlogUserMap" type="com.luobo.entity.BlogUser">
        <result property="id" column="id" />
-       <result property="userId" column="userId" />
+       <result property="userId" column="user_id" />
        <result property="title" column="title" />
        <result property="description" column="description" />
-       <result property="content" column="content" />
        <result property="created" column="created" />
        <result property="status" column="status" />
        <result property="username" column="username" />
@@ -16,6 +15,6 @@
 
 
     <select id="findBlogs" resultMap="BlogUserMap" >
-        SELECT b.*,u.username FROM m_blog b LEFT JOIN m_user u on b.user_id = u.id ${ew.customSqlSegment}
+        SELECT b.id,b.user_id,b.title,b.description,b.created,b.status,u.username FROM m_blog b LEFT JOIN m_user u on b.user_id = u.id ${ew.customSqlSegment}
     </select>
 </mapper>

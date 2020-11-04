@@ -48,6 +48,14 @@ import "../static/style/base_theme.css";
 import anime from 'animejs/lib/anime.es.js';
 Vue.prototype.$anime = anime;
 
+//引入骨架屏
+import skeleton from "./components/skeleton/index.js";
+skeleton.skeleton.install(Vue);
+skeleton.skeletonCircle.install(Vue);
+skeleton.skeletonColumn.install(Vue);
+skeleton.skeletonRow.install(Vue);
+skeleton.skeletonSquare.install(Vue);
+
 // //第一次路由跳转验证
 // let isLoad = true;
 // router.beforeEach((to, from, next) => {
@@ -74,6 +82,7 @@ var app = new Vue({
     App
   },
   created () {
+    console.log(skeleton);
     window.APIConfig = APIConfig.Init(window.conf.baseUrl, window.conf.fileUrl);
   },
 })
