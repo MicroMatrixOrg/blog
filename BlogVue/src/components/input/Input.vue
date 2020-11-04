@@ -1,11 +1,7 @@
 <template>
   <div class="input-theme-default">
     <form role="search" class="search-form">
-      <input
-        type="search"
-        placeholder="搜索摘要/标签/用户"
-        class="search-input"
-      />
+      <input type="search" placeholder="搜索摘要/标签" class="search-input" />
       <i class="fa fa-search"></i>
     </form>
   </div>

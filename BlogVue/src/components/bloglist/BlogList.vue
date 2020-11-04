@@ -100,7 +100,8 @@ export default {
       pageSize: 10, //每页数量
       sortBy: 1, //排序类型
       aritcleList: [], //文章数组
-      total: 0 //文章总数
+      total: 0, //文章总数
+      totalPage: 0 //总共有多少页面
     };
   },
   destroyed() {
@@ -123,10 +124,11 @@ export default {
       let scrollHeight = document.documentElement.scrollHeight;
       let scrollTop = document.documentElement.scrollTop;
       let clientHeight = document.documentElement.clientHeight;
-      console.log(scrollHeight - scrollTop - 60);
-      console.log(clientHeight);
 
-      if (scrollHeight - scrollTop - 60 <= clientHeight) {
+      if (
+        scrollHeight - scrollTop - 60 <= clientHeight &&
+        this.currentPage < this.totalPage
+      ) {
         this.currentPage++;
         this.articles();
       }
@@ -175,6 +177,7 @@ export default {
         _this.aritcleList = res.data.data.records;
         _this.currentPage = res.data.data.current;
         _this.total = res.data.data.total;
+        _this.totalPage = res.data.data.pages;
         _this.pageSize = res.data.data.size;
       });
     }
