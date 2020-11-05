@@ -4,16 +4,16 @@ import store from "./store";
 import router from "./router";
 axios.defaults.baseURL = 'http://localhost:9527'
 axios.interceptors.request.use(config => {
-  console.log("前置拦截")
+  // console.log("前置拦截");
   // 可以统一设置请求头
-  return config
+  return config;
 })
 axios.interceptors.response.use(response => {
   const res = response.data;
-  console.log("后置拦截")
+  // console.log("后置拦截");
   // 当结果的code是否为200的情况
   if (res.code === 200) {
-    return response
+    return { resp: response, respData: response.data }
   } else {
     // 弹窗异常信息
     Element.Message({

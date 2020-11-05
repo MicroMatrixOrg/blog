@@ -69,7 +69,7 @@ export default {
       const blogId = this.$route.query.blogId;
       if (typeof blogId != "undefined") {
         this.$axios.get(`${window.conf.baseUrl}/blog/` + blogId).then(res => {
-          const blog = res.data.data;
+          const blog = res.data;
           _this.editForm.id = blog.id;
           _this.editForm.title = blog.title;
           _this.editForm.description = blog.description;
@@ -98,7 +98,9 @@ export default {
           }
         })
         .then(res => {
-          _this.$refs.md.$img2Url(pos, res.data.data[0].filePath);
+          let resp = res.resp;
+          let respData = res.respData;
+          _this.$refs.md.$img2Url(pos, respData.data[0].filePath);
         });
     },
 

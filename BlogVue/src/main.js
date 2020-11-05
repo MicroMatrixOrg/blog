@@ -82,7 +82,6 @@ var app = new Vue({
     App
   },
   created () {
-    console.log(skeleton);
     window.APIConfig = APIConfig.Init(window.conf.baseUrl, window.conf.fileUrl);
   },
 })

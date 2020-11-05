@@ -236,19 +236,31 @@
           <li v-if="user.id != 0" class="m-person-theme-default nav-item menu">
             <div
               class="lazy avatar avatar loaded immediate"
-              @click="showControl($event)"
+              id="user-function"
               :style="
                 `background-image:url(${
                   user.id != 0 ? user.avatar : '../../static/image/m.ico'
                 })`
               "
             ></div>
-            <ul class="nav-menu user-dropdown-list" style="display:none;">
+            <ul
+              class="nav-menu user-dropdown-list"
+              id="nav-menu-list-display"
+              style="display:none;"
+            >
               <div class="nav-menu-item-group">
                 <li class="nav-menu-item">
                   <a>
                     <i class="fa fa-pencil icon" aria-hidden="true"></i>
                     <span>写文章</span>
+                  </a>
+                </li>
+              </div>
+              <div class="nav-menu-item-group">
+                <li class="nav-menu-item">
+                  <a @click="homePage()">
+                    <i class="fa fa-user-secret icon" aria-hidden="true"></i>
+                    <span>我的主页</span>
                   </a>
                 </li>
               </div>
@@ -297,6 +309,10 @@ export default {
       }
     };
   },
+  beforeDestroy() {
+    const _this = this;
+    document.removeEventListener("click", _this.showControl, true);
+  },
   methods: {
     /**
      * @description: 退出
@@ -319,18 +335,25 @@ export default {
     },
     /**
      * @description: 控制头像下的列表显示和隐藏
-     * @param {Object} e 点击的对象
      * @return {*}
      * @Date: 2020-10-29 10:45:21
      * @Author: David
      */
 
-    showControl(e) {
-      const list = e.target.nextElementSibling;
-      if (list.style.display == "none") {
-        list.style.display = "unset";
+    showControl(event) {
+      const _this = this;
+      var cDom = document.querySelector("#user-function");
+      var tDom = event.target;
+      var lDom = document.querySelector("#nav-menu-list-display");
+      if (cDom == tDom || cDom.contains(tDom)) {
+        console.log(lDom.style.display);
+        if (lDom.style.display == "unset") {
+          lDom.style.display = "none";
+        } else {
+          lDom.style.display = "unset";
+        }
       } else {
-        list.style.display = "none";
+        lDom.style.display = "none";
       }
     },
     /**
@@ -347,7 +370,23 @@ export default {
         let path = this.routerCfg.options.pathById(4);
         this.$router.push(path);
       }
+    },
+
+    /**
+     * @description: 我的主页
+     * @Date: 2020-11-05 09:23:34
+     * @Author: David
+     */
+
+    homePage() {
+      const _this = this;
+      let path = this.routerCfg.options.pathById(21);
+      this.$router.push(path);
     }
+  },
+  mounted() {
+    const _this = this;
+    document.addEventListener("click", _this.showControl, true);
   },
   created() {
     if (this.$store.getters.getUser) {

@@ -221,11 +221,12 @@ export default {
       let valid = _this.validateEmail("loginForm", "loginEmail");
       if (valid) {
         this.$axios.post(APIConfig.Base.Login, this.loginAccount).then(res => {
-          // console.log(res);
-          if (res.data.code == 200) {
-            const token = res.headers["authorization"];
+          let resp = res.resp;
+          let respData = res.respData;
+          if (respData.code == 200) {
+            const token = resp.headers["authorization"];
             _this.$store.commit("SET_TOKEN", token);
-            _this.$store.commit("SET_USERINFO", res.data.data);
+            _this.$store.commit("SET_USERINFO", respData.data);
             let path = this.routerCfg.options.pathById(2);
             this.$router.push(path);
           }

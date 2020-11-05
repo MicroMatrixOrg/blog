@@ -215,14 +215,15 @@ export default {
       const _this = this;
       const blogId = this.$route.query.blogId;
       this.$axios.get(`${APIConfig.Base.Blog}/${blogId}`).then(res => {
-        // console.log(res);
-        // console.log(res.data.data);
-        _this.blog = res.data.data;
+        let resp = res.resp;
+        let respData = res.respData;
+
+        _this.blog = respData.data;
         var MarkdownIt = require("markdown-it"),
           md = new MarkdownIt();
         var result = md.render(_this.blog.content);
 
-        _this.blog.content = res.data.data.content;
+        _this.blog.content = respData.data.content;
         // 判断是否是自己的文章，能否编辑
         if (_this.$store.getters.getUser) {
           _this.ownBlog = _this.blog.userId === _this.$store.getters.getUser.id;
@@ -238,9 +239,11 @@ export default {
       const _this = this;
       this.$axios
         .get(`${APIConfig.User.GetUserBaseInfo}${_this.blog.userId}`)
-        .then(resp => {
-          if (resp.data.code == 200) {
-            _this.userInfo = resp.data.data;
+        .then(res => {
+          let resp = res.resp;
+          let respData = res.respData;
+          if (respData.code == 200) {
+            _this.userInfo = respData.data;
             _this.$forceUpdate();
           }
         });

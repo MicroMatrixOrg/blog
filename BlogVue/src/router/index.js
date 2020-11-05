@@ -5,10 +5,7 @@ const Login = () => import("../page/Login.vue");
 const BlogDetail = () => import("../page/BlogDetails.vue");
 const BlogEdit = () => import("../page/BlogEdit.vue");
 const VerifyAccount = () => import("../page/VerifyAccount.vue");
-
-
-
-const test = () => import("../page/VerifyEmail.vue");
+const MyHomePage = () => import("../page/MyHomePage.vue");
 
 Vue.use(Router)
 
@@ -37,6 +34,16 @@ var routes = [
       modId: 2
     },
     children: [
+      {
+        path: '/user',
+        name: 'BlogEdit',
+        meta: {
+          requireAuth: true,
+          modId: 21
+
+        },
+        component: MyHomePage
+      },
       {
         path: '/blogDetails',
         name: 'BlogDetail',
@@ -69,11 +76,8 @@ var routes = [
     },
     component: BlogEdit
   },
-  {
-    path: "/test",
-    name: "test",
-    component: test,
-  }
+
+
 ];
 
 var pathById = (id) => {

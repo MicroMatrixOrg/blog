@@ -139,6 +139,7 @@ export default {
   },
 
   destroyed() {
+    const _this = this;
     window.removeEventListener("scroll", _this.calcHeight);
   },
   mounted() {
@@ -207,12 +208,14 @@ export default {
         pageSize: this.pageSize
       };
       this.$axios.post(APIConfig.Base.Blogs, params).then(res => {
-        // console.log(res.data.data.records);
-        _this.aritcleList = [...this.aritcleList, ...res.data.data.records];
-        _this.currentPage = res.data.data.current;
-        _this.total = res.data.data.total;
-        _this.totalPage = res.data.data.pages;
-        _this.pageSize = res.data.data.size;
+        let resp = res.resp;
+        let respData = res.respData;
+
+        _this.aritcleList = [...this.aritcleList, ...respData.data.records];
+        _this.currentPage = respData.data.current;
+        _this.total = respData.data.total;
+        _this.totalPage = respData.data.pages;
+        _this.pageSize = respData.data.size;
         _this.requested = true;
       });
     }
