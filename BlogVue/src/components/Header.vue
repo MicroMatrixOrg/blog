@@ -250,7 +250,7 @@
             >
               <div class="nav-menu-item-group">
                 <li class="nav-menu-item">
-                  <a>
+                  <a href="#/blog/edit">
                     <i class="fa fa-pencil icon" aria-hidden="true"></i>
                     <span>写文章</span>
                   </a>

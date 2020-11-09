@@ -45,7 +45,7 @@
                     <li class="like-btn">
                       <a class="title-box">
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                        <span>0</span>
+                        <span>99</span>
                       </a>
                     </li>
                     <li class="comment-btn">

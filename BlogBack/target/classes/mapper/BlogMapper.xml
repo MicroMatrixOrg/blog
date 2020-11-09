@@ -17,4 +17,14 @@
     <select id="findBlogs" resultMap="BlogUserMap" >
         SELECT b.id,b.user_id,b.title,b.description,b.created,b.status,u.username FROM m_blog b LEFT JOIN m_user u on b.user_id = u.id ${ew.customSqlSegment}
     </select>
+
+    <select id ="findBlogsByUserId" resultMap="BlogUserMap">
+        SELECT b.id,b.user_id,b.title,b.created FROM m_blog b
+        <where>
+            b.user_id = #{userId}
+        </where>
+
+    </select>
+
+
 </mapper>

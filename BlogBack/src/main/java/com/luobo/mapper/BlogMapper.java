@@ -27,4 +27,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
      * @return: java.util.List<com.luobo.entity.Blog>
      */
     List<Blog> findBlogs(Page<Blog> page, @Param(Constants.WRAPPER) QueryWrapper<Blog> wrapper);
+
+    List<Blog> findBlogsByUserId(Page<Blog> page, Integer userId);
 }

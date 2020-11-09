@@ -69,7 +69,10 @@ export default {
       const blogId = this.$route.query.blogId;
       if (typeof blogId != "undefined") {
         this.$axios.get(`${window.conf.baseUrl}/blog/` + blogId).then(res => {
-          const blog = res.data;
+          let resp = res.resp;
+          let respData = res.respData;
+
+          const blog = respData.data;
           _this.editForm.id = blog.id;
           _this.editForm.title = blog.title;
           _this.editForm.description = blog.description;

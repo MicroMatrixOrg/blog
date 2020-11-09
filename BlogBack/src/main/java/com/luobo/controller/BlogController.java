@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * <p>
@@ -44,8 +45,6 @@ public class BlogController {
         IPage pageData =blogService.GetBlogsLeftInUser(page, new QueryWrapper<Blog>().orderByDesc("created"));
         return Result.succ(pageData);
     }
-
-
 
 
     @GetMapping("/{id}")
@@ -79,4 +78,13 @@ public class BlogController {
 
         return Result.succ(null);
     }
+
+    @PostMapping("/getMyBlogs")
+    public Result getBlgs(@Validated @RequestBody PageDto pageParams){
+        Assert.notNull(pageParams.getUserId(),"用户ID为空");
+        Page page = new Page(pageParams.getCurrentPage(),pageParams.getPageSize());
+        IPage pageData =blogService.GetBlogsByuUserId(page, pageParams.getUserId());
+        return Result.succ(pageData);
+    }
+
 }

@@ -1,4 +1,3 @@
-
 <template>
   <div class="nut-tab-part">
     <div class="nut-tab" :class="{ 'nut-tab-horizontal': positionNavCss }">
@@ -14,9 +13,17 @@
         <span
           v-for="(value, index) in tabTitleList"
           :key="index"
-          :class="[titleNavList, 'nut-title-nav', { 'nut-tab-disable': value.disable }, { 'nut-tab-active': activeIndex == index }]"
+          :class="[
+            titleNavList,
+            'nut-title-nav',
+            { 'nut-tab-disable': value.disable },
+            { 'nut-tab-active': activeIndex == index }
+          ]"
         >
-          <a class="nut-tab-link" v-on:click="switchTab(index, $event, value.disable)">
+          <a
+            class="nut-tab-link"
+            v-on:click="switchTab(index, $event, value.disable)"
+          >
             <i
               class="nut-tab-icon"
               :style="{ backgroundImage: 'url(' + value.iconUrl + ')' }"
@@ -41,18 +48,22 @@
 export default {
   name: "nut-tab",
   props: {
+    //是否滚动
     isScroll: {
       type: Boolean,
       default: false
     },
+    //是否显示下面的线
     isShowLine: {
       type: Boolean,
       default: true
     },
+    //默认显示第几个
     defIndex: {
       type: Number,
       default: 0
     },
+    //展示的位置
     positionNav: {
       type: String,
       default: "top"
@@ -67,6 +78,7 @@ export default {
       type: [String, Number],
       default: "200"
     },
+    //下划线的宽度
     lineWidth: {
       type: Number,
       default: 0
@@ -127,13 +139,13 @@ export default {
       if (this.positionNav === "top" || this.positionNav === "bottom") {
         return {
           transform: `translateX(${this.initX}px)`,
-          width: this.lineWidth + "px"
+          width: `${this.lineWidth == 0 ? this.navWidth : this.lineWidth}px`
           // width: this.navWidth + "px"//修改公式，以增加需求
         };
       }
       return {
         transform: `translateY(${this.initX}px)`,
-        height: this.lineWidth + "px"
+        height: `${this.lineWidth == 0 ? this.navWidth : this.lineWidth}px`
         // height: this.navWidth + "px",
       };
     },
@@ -369,6 +381,9 @@ $primary-color: #577afb;
     }
   }
 }
+.nut-title-nav {
+  cursor: pointer;
+}
 .nut-tab-title-rightnav {
   background: #fff;
   // border: 1px solid #fff;
@@ -447,6 +462,7 @@ $primary-color: #577afb;
   background: #fff;
   box-sizing: border-box;
 }
+
 .nut-title-nav-leftnav {
   flex: 1;
   display: flex;
@@ -495,7 +511,7 @@ $primary-color: #577afb;
 }
 .nut-tab-active {
   background: #fff;
-  border: 0;
+  // border: 0;
   a {
     // color: red;
     font-size: 17px;

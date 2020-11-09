@@ -15,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BlogService extends IService<Blog> {
     Page<Blog> GetBlogsLeftInUser (Page<Blog> page, QueryWrapper<Blog> wrapper);
+
+    Page<Blog> GetBlogsByuUserId (Page<Blog> page, Integer userId);
 }

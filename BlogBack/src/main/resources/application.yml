@@ -22,7 +22,7 @@ spring:
 
   #模版位置配置
   thymeleaf:
-    prefix: classpath:/templates/
+    prefix: classpath:/templatetemplatess/
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml

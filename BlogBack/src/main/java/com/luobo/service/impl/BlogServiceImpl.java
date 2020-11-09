@@ -27,4 +27,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public Page<Blog> GetBlogsLeftInUser(Page<Blog> page, QueryWrapper<Blog> wrapper) {
         return page.setRecords(blogMapper.findBlogs(page,wrapper));
     }
+
+    @Override
+    public Page<Blog> GetBlogsByuUserId(Page<Blog> page, Integer userId) {
+        return page.setRecords(blogMapper.findBlogsByUserId(page,userId));
+    }
 }

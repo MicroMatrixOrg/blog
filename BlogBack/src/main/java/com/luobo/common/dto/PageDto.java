@@ -11,6 +11,7 @@ import lombok.Data;
  **/
 @Data
 public class PageDto {
+    private Integer userId;
     private Integer currentPage;
     private Integer pageSize;
 }

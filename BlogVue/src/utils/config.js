@@ -1,7 +1,4 @@
 //接口配置
-// var BaseUrl="/api/";
-// var FileUrl=FileUrl1;
-// var FileUrl="http://localhost:49568/api/";
 
 var APIConfig = function (_baseUrl, _fileUrl) {
   var BaseUrl = window.conf.baseUrl;
@@ -17,7 +14,8 @@ var APIConfig = function (_baseUrl, _fileUrl) {
       Blog: BaseUrl + "/blog",
       Blogs: BlogdUrl + "/blogs",
       BlogEdit: BlogdUrl + "/edit",
-      BlogsImgUpload: BaseUrl + "/file/upload"
+      BlogsImgUpload: BaseUrl + "/file/upload",
+      BlogsByUserId: BlogdUrl + "/getMyBlogs"
     },
 
     Email: {

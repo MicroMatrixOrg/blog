@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const Login = () => import("../page/Login.vue");
-const BlogDetail = () => import("../page/BlogDetails.vue");
-const BlogEdit = () => import("../page/BlogEdit.vue");
-const VerifyAccount = () => import("../page/VerifyAccount.vue");
-const MyHomePage = () => import("../page/MyHomePage.vue");
+const Login = () => import("../page/login/Login.vue");
+const Blogs = () => import("../page/blogs/Blogs.vue");
+const BlogDetail = () => import("../page/blogs/BlogDetails.vue");
+const BlogEdit = () => import("../page/blogs/BlogEdit.vue");
+const VerifyAccount = () => import("../page/login/VerifyAccount.vue");
+const MyHomePage = () => import("../page/userinfo/MyHomePage.vue");
+const Settings = () => import("../page/userinfo/EditProfile.vue");
 
 Vue.use(Router)
 
@@ -29,14 +31,14 @@ var routes = [
     path: '/blogs',
     name: 'Blogs',
     //懒加载
-    component: () => import('../page/Blogs.vue'),
+    component: Blogs,
     meta: {
       modId: 2
     },
     children: [
       {
         path: '/user',
-        name: 'BlogEdit',
+        name: 'User',
         meta: {
           requireAuth: true,
           modId: 21
@@ -52,7 +54,15 @@ var routes = [
           modId: 22
         }
       },
-
+      {
+        path: '/setting',
+        name: 'AccountSetting',
+        meta: {
+          requireAuth: true,
+          modId: 23
+        },
+        component: Settings
+      },
     ]
   },
 
@@ -76,6 +86,7 @@ var routes = [
     },
     component: BlogEdit
   },
+
 
 
 ];
