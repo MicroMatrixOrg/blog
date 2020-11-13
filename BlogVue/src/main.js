@@ -26,9 +26,11 @@ Vue.prototype.$utils = utils;
 
 
 //加载vuex
-import store from './store'
+import store from './store';
 Vue.prototype.$store = store;
 
+import storge from "./utils/localStorge.js";
+Vue.prototype.$storge = storge;
 // 全局注册
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'

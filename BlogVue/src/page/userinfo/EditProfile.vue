@@ -14,17 +14,42 @@
       <div class="profile-content shadow" v-show="settingFlag == 1">
         <h1>个人资料</h1>
         <ul>
-          <li class="item"><span class="title">头像</span></li>
-          <li class="item"><span class="title">用户名</span></li>
-          <li class="item"><span class="title">个人介绍</span></li>
+          <!-- <li class="item"><span class="title">头像</span></li> -->
+          <li class="item">
+            <span class="title">用户名</span>
+            <edit-input
+              :placeholder="`请输入你的用户名`"
+              :input-value="userInfo.username"
+              @inputVale="saveUserName"
+            ></edit-input>
+          </li>
+          <li class="item">
+            <span class="title">个人介绍</span
+            ><edit-input
+              :placeholder="`填写擅长、爱做的事情`"
+              :input-value="userInfo.depiction"
+              @inputVale="saveUserDepiction"
+            ></edit-input>
+          </li>
         </ul>
       </div>
       <div class="account-setting shadow" v-show="settingFlag == 2">
         <h1>账号设置</h1>
         <ul>
-          <li class="item"><span class="title">邮箱</span></li>
-          <li class="item"><span class="title">密码</span></li>
-          <li class="item"><span class="title">账号注销</span></li>
+          <li class="item">
+            <span class="title">邮箱</span>
+          </li>
+          <li class="item">
+            <span class="title">密码</span
+            ><edit-input
+              :placeholder="`修改你的密码`"
+              :input-value="accountInfo.password"
+              @inputVale="saveAccointPassword"
+            ></edit-input>
+          </li>
+          <!-- <li class="item">
+            <span class="title">账号注销</span><edit-input></edit-input>
+          </li> -->
         </ul>
       </div>
     </main>
@@ -32,13 +57,126 @@
 </template>
 
 <script>
+import EditInput from "@/components/input/EditInput";
 export default {
   data() {
     return {
-      settingFlag: 1
+      settingFlag: 1,
+      userInfo: {
+        username: "",
+        depiction: ""
+      },
+      accountInfo: {
+        mail: "",
+        password: ""
+      }
     };
   },
+  components: {
+    EditInput
+  },
+  mounted() {
+    const _this = this;
+    _this.userInfo = _this.$store.getters.GET_USER;
+  },
   methods: {
+    /**
+     * @description: 退出
+     * @Date: 2020-08-08 10:57:47
+     * @Author: David
+     */
+
+    signout() {
+      const _this = this;
+      this.$axios
+        .get(APIConfig.Base.Logout, {
+          headers: {
+            Authorization: this.$store.getters.GET_TOKEN
+          }
+        })
+        .then(res => {
+          _this.$store.commit("REMOVE_INFO");
+          _this.$router.go(0);
+        });
+    },
+
+    /**
+     * @description: 修改用户密码
+     * @param {String} value
+     * @return {*}
+     * @Date: 2020-11-12 16:37:11
+     * @Author: David
+     */
+
+    saveAccointPassword(value) {
+      const _this = this;
+      let params = {
+        id: _this.userInfo.id,
+        username: _this.userInfo.username,
+        password: _this.accountInfo.password
+      };
+      this.$axios.post(APIConfig.User.EditUserInfo, params).then(res => {
+        let resp = res.resp;
+        let respData = res.respData;
+        if (respData.code == 200) {
+          _this.signout();
+        } else {
+          //没有改成功的话
+          alert("请稍后在重试吧");
+        }
+      });
+    },
+    /**
+     * @description: 保存用户的个人简介
+     * @param {String} value 子组件返回的字符串
+     * @Date: 2020-11-12 13:52:36
+     * @Author: David
+     */
+
+    saveUserDepiction(value) {
+      const _this = this;
+      let params = {
+        id: _this.userInfo.id,
+        username: _this.userInfo.username,
+        depiction: value
+      };
+      this.$axios.post(APIConfig.User.EditUserInfo, params).then(res => {
+        let resp = res.resp;
+        let respData = res.respData;
+        if (respData.code == 200) {
+          _this.userInfo.depiction = value;
+          _this.$storge.set("userInfo", _this.userInfo);
+        } else {
+          //没有改成功的话
+          alert("请稍后在重试吧");
+        }
+      });
+    },
+    /**
+     * @description: 保存用户的名字
+     * @param {String} value 子组件返回的字符串
+     * @Date: 2020-11-12 13:51:56
+     * @Author: David
+     */
+
+    saveUserName(value) {
+      const _this = this;
+      let params = {
+        id: _this.userInfo.id,
+        username: value
+      };
+      this.$axios.post(APIConfig.User.EditUserInfo, params).then(res => {
+        let resp = res.resp;
+        let respData = res.respData;
+        if (respData.code == 200) {
+          _this.userInfo.username = value;
+          _this.$storge.set("userInfo", _this.userInfo);
+        } else {
+          //没有改成功的话
+          alert("请稍后在重试吧");
+        }
+      });
+    },
     /**
      * @description: 返回个人主页
      * @Date: 2020-11-07 14:48:53

@@ -217,5 +217,25 @@ export default {
     return str;
   },
 
-
+  /**
+   * @description: 让e1单元素与e2()元素或者单元素成相反的显示状态
+   * @param {Object} e1 
+   * @param {Object} e2 
+   * @return {*}
+   * @Date: 2020-11-12 09:20:48
+   * @Author: David
+   */
+  hmst (e1, ...e2) {
+    if (e1.style.display == "" || e1.style.display == "unset") {
+      e1.style.display = "none";
+      e2.forEach(ele => {
+        ele.style.display = "unset";
+      })
+    } else {
+      e1.style.display = "unset";
+      e2.forEach(ele => {
+        ele.style.display = "none";
+      })
+    }
+  }
 }

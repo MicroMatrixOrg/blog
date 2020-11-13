@@ -1,3 +1,13 @@
+<!--
+ * @Author: David
+ * @Date: 2020-10-27 21:51:10
+ * @LastEditTime: 2020-11-11 17:41:06
+ * @LastEditors: David
+ * @Description: 搜索输入框
+ * @FilePath: /BlogVue/src/components/input/Input.vue
+ * @可以输入预定的版权声明、个性签名、空行等
+-->
+
 <template>
   <div class="input-theme-default">
     <form role="search" class="search-form">

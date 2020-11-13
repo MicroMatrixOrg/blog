@@ -325,7 +325,7 @@ export default {
       this.$axios
         .get(APIConfig.Base.Logout, {
           headers: {
-            Authorization: localStorage.getItem("token")
+            Authorization: this.$store.getters.GET_TOKEN
           }
         })
         .then(res => {
@@ -389,13 +389,14 @@ export default {
     document.addEventListener("click", _this.showControl, true);
   },
   created() {
-    if (this.$store.getters.getUser) {
-      this.user.id = this.$store.getters.getUser.id;
-      this.user.username = this.$store.getters.getUser.username;
-      this.user.avatar = this.$store.getters.getUser.avatar;
+    if (this.$store.getters.GET_USER) {
+      this.user.id = this.$store.getters.GET_USER.id;
+      this.user.username = this.$store.getters.GET_USER.username;
+      this.user.avatar = this.$store.getters.GET_USER.avatar;
       this.hasLogin = true;
     }
-  }
+  },
+  
 };
 </script>
 

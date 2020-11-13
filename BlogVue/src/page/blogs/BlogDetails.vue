@@ -225,8 +225,9 @@ export default {
 
         _this.blog.content = respData.data.content;
         // 判断是否是自己的文章，能否编辑
-        if (_this.$store.getters.getUser) {
-          _this.ownBlog = _this.blog.userId === _this.$store.getters.getUser.id;
+        if (_this.$store.getters.GET_USER) {
+          _this.ownBlog =
+            _this.blog.userId === _this.$store.getters.GET_USER.id;
         } else {
           _this.ownBlog = false;
         }
@@ -410,5 +411,16 @@ export default {
   position: relative;
   background-size: cover;
   background-color: #eee;
+}
+
+//动态布局
+@media (max-width: 960px) {
+  .sidebar {
+    display: none;
+  }
+  .main-conten {
+    width: calc(100%);
+    margin-right: 0;
+  }
 }
 </style>

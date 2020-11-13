@@ -25,6 +25,7 @@ var APIConfig = function (_baseUrl, _fileUrl) {
 
     User: {
       GetUserBaseInfo: BlogUser + "/",//"/{id}"
+      EditUserInfo: BlogUser + "/editUserInfo"
     }
 
   }

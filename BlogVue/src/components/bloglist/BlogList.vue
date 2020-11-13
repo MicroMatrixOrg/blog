@@ -125,6 +125,7 @@
 </template>
 
 <script>
+import myScroll from "@/components/scroll/scroll.vue";
 export default {
   data() {
     return {
@@ -137,33 +138,28 @@ export default {
       requested: false //请求完成
     };
   },
-
+  mixins: [myScroll],
   destroyed() {
     const _this = this;
-    window.removeEventListener("scroll", _this.calcHeight);
+    window.removeEventListener("scroll", _this.loadMore);
   },
   mounted() {
     const _this = this;
     _this.articles();
-    window.addEventListener("scroll", _this.calcHeight, true);
+    window.addEventListener("scroll", _this.loadMore, true);
   },
   methods: {
     /**
      * @description: 全局计算距离底部多少的时候加载数据
-     * @param {*} height
      * @Date: 2020-11-04 09:50:47
      * @Author: David
      */
 
-    calcHeight() {
-      let scrollHeight = document.documentElement.scrollHeight;
-      let scrollTop = document.documentElement.scrollTop;
-      let clientHeight = document.documentElement.clientHeight;
-
-      if (
-        scrollHeight - scrollTop - 60 <= clientHeight &&
-        this.currentPage < this.totalPage
-      ) {
+    loadMore() {
+      const _this = this;
+      let haveNext = _this.currentPage < _this.totalPage;
+      let loadPage = _this.calcHeight(haveNext);
+      if (loadPage) {
         this.currentPage++;
         this.articles();
       }
@@ -415,6 +411,17 @@ export default {
     color: #007fff;
     font-size: 10px;
     text-align: center;
+  }
+}
+
+//动态布局
+@media (max-width: 960px) {
+  .index-aside {
+    display: none;
+  }
+  .timeline-enter-list {
+    width: calc(100%);
+    margin-right: 0;
   }
 }
 </style>

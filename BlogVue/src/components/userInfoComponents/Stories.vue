@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import myScroll from "@/components/scroll/scroll.vue";
 export default {
   props: {
     userId: {
@@ -50,10 +51,12 @@ export default {
       this.getUserStories();
     }
   },
+  mixins: [myScroll],
   data() {
     return {
       pageSize: 10, //每页的数量
       currentPage: 0, //当前页数
+      totalPage: 0,
 
       blogList: [], //博客列表
 
@@ -70,6 +73,29 @@ export default {
     _this.getUserInfo();
   },
   methods: {
+    /**
+     * @description: 全局计算距离底部多少的时候加载数据 calcHeight方法在mixins中混入
+     * @Date: 2020-11-04 09:50:47
+     * @Author: David
+     */
+
+    loadMore() {
+      const _this = this;
+      let haveNext = _this.currentPage < _this.totalPage;
+      let loadPage = _this.calcHeight(haveNext);
+      if (loadPage) {
+        this.currentPage++;
+        // this.getUserStories();
+      }
+    },
+    /**
+     * @description: 打开详情野页面
+     * @param {number} id
+     * @return {*}
+     * @Date: 2020-11-09 17:05:15
+     * @Author: David
+     */
+
     openDetail(id) {
       const _this = this;
       let path = this.routerCfg.options.pathById(22);
@@ -85,8 +111,8 @@ export default {
 
     getUserInfo() {
       const _this = this;
-      if (_this.$store.getters.getUser) {
-        _this.userInfo = _this.$store.getters.getUser;
+      if (_this.$store.getters.GET_USER) {
+        _this.userInfo = _this.$store.getters.GET_USER;
       }
     },
 
@@ -107,7 +133,7 @@ export default {
         let resp = res.resp;
         let respData = res.respData;
         _this.blogList = [..._this.blogList, ...respData.data.records];
-        console.log(respData.data);
+        _this.totalPage = respData.data.total;
       });
     }
   }

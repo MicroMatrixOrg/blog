@@ -1,6 +1,8 @@
 package com.luobo.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.luobo.common.lang.Result;
 import com.luobo.entity.User;
 import com.luobo.service.UserService;
@@ -36,5 +38,13 @@ public class UserController {
         return user.toString();
     }
 
+    @PostMapping("/editUserInfo")
+    public Object editUserInfo(@Validated @RequestBody User user){
+        User temp = null;
+        temp = userService.getById(user.getId());
+        Assert.isTrue(null != temp,"该用户ID不存在");
+        userService.saveOrUpdate(user);
+        return Result.succ(null);
+    }
     
 }

@@ -19,17 +19,44 @@
 </template>
 
 <script>
+import CanvasNest from "canvas-nest.js";
 export default {
   name: "App",
   data() {
     return {
-      isShowUp: false
+      isShowUp: false,
+
+      cn: false //背景飘动的线对象
     };
+  },
+  destroyed() {
+    const _this = this;
+    _this.cn.destroy();
   },
   mounted() {
     this.scrollTop();
+    this.backgroundLine();
   },
   methods: {
+    /**
+     * @description: 背景飘动的线
+     * @Date: 2020-11-09 17:26:00
+     * @Author: David
+     */
+
+    backgroundLine() {
+      const _this = this;
+      const config = {
+        color: "34,75,205",
+        pointColor: "255,0,0",
+        opacity: 0.7,
+        count: 50
+      };
+      const app = document.getElementById("app");
+      // 在 element 地方使用 config 渲染效果
+      this.cn = new CanvasNest(app, config);
+    },
+
     /**
      * @description: 监听纵向滚动
      * @Date: 2020-11-02 15:11:28
@@ -65,6 +92,7 @@ export default {
 
 <style lang="scss" scoped>
 #app {
+  height: 100vh;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

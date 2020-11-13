@@ -77,8 +77,8 @@ export default {
   methods: {
     getUserInfo() {
       const _this = this;
-      if (_this.$store.getters.getUser) {
-        _this.userInfo = _this.$store.getters.getUser;
+      if (_this.$store.getters.GET_USER) {
+        _this.userInfo = _this.$store.getters.GET_USER;
       }
     },
 
