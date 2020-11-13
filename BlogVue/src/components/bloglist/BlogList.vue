@@ -287,6 +287,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: calc(100%);
 
   > header {
     font-size: 12px;
@@ -308,6 +309,8 @@ export default {
   font-size: 1.4rem;
   font-weight: 600;
   line-height: 1.2;
+  width: calc(100%);
+  text-align: start;
 
   white-space: nowrap;
   overflow: hidden;
@@ -422,6 +425,11 @@ export default {
   .timeline-enter-list {
     width: calc(100%);
     margin-right: 0;
+  }
+}
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.2rem;
   }
 }
 </style>
