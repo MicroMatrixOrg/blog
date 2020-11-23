@@ -1,9 +1,9 @@
 <!--
  * @Author: David
  * @Date: 2020-11-23 13:20:31
- * @LastEditTime: 2020-11-23 15:21:48
+ * @LastEditTime: 2020-11-23 16:51:12
  * @LastEditors: David
- * @Description: 
+ * @Description: 登录页面
  * @FilePath: /BlogVue/src/components/login_modal/LoginForm.vue
  * @可以输入预定的版权声明、个性签名、空行等
 -->
@@ -597,7 +597,7 @@ form.sign-in-form {
 
 @media (max-width: 870px) {
   .container {
-    min-height: 800px;
+    // min-height: 800px;
     height: 100vh;
   }
   .signin-signup {

@@ -345,7 +345,7 @@ export default {
       var cDom = document.querySelector("#user-function");
       var tDom = event.target;
       var lDom = document.querySelector("#nav-menu-list-display");
-      if (cDom == tDom || cDom.contains(tDom)) {
+      if (cDom && (cDom == tDom || cDom.contains(tDom))) {
         console.log(lDom.style.display);
         if (lDom.style.display == "unset") {
           lDom.style.display = "none";
@@ -395,8 +395,7 @@ export default {
       this.user.avatar = this.$store.getters.GET_USER.avatar;
       this.hasLogin = true;
     }
-  },
-  
+  }
 };
 </script>
 

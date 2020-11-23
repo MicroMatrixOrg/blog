@@ -1,34 +1,30 @@
 html {
-  font-size: 12px;
-  font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell,
-    Noto Sans, sans-serif, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
-    Hiragino Sans GB, Microsoft YaHei, Arial;
-  word-break: break-word;
-  text-rendering: optimizeLegibility;
-  color: #333;
-  background-color: #f4f5f5;
+    word-break: break-word;
+    text-rendering: optimizeLegibility;
+    color: #333;
+    background-color: #f4f5f5;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body,
 input {
-  font-family: "Poppins", sans-serif;
+    font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial;
 }
 
 ul {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 ul li {
-  list-style: none;
+    list-style: none;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
