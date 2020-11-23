@@ -257,8 +257,10 @@ export default {
         toMail: params[0].value,
         verification: params[1].value
       };
-      this.$axios.post(APIConfig.Email.VerifyMail, queryParam).then(resp => {
-        if (resp.data.code == 200) {
+      this.$axios.post(APIConfig.Email.VerifyMail, queryParam).then(res => {
+        let resp = res.resp;
+        let respData = res.respData;
+        if (respData.code == 200) {
           _this.isSuccess = true;
           setTimeout(() => {
             _this.goMain();

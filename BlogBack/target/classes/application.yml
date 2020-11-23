@@ -22,7 +22,7 @@ spring:
 
   #模版位置配置
   thymeleaf:
-    prefix: classpath:/templatetemplatess/
+    prefix: classpath:/templates/
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
@@ -31,7 +31,7 @@ server:
   port: 8880
 
 #https请求配置
-##https端口号.
+#https端口号.
 #server:
 #  port: 9526
 #  ssl:
@@ -55,7 +55,7 @@ server:
 #custom:
 #  server:
 #    http:
-#      port: 8880
+#      port: 9525
 
 
 

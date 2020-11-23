@@ -37,7 +37,7 @@ public class BlogController {
     @Autowired
     UserService userService;
 
-    @PostMapping    ("/blogs")
+    @PostMapping("/blogs")
     public Result blogs(@RequestBody PageDto pageParams){
         if(pageParams.getCurrentPage() == null || pageParams.getCurrentPage() < 1)
             pageParams.setCurrentPage(1);

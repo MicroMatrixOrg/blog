@@ -35,7 +35,7 @@ export default {
   },
   mounted() {
     this.scrollTop();
-    this.backgroundLine();
+    // this.backgroundLine();
   },
   methods: {
     /**
