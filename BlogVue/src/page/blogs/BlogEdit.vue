@@ -17,9 +17,12 @@
         <el-form-item label="内容" prop="content">
           <mavon-editor
             ref="md"
+            :ishljs="true"
+            :toolbarsBackground="'#f9f9f9'"
             v-model="editForm.content"
             @imgAdd="$imgAdd"
             @imgDel="$imgDel"
+            style="height: calc(100vh)"
           />
         </el-form-item>
         <el-form-item>
@@ -90,6 +93,15 @@ export default {
     cancle() {
       this.$router.push("/blogs");
     },
+
+    /**
+     * @description: 添加图片
+     * @param {*} pos 图片的位置下标
+     * @return {*} $file 图片文件
+     * @Date: 2020-11-30 17:42:42
+     * @Author: David
+     */
+
     $imgAdd(pos, $file) {
       const _this = this;
       var formdata = new FormData();
@@ -107,9 +119,25 @@ export default {
         });
     },
 
+    /**
+     * @description: 删除图片
+     * @param {*} pos 图片的位置下标
+     * @return {*}
+     * @Date: 2020-11-30 17:43:34
+     * @Author: David
+     */
+
     $imgDel(pos) {
       delete this.img_files[pos];
     },
+
+    /**
+     * @description: 提交文章
+     * @param {*}
+     * @return {*}
+     * @Date: 2020-11-30 17:43:45
+     * @Author: David
+     */
 
     submitForm() {
       const _this = this;

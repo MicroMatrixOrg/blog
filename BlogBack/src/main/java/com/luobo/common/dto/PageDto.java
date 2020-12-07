@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @ClassName PageDto
- * @Description 请描述类的业务用途
+ * @Description 分页的类
  * @Author davidmorgan
  * @Date 2020/11/3 09:30
  * @Version 1.0

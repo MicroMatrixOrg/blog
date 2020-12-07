@@ -26,7 +26,16 @@ public interface BlogMapper extends BaseMapper<Blog> {
      * @updateTime 2020/11/2 16:59
      * @return: java.util.List<com.luobo.entity.Blog>
      */
-    List<Blog> findBlogs(Page<Blog> page, @Param(Constants.WRAPPER) QueryWrapper<Blog> wrapper);
+    List<Blog> findBlogs(Page<Blog> page, @Param(Constants.WRAPPER) QueryWrapper<Blog> wrapper, Long currentUserId);
 
+    /**
+     * @title findBlogsByUserId
+     * @description 根据用户ID获取博客
+     * @author davidmorgan
+     * @param: page 分页参数
+     * @param: userId 用户ID
+     * @updateTime 2020/11/26 11:01
+     * @return: java.util.List<com.luobo.entity.Blog>
+     */
     List<Blog> findBlogsByUserId(Page<Blog> page, Integer userId);
 }

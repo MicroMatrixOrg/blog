@@ -1,7 +1,6 @@
 package com.luobo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.luobo.common.dto.MailDto;
 import com.luobo.common.lang.Result;
 import com.luobo.entity.User;
@@ -18,7 +17,6 @@ import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
-import javax.sql.RowSet;
 import java.util.Date;
 
 /**
@@ -68,7 +66,14 @@ public class EmailController {
         }
     }
 
-
+    /**
+     * @title sendVerifyTemplateMail
+     * @description 发送HTML的邮件用来作为验证码的实现
+     * @author davidmorgan
+     * @param: mailDto
+     * @updateTime 2020/11/26 11:05
+     * @return: com.luobo.common.lang.Result
+     */
     @PostMapping("/verifytemplate")
     public Result sendVerifyTemplateMail(@Validated @RequestBody MailDto mailDto)  {
         Context context = new Context();
@@ -96,6 +101,14 @@ public class EmailController {
 
     }
 
+    /**
+     * @title verifyCode
+     * @description 验证用户提交的验证码
+     * @author davidmorgan
+     * @param: mailDto
+     * @updateTime 2020/11/26 11:06
+     * @return: com.luobo.common.lang.Result
+     */
     @PostMapping("/verifycode")
     public Result verifyCode(@Validated @RequestBody MailDto mailDto){
         String name = mailDto.getToMail();

@@ -330,6 +330,12 @@ export default {
         })
         .then(res => {
           _this.$store.commit("REMOVE_INFO");
+
+          if (_this.$route.query.isVoted) {
+            const query = JSON.parse(JSON.stringify(_this.$route.query));
+            query.isVoted = null;
+            _this.$router.push({ path: _this.$route.path, query });
+          }
           _this.$router.go(0);
         });
     },
@@ -346,14 +352,15 @@ export default {
       var tDom = event.target;
       var lDom = document.querySelector("#nav-menu-list-display");
       if (cDom && (cDom == tDom || cDom.contains(tDom))) {
-        console.log(lDom.style.display);
         if (lDom.style.display == "unset") {
           lDom.style.display = "none";
         } else {
           lDom.style.display = "unset";
         }
       } else {
-        lDom.style.display = "none";
+        if (lDom) {
+          lDom.style.display = "none";
+        }
       }
     },
     /**

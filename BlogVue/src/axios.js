@@ -4,7 +4,9 @@ import store from "./store";
 import router from "./router";
 axios.defaults.baseURL = 'http://localhost:9527'
 axios.interceptors.request.use(config => {
-  // console.log("前置拦截");
+  // console.log("前置拦截", config);
+  //设置一下请求头带上用户token
+  config.headers.userToken = localStorage.getItem("token");
   // 可以统一设置请求头
   return config;
 })
@@ -34,7 +36,7 @@ axios.interceptors.response.use(response => {
     if (error.response.status === 401) {
       store.commit('REMOVE_INFO');
       router.push({
-        path: '/loginPage'
+        path: `/loginPage?redirct=${window.location.href}`
       });
       error.message = '请重新登录';
     }

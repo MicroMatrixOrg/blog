@@ -11,15 +11,19 @@ import com.luobo.common.lang.Result;
 import com.luobo.entity.Blog;
 import com.luobo.service.BlogService;
 import com.luobo.service.UserService;
+import com.luobo.util.JwtUtils;
 import com.luobo.util.ShiroUtil;
+import io.jsonwebtoken.Claims;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 /**
  * <p>
@@ -34,26 +38,70 @@ import java.util.ArrayList;
 public class BlogController {
     @Autowired
     BlogService blogService;
+
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtUtils jwtUtils;
+    /**
+     * @title blogs
+     * @description 获得博客列表
+     * @author davidmorgan
+     * @param: pageParams
+     * @updateTime 2020/11/25 17:35
+     * @return: com.luobo.common.lang.Result
+     */
+    /**
+     * @title blogs
+     * @description
+     * @author davidmorgan
+     * @param: pageParams
+     * @param: servletRequest 主要用户获取用户的Token
+     * @updateTime 2020/11/27 14:19
+     * @return: com.luobo.common.lang.Result
+     */
     @PostMapping("/blogs")
-    public Result blogs(@RequestBody PageDto pageParams){
+    public Result blogs(@RequestBody PageDto pageParams, ServletRequest servletRequest){
         if(pageParams.getCurrentPage() == null || pageParams.getCurrentPage() < 1)
             pageParams.setCurrentPage(1);
         Page page = new Page(pageParams.getCurrentPage(),pageParams.getPageSize());
-        IPage pageData =blogService.GetBlogsLeftInUser(page, new QueryWrapper<Blog>().orderByDesc("created"));
+
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        String jwt = request.getHeader("UserToken");
+        Claims claims = jwtUtils.getClaimByToken(jwt);
+
+        Long currentUserId = null;
+        if(null != claims){
+            currentUserId =Long.parseLong(claims.get("sub").toString());
+        }
+        IPage pageData =blogService.GetBlogsLeftInUser(page, new QueryWrapper<Blog>().orderByDesc("created"),currentUserId);
         return Result.succ(pageData);
     }
 
-
+    /**
+     * @title detail
+     * @description 根据对应的博客ID获取博客详情
+     * @author davidmorgan
+     * @param: id
+     * @updateTime 2020/11/25 17:36
+     * @return: com.luobo.common.lang.Result
+     */
     @GetMapping("/{id}")
     public Result detail(@PathVariable(name="id") Long id){
         Blog blog = blogService.getById(id);
         Assert.notNull(blog,"该博客已被删除");
-
         return Result.succ(blog);
     }
+
+    /**
+     * @title edit
+     * @description 更新对应的博客内容
+     * @author davidmorgan
+     * @param: blog
+     * @updateTime 2020/11/25 17:37
+     * @return: com.luobo.common.lang.Result
+     */
     @RequiresAuthentication
     @PostMapping("/edit")
     public Result edit(@Validated @RequestBody Blog blog) {
@@ -78,6 +126,14 @@ public class BlogController {
         return Result.succ(null);
     }
 
+    /**
+     * @title getBlgs
+     * @description 获得该用户下的博客
+     * @author davidmorgan
+     * @param: pageParams 分页参数
+     * @updateTime 2020/11/25 17:37
+     * @return: com.luobo.common.lang.Result
+     */
     @PostMapping("/getMyBlogs")
     public Result getBlgs(@Validated @RequestBody PageDto pageParams){
         Assert.notNull(pageParams.getUserId(),"用户ID为空");
@@ -85,5 +141,6 @@ public class BlogController {
         IPage pageData =blogService.GetBlogsByuUserId(page, pageParams.getUserId());
         return Result.succ(pageData);
     }
+
 
 }

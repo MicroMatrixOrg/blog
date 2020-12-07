@@ -3,7 +3,12 @@ package com.luobo.common.lang;
 import lombok.Data;
 
 import java.io.Serializable;
-
+/**
+ * @title 结果类
+ * @description 将返回的结果进行一个结构化操作
+ * @author davidmorgan
+ * @updateTime 2020/11/26 11:13
+ */
 
 @Data
 public class Result implements Serializable {

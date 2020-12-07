@@ -40,7 +40,7 @@ server:
 #    #证书密码，请修改为您自己证书的密码.
 #    key-password: 123456
 #    #秘钥库类型
-#    key-store-type: JKS
+#    key-store-type: JKS  
 #    #证书别名
 #    key-alias: undertow
 #  http2:

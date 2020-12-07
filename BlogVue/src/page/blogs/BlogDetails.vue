@@ -82,6 +82,7 @@
               <mavon-editor
                 class="content markdown-body"
                 ref="md"
+                :ishljs="true"
                 v-model="blog.content"
                 defaultOpen="preview"
                 :subfield="false"
@@ -122,6 +123,13 @@
               </column>
             </skeleton>
           </article>
+          <hr />
+          <br />
+          <editorComment
+            :aritcle="blog"
+            v-if="aritcleReady"
+            @changeCount="setCount"
+          ></editorComment>
         </div>
         <aside class="sidebar">
           <div class="sidebar-block shadow">
@@ -160,8 +168,31 @@
               /></a>
             </div>
           </div>
+          <!-- <div class="sidebar-block shadow">
+            <editor-menu :article="blog.content"></editor-menu>
+          </div> -->
         </aside>
-        <div class="article-support-panle"></div>
+        <div class="article-support-panle">
+          <ul>
+            <li
+              :vote-badge="`${blog.voteCount}`"
+              class="helper-item thumb-icon"
+              @click.stop="thumb(blog)"
+            >
+              <i
+                :class="['fa', 'fa-thumbs-up', isVoted ? 'voted' : '']"
+                aria-hidden="true"
+              ></i>
+            </li>
+            <li
+              :comment-badge="blog.commentCount"
+              class="helper-item comment-icon"
+              @click.stop="comment(blog)"
+            >
+              <i :class="['fa', 'fa-commenting']" aria-hidden="true"></i>
+            </li>
+          </ul>
+        </div>
       </div>
     </main>
     <!-- <div class="mblog">
@@ -179,29 +210,37 @@
 <script>
 // import "github-markdown-css/github-markdown.css"; // 然后添加样式markdown-body
 import Header from "@/components/Header";
+import editorMenu from "@/components/article/Menu.vue";
+import editorComment from "@/components/comment/Comment.vue";
+
 export default {
   name: "BlogDetail",
-  components: { Header },
+  components: { Header, editorMenu, editorComment },
   data() {
     return {
       blog: {
         userId: null,
         title: "",
         description: "",
-        content: ""
+        content: "",
+        voteCount: 0
       },
       ownBlog: false, //是否是自己的博客
+      isVoted: null, //自己是否给这个博客点赞过
       userInfo: {
         avatar: "",
         username: "未知",
         created: "2020/10/1"
       },
       requestedAritcle: false, //文章详情请求
-      requestedAuthor: false //文章作者信息请求
+      requestedAuthor: false, //文章作者信息请求
+
+      aritcleReady: false //请求文章详情的接口完成状态
     };
   },
 
   created() {
+    this.isVoted = this.$route.query.isVoted;
     this.getBlog();
   },
   methods: {
@@ -217,25 +256,33 @@ export default {
       this.$axios.get(`${APIConfig.Base.Blog}/${blogId}`).then(res => {
         let resp = res.resp;
         let respData = res.respData;
+        if (respData.code == 200) {
+          _this.blog = respData.data;
+          var MarkdownIt = require("markdown-it"),
+            md = new MarkdownIt();
+          var result = md.render(_this.blog.content);
 
-        _this.blog = respData.data;
-        var MarkdownIt = require("markdown-it"),
-          md = new MarkdownIt();
-        var result = md.render(_this.blog.content);
+          _this.blog.content = result;
 
-        _this.blog.content = respData.data.content;
-        // 判断是否是自己的文章，能否编辑
-        if (_this.$store.getters.GET_USER) {
-          _this.ownBlog =
-            _this.blog.userId === _this.$store.getters.GET_USER.id;
-        } else {
-          _this.ownBlog = false;
+          // 判断是否是自己的文章，能否编辑
+          if (_this.$store.getters.GET_USER) {
+            _this.ownBlog =
+              _this.blog.userId === _this.$store.getters.GET_USER.id;
+          } else {
+            _this.ownBlog = false;
+          }
+          _this.aritcleReady = true;
+          _this.requestedAritcle = true;
+          _this.getAuthoryInfo();
         }
-        _this.requestedAritcle = true;
-        _this.getAuthoryInfo();
       });
     },
 
+    /**
+     * @description: 获取改篇文章的用户信息
+     * @Date: 2020-11-27 15:07:25
+     * @Author: David
+     */
     getAuthoryInfo() {
       const _this = this;
       this.$axios
@@ -248,6 +295,46 @@ export default {
             _this.$forceUpdate();
           }
         });
+    },
+
+    /**
+     * @description: 文章点赞
+     * @param {Object} blog 文章ID
+     * @return {*}
+     * @Date: 2020-11-26 15:45:57
+     * @Author: David
+     */
+
+    thumb(blog) {
+      let user = this.$store.getters.GET_USER;
+      if (user) {
+        let params = {
+          userId: user.id,
+          voteableId: blog.id
+        };
+        this.$axios.post(APIConfig.Thumb.Like, params).then(res => {
+          let resp = res.resp;
+          let respData = res.respData;
+          if (respData.code == 200) {
+            this.isVoted = respData.data;
+            this.isVoted ? blog.voteCount++ : blog.voteCount--;
+          }
+        });
+      } else {
+        let path = this.routerCfg.options.pathById(1);
+        this.$router.push(path);
+      }
+    },
+
+    /**
+     * @description: 获取子组件传递给父组件对参数，来修改评论数量
+     * @Date: 2020-12-07 16:31:24
+     * @Author: David
+     */
+
+    setCount(val) {
+      console.log(val);
+      this.blog.commentCount += val;
     }
   }
 };
@@ -268,7 +355,7 @@ export default {
   margin-top: 1.767rem;
 }
 .column-view {
-  padding: 0 0 8rem;
+  // padding: 0 0 8rem;
 }
 .main-conten {
   position: relative;
@@ -411,6 +498,62 @@ export default {
   position: relative;
   background-size: cover;
   background-color: #eee;
+}
+.article-support-panle {
+  position: fixed;
+  margin-left: -7rem;
+  top: 16rem;
+}
+.helper-item {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.75rem;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: #b2bac2;
+  cursor: pointer;
+  position: relative;
+}
+.thumb-icon:after {
+  content: attr(vote-badge);
+  position: absolute;
+  top: 0;
+  left: 75%;
+  padding: 0.1rem 0.4rem;
+  font-size: 1rem;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+  color: #fff;
+  background-color: #b2bac2;
+  border-radius: 0.7rem;
+  transform-origin: left top;
+  transform: scale(0.75);
+}
+
+.comment-icon:after {
+  content: attr(comment-badge);
+  position: absolute;
+  top: 0;
+  left: 75%;
+  padding: 0.1rem 0.4rem;
+  font-size: 1rem;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+  color: #fff;
+  background-color: #b2bac2;
+  border-radius: 0.7rem;
+  transform-origin: left top;
+  transform: scale(0.75);
+}
+
+.voted {
+  color: #6cbd45 !important;
 }
 
 //动态布局

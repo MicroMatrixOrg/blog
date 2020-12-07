@@ -45,6 +45,8 @@ public class AccountController {
         String jwt = jwtUtils.generateToken(user.getId());
         response.setHeader("Authorization",jwt);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
+
+
         //用户可以用另一个接口
         return Result.succ(MapUtil.builder()
                         .put("id", user.getId())

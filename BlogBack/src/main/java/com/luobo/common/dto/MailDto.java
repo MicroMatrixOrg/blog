@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @ClassName MailDto
- * @Description 请描述类的业务用途
+ * @Description 邮件实体类便于获取和传输
  * @Author davidmorgan
  * @Date 2020/10/10 10:58
  * @Version 1.0

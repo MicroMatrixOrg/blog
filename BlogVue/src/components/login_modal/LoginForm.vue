@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-11-23 13:20:31
- * @LastEditTime: 2020-11-23 16:51:12
+ * @LastEditTime: 2020-12-05 14:27:46
  * @LastEditors: David
  * @Description: 登录页面
  * @FilePath: /BlogVue/src/components/login_modal/LoginForm.vue
@@ -135,6 +135,11 @@
           </button>
         </div>
         <img src="static/image/log.svg" class="image" alt="" />
+        <!-- <embed
+          src="../../../static/image/log.svg"
+          class="image"
+          type="image/svg+xml"
+        /> -->
       </div>
       <div class="panel right-panel">
         <div class="content">
@@ -147,6 +152,11 @@
           </button>
         </div>
         <img src="static/image/register.svg" class="image" alt="" />
+        <!-- <embed
+          src="../../../static/image/register.svg"
+          class="image"
+          type="image/svg+xml"
+        /> -->
       </div>
     </div>
   </div>
@@ -270,8 +280,17 @@ export default {
             const token = resp.headers["authorization"];
             _this.$store.commit("SET_TOKEN", token);
             _this.$store.commit("SET_USERINFO", respData.data);
-            let path = this.routerCfg.options.pathById(2);
-            this.$router.push(path);
+            let redirctPath = _this.$route.fullPath;
+            if (redirctPath.lastIndexOf("redirct=") > -1) {
+              redirctPath = redirctPath.substring(
+                redirctPath.lastIndexOf("redirct=") + 8,
+                redirctPath.length - 1
+              );
+              window.location.href = _this.$utils.replaceStr(redirctPath);
+            } else {
+              let path = this.routerCfg.options.pathById(2);
+              this.$router.push(path);
+            }
           }
         });
       } else {
@@ -501,6 +520,7 @@ form.sign-in-form {
 
 .image {
   width: 100%;
+  height: 80%;
   transition: transform 1.1s ease-in-out;
   transition-delay: 0.4s;
 }

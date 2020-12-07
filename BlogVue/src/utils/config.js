@@ -1,10 +1,12 @@
 //接口配置
 
 var APIConfig = function (_baseUrl, _fileUrl) {
-  var BaseUrl = window.conf.baseUrl;
-  var BlogdUrl = BaseUrl + "/blog";
-  var BlogMail = BaseUrl + "/email";
-  var BlogUser = BaseUrl + "/user";
+  let BaseUrl = window.conf.baseUrl;
+  let BlogdUrl = BaseUrl + "/blog";
+  let BlogMail = BaseUrl + "/email";
+  let BlogUser = BaseUrl + "/user";
+  let Thumb = BaseUrl + "/vote";
+  let Comment = BaseUrl + "/comment"
   return {
 
     Base: {
@@ -26,7 +28,18 @@ var APIConfig = function (_baseUrl, _fileUrl) {
     User: {
       GetUserBaseInfo: BlogUser + "/",//"/{id}"
       EditUserInfo: BlogUser + "/editUserInfo"
+    },
+
+    Thumb: {
+      Like: Thumb + "/like"
+    },
+
+    Comment: {
+      ReleaseComment: Comment + "/review",//发布评论
+      GetCommentList: Comment + "/getCommentList",//获取评论列表
+      RemoveComment: Comment + "/deleteReview",//删除评论
     }
+
 
   }
 }

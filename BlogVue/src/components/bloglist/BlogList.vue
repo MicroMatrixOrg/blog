@@ -25,7 +25,7 @@
               class="entry-item-wrap"
               v-for="(item, index) in aritcleList"
               :key="index"
-              @click="openDetail(item.id)"
+              @click="openDetail(item.id, item.isVote)"
             >
               <li class="entry-item">
                 <header>
@@ -42,10 +42,19 @@
                 </div>
                 <div class="action-row">
                   <ul class="action-list">
-                    <li class="like-btn">
+                    <li class="like-btn" @click.stop="thumb(item)">
                       <a class="title-box">
-                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                        <span>99</span>
+                        <i
+                          :class="[
+                            'fa',
+                            'fa-thumbs-up',
+                            item.isVote ? 'voted' : ''
+                          ]"
+                          aria-hidden="true"
+                        ></i>
+                        <span :class="[item.isVote ? 'voted' : '']">{{
+                          item.voteCount
+                        }}</span>
                       </a>
                     </li>
                     <li class="comment-btn">
@@ -165,11 +174,20 @@ export default {
       }
     },
 
-    openDetail(id) {
+    /**
+     * @description: 跳转到详情页面
+     * @param {Number} id
+     * @param {Object} voted
+     * @return {*}
+     * @Date: 2020-11-27 09:40:46
+     * @Author: David
+     */
+
+    openDetail(id, voted) {
       const _this = this;
       let path = this.routerCfg.options.pathById(22);
 
-      this.$router.push({ path, query: { blogId: id } });
+      this.$router.push({ path, query: { blogId: id, isVoted: voted } });
     },
 
     /**
@@ -181,6 +199,7 @@ export default {
 
     searchParams(e) {
       const _this = this;
+
       let aList = document.getElementsByClassName("nav-header-item");
       for (let i = 0; i < aList.length; i++) {
         if (aList[i].classList.contains("active")) {
@@ -214,6 +233,35 @@ export default {
         _this.pageSize = respData.data.size;
         _this.requested = true;
       });
+    },
+
+    /**
+     * @description: 文章点赞
+     * @param {Object} blog 文章ID
+     * @return {*}
+     * @Date: 2020-11-26 15:45:57
+     * @Author: David
+     */
+
+    thumb(blog) {
+      let user = this.$store.getters.GET_USER;
+      if (user) {
+        let params = {
+          userId: user.id,
+          voteableId: blog.id
+        };
+        this.$axios.post(APIConfig.Thumb.Like, params).then(res => {
+          let resp = res.resp;
+          let respData = res.respData;
+          if (respData.code == 200) {
+            blog.isVote = respData.data;
+            blog.isVote ? blog.voteCount++ : blog.voteCount--;
+          }
+        });
+      } else {
+        let path = this.routerCfg.options.pathById(1);
+        this.$router.push(path);
+      }
     }
   }
 };
@@ -347,6 +395,9 @@ export default {
   .title-box {
     cursor: pointer;
     color: #909090;
+  }
+  .voted {
+    color: #6cbd45 !important;
   }
 }
 

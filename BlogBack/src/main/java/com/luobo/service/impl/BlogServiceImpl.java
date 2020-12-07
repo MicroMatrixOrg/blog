@@ -23,11 +23,29 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Autowired
     BlogMapper blogMapper;
 
+    /**
+     * @title GetBlogsLeftInUser
+     * @description 获取指定的博客左连接用户信息表
+     * @author davidmorgan
+     * @param: page
+     * @param: wrapper
+     * @updateTime 2020/11/26 11:02
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.luobo.entity.Blog>
+     */
     @Override
-    public Page<Blog> GetBlogsLeftInUser(Page<Blog> page, QueryWrapper<Blog> wrapper) {
-        return page.setRecords(blogMapper.findBlogs(page,wrapper));
+    public Page<Blog> GetBlogsLeftInUser(Page<Blog> page, QueryWrapper<Blog> wrapper,Long currentuserId) {
+        return page.setRecords(blogMapper.findBlogs(page,wrapper,currentuserId));
     }
 
+    /**
+     * @title GetBlogsByuUserId
+     * @description 根据用户ID获取他所写的博客
+     * @author davidmorgan
+     * @param: page
+     * @param: userId
+     * @updateTime 2020/11/26 11:03
+     * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.luobo.entity.Blog>
+     */
     @Override
     public Page<Blog> GetBlogsByuUserId(Page<Blog> page, Integer userId) {
         return page.setRecords(blogMapper.findBlogsByUserId(page,userId));
