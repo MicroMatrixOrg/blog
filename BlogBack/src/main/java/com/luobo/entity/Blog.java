@@ -43,4 +43,6 @@ public class Blog implements Serializable {
     private Integer voteCount;
 
     private Integer commentCount;
+
+    private Integer readCount;
 }

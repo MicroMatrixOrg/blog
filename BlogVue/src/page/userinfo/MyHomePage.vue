@@ -13,7 +13,13 @@
             :content="userInfo.avatar"
           />
           <div class="user-avatar">
-            <img :src="userInfo.avatar" alt="" />
+            <img
+              :src="
+                userInfo.avatar
+                  ? userInfo.avatar
+                  : '../../../static/image/m.ico'
+              "
+            />
           </div>
           <div class="user-name user-infobox">
             <div class="top">{{ userInfo.username }}</div>
@@ -70,6 +76,7 @@ export default {
     tabPanel,
     stories
   },
+  computed: {},
   mounted() {
     const _this = this;
     _this.getUserInfo();

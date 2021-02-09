@@ -239,7 +239,9 @@
               id="user-function"
               :style="
                 `background-image:url(${
-                  user.id != 0 ? user.avatar : '../../static/image/m.ico'
+                  user.id != 0 && user.avatar
+                    ? user.avatar
+                    : '../../static/image/m.ico'
                 })`
               "
             ></div>

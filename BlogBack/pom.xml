@@ -115,6 +115,26 @@
             <version>2.2.2.Final</version>
         </dependency>
 
+        <!-- 视频转码工具-->
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-core</artifactId>
+            <version>2.4.6</version>
+        </dependency>
+        <!--java-nativebin-linux-->
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-native-linux64</artifactId>
+            <version>2.4.4</version>
+        </dependency>
+        <!-- 视频转码工具结束-->
+
+        <!-- StringUtils 类 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.11</version>
+        </dependency>
 
     </dependencies>
 

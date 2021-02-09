@@ -1,8 +1,8 @@
 var conf = {
-  // baseUrl: "http://blogback.matrixmain.gq",
-  baseUrl: "http://localhost:8880",
+  baseUrl: "http://matrixs.gq:2052",
+  // baseUrl: "http://localhost:8880",
 
-  fileUrl: ""
+  fileUrl: "http://file.matrixs.gq/"
 };
 
 window.conf = conf;

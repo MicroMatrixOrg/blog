@@ -2,66 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e35f457a-a902-4c10-a4d6-17c8c39dc9c7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/CommentDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/CommentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/VoteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/entity/Comment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/entity/Vote.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/CommentMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/VoteMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/CommentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/VoteService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/CommentServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/VoteServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/CommentMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/VoteMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/entity/FileMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/util/EmpryFileException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/util/IPAddress.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/luobo/util/VideoTransCodeUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/LoginDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/LoginDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/MailDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/MailDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/PageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/PageDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/common/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/common/lang/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/lang/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/config/MybatisPlusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/config/MybatisPlusConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/BlogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/BlogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/EmailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/FileController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/entity/Blog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/entity/Blog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/entity/BlogUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/common/dto/BlogUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/BlogMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/BlogMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/BlogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/BlogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/BlogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/BlogServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/shiro/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/shiro/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/util/ShiroUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/util/ShiroUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/MailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/MailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/BlogBack.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/common/dto/LoginDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/common/dto/LoginDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/common/exception/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/common/exception/GlobalExceptionHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/common/lang/Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/common/lang/Result.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/config/CorsConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/config/MybatisPlusConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/config/MybatisPlusConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/AccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/AccountController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/BlogController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/BlogController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/EmailController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/EmailController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/FileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/FileController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/entity/Blog.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/entity/Blog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/entity/BlogUser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/mapper/BlogMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/mapper/BlogMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/BlogService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/BlogService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/BlogServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/BlogServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/util/ShiroUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/util/ShiroUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/BlogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/BlogMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/MailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/MailServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/Header.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/bloglist/BlogList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/bloglist/BlogList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/login_modal/LoginForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/login_modal/LoginForm.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogDetails.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/utils/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/utils/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/userinfo/MyHomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/userinfo/MyHomePage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/utils/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/static/js/conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/static/js/conf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/static/style/base_html.css" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/static/style/base_html.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +110,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/luobo/util" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/resources/templates" />
       <recent name="$PROJECT_DIR$/src/main/resources/mapper" />
@@ -160,8 +131,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MailServiceImpl" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.luobo.service.impl.MailServiceImpl" />
+      <module name="BlogBack" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.luobo.service.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="StringRandom" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.luobo.util.StringRandom" />
+      <module name="BlogBack" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.luobo.entity.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VideoTransCodeUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.luobo.util.VideoTransCodeUtil" />
       <module name="BlogBack" />
       <extension name="coverage">
         <pattern>
@@ -172,10 +169,6 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration name="BlogDemo-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" />
-      <method v="2" />
     </configuration>
     <configuration name="VueblogApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="BlogBack" />
@@ -202,15 +195,17 @@
     <list>
       <item itemvalue="Application.CodeGenerator" />
       <item itemvalue="Application.StringRandom" />
-      <item itemvalue="JAR Application.BlogDemo-1.0-SNAPSHOT.jar" />
+      <item itemvalue="Application.MailServiceImpl" />
+      <item itemvalue="Application.VideoTransCodeUtil" />
       <item itemvalue="Spring Boot.VueblogApplication (1)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.VueblogApplication (1)" />
+        <item itemvalue="Application.VideoTransCodeUtil" />
+        <item itemvalue="Application.MailServiceImpl" />
         <item itemvalue="Application.CodeGenerator" />
         <item itemvalue="Application.StringRandom" />
-        <item itemvalue="JAR Application.BlogDemo-1.0-SNAPSHOT.jar" />
       </list>
     </recent_temporary>
   </component>
@@ -298,7 +293,22 @@
       <workItem from="1607045795823" duration="19796000" />
       <workItem from="1607130880725" duration="9656000" />
       <workItem from="1607302146093" duration="695000" />
-      <workItem from="1607317984142" duration="2835000" />
+      <workItem from="1607317984142" duration="3888000" />
+      <workItem from="1607389159517" duration="3378000" />
+      <workItem from="1607657673354" duration="369000" />
+      <workItem from="1608537018362" duration="2421000" />
+      <workItem from="1608876048364" duration="58000" />
+      <workItem from="1609902294436" duration="10000" />
+      <workItem from="1610601434746" duration="1886000" />
+      <workItem from="1610671435180" duration="1470000" />
+      <workItem from="1610675197423" duration="637000" />
+      <workItem from="1611466008159" duration="873000" />
+      <workItem from="1611540316137" duration="627000" />
+      <workItem from="1611552596306" duration="3545000" />
+      <workItem from="1611625613809" duration="73000" />
+      <workItem from="1611625694484" duration="8344000" />
+      <workItem from="1612053690845" duration="5845000" />
+      <workItem from="1612851238708" duration="5603000" />
     </task>
     <servers />
   </component>
@@ -309,102 +319,86 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1117" y="233" key="#com.intellij.codeInsight.template.impl.EditVariableDialog" timestamp="1602296037482">
+    <state x="848" y="391" key="#com.intellij.debugger.actions.ViewTextAction" timestamp="1612056150337">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state x="1117" y="233" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1602296037482" />
+    <state x="848" y="391" key="#com.intellij.debugger.actions.ViewTextAction/0.23.1920.1006@0.23.1920.1006" timestamp="1612056150337" />
     <state x="1099" y="333" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605947447176">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="1099" y="333" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1920.1006@0.23.1920.1006" timestamp="1605947447176" />
-    <state x="447" y="231" width="566" height="567" key="#com.intellij.ide.util.MemberChooser" timestamp="1607145538834">
+    <state x="447" y="231" width="566" height="567" key="#com.intellij.ide.util.MemberChooser" timestamp="1611627498760">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state x="447" y="231" key="#com.intellij.ide.util.MemberChooser/0.23.1920.1006@0.23.1920.1006" timestamp="1607145538834" />
+    <state x="447" y="231" key="#com.intellij.ide.util.MemberChooser/0.23.1920.1006@0.23.1920.1006" timestamp="1611627498760" />
+    <state x="680" y="251" key="#com.intellij.refactoring.move.moveMembers.MoveMembersDialog" timestamp="1611638181096">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state x="680" y="251" key="#com.intellij.refactoring.move.moveMembers.MoveMembersDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1611638181096" />
     <state x="780" y="280" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1606961439142">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="780" y="280" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1606961439142" />
-    <state width="1797" height="254" key="GridCell.Tab.0.bottom" timestamp="1607326794451">
+    <state width="1878" height="298" key="GridCell.Tab.0.bottom" timestamp="1612856922634">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="254" key="GridCell.Tab.0.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1607326794451" />
-    <state width="1568" height="149" key="GridCell.Tab.0.bottom/38.23.1882.1057@38.23.1882.1057" timestamp="1600678992060" />
-    <state width="1797" height="254" key="GridCell.Tab.0.center" timestamp="1607326794450">
+    <state width="1878" height="298" key="GridCell.Tab.0.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1612856922634" />
+    <state width="1878" height="298" key="GridCell.Tab.0.center" timestamp="1612856922633">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="254" key="GridCell.Tab.0.center/0.23.1920.1006@0.23.1920.1006" timestamp="1607326794450" />
-    <state width="1568" height="149" key="GridCell.Tab.0.center/38.23.1882.1057@38.23.1882.1057" timestamp="1600678992059" />
-    <state width="1797" height="254" key="GridCell.Tab.0.left" timestamp="1607326794449">
+    <state width="1878" height="298" key="GridCell.Tab.0.center/0.23.1920.1006@0.23.1920.1006" timestamp="1612856922633" />
+    <state width="1878" height="298" key="GridCell.Tab.0.left" timestamp="1612856922632">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="254" key="GridCell.Tab.0.left/0.23.1920.1006@0.23.1920.1006" timestamp="1607326794449" />
-    <state width="1568" height="149" key="GridCell.Tab.0.left/38.23.1882.1057@38.23.1882.1057" timestamp="1600678992058" />
-    <state width="1797" height="254" key="GridCell.Tab.0.right" timestamp="1607326794450">
+    <state width="1878" height="298" key="GridCell.Tab.0.left/0.23.1920.1006@0.23.1920.1006" timestamp="1612856922632" />
+    <state width="1878" height="298" key="GridCell.Tab.0.right" timestamp="1612856922634">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="254" key="GridCell.Tab.0.right/0.23.1920.1006@0.23.1920.1006" timestamp="1607326794450" />
-    <state width="1568" height="149" key="GridCell.Tab.0.right/38.23.1882.1057@38.23.1882.1057" timestamp="1600678992059" />
-    <state width="1797" height="254" key="GridCell.Tab.1.bottom" timestamp="1607326794453">
+    <state width="1878" height="298" key="GridCell.Tab.0.right/0.23.1920.1006@0.23.1920.1006" timestamp="1612856922634" />
+    <state width="1878" height="298" key="GridCell.Tab.1.bottom" timestamp="1612856916899">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="254" key="GridCell.Tab.1.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1607326794453" />
-    <state width="1568" height="149" key="GridCell.Tab.1.bottom/38.23.1882.1057@38.23.1882.1057" timestamp="1600678992024" />
-    <state width="1797" height="254" key="GridCell.Tab.1.center" timestamp="1607326794452">
+    <state width="1878" height="298" key="GridCell.Tab.1.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1612856916899" />
+    <state width="1878" height="298" key="GridCell.Tab.1.center" timestamp="1612856916898">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="254" key="GridCell.Tab.1.center/0.23.1920.1006@0.23.1920.1006" timestamp="1607326794452" />
-    <state width="1568" height="149" key="GridCell.Tab.1.center/38.23.1882.1057@38.23.1882.1057" timestamp="1600678992024" />
-    <state width="1797" height="254" key="GridCell.Tab.1.left" timestamp="1607326794451">
+    <state width="1878" height="298" key="GridCell.Tab.1.center/0.23.1920.1006@0.23.1920.1006" timestamp="1612856916898" />
+    <state width="1878" height="298" key="GridCell.Tab.1.left" timestamp="1612856916898">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="254" key="GridCell.Tab.1.left/0.23.1920.1006@0.23.1920.1006" timestamp="1607326794451" />
-    <state width="1568" height="149" key="GridCell.Tab.1.left/38.23.1882.1057@38.23.1882.1057" timestamp="1600678992023" />
-    <state width="1797" height="254" key="GridCell.Tab.1.right" timestamp="1607326794452">
+    <state width="1878" height="298" key="GridCell.Tab.1.left/0.23.1920.1006@0.23.1920.1006" timestamp="1612856916898" />
+    <state width="1878" height="298" key="GridCell.Tab.1.right" timestamp="1612856916899">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="254" key="GridCell.Tab.1.right/0.23.1920.1006@0.23.1920.1006" timestamp="1607326794452" />
-    <state width="1568" height="149" key="GridCell.Tab.1.right/38.23.1882.1057@38.23.1882.1057" timestamp="1600678992024" />
-    <state width="1797" height="294" key="GridCell.Tab.2.bottom" timestamp="1607162460209">
+    <state width="1878" height="298" key="GridCell.Tab.1.right/0.23.1920.1006@0.23.1920.1006" timestamp="1612856916899" />
+    <state width="1878" height="228" key="GridCell.Tab.2.bottom" timestamp="1612856814867">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="294" key="GridCell.Tab.2.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1607162460209" />
-    <state width="1797" height="294" key="GridCell.Tab.2.center" timestamp="1607162460209">
+    <state width="1878" height="228" key="GridCell.Tab.2.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1612856814867" />
+    <state width="1878" height="228" key="GridCell.Tab.2.center" timestamp="1612856814866">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="294" key="GridCell.Tab.2.center/0.23.1920.1006@0.23.1920.1006" timestamp="1607162460209" />
-    <state width="1797" height="294" key="GridCell.Tab.2.left" timestamp="1607162460209">
+    <state width="1878" height="228" key="GridCell.Tab.2.center/0.23.1920.1006@0.23.1920.1006" timestamp="1612856814866" />
+    <state width="1878" height="228" key="GridCell.Tab.2.left" timestamp="1612856814865">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="294" key="GridCell.Tab.2.left/0.23.1920.1006@0.23.1920.1006" timestamp="1607162460209" />
-    <state width="1797" height="294" key="GridCell.Tab.2.right" timestamp="1607162460209">
+    <state width="1878" height="228" key="GridCell.Tab.2.left/0.23.1920.1006@0.23.1920.1006" timestamp="1612856814865" />
+    <state width="1878" height="228" key="GridCell.Tab.2.right" timestamp="1612856814866">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1797" height="294" key="GridCell.Tab.2.right/0.23.1920.1006@0.23.1920.1006" timestamp="1607162460209" />
-    <state x="880" y="187" key="Maven.ArtifactSearchDialog" timestamp="1602831658003">
-      <screen x="0" y="23" width="1920" height="1006" />
-    </state>
-    <state x="880" y="187" key="Maven.ArtifactSearchDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1602831658003" />
+    <state width="1878" height="228" key="GridCell.Tab.2.right/0.23.1920.1006@0.23.1920.1006" timestamp="1612856814866" />
     <state x="360" y="70" width="1257" height="722" key="SettingsEditor" timestamp="1604457062549">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="360" y="70" key="SettingsEditor/0.23.1920.1006@0.23.1920.1006" timestamp="1604457062549" />
-    <state width="877" height="503" key="XDebugger.FullValuePopup" timestamp="1604037254648">
+    <state x="503" y="269" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1612055321901">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="877" height="503" key="XDebugger.FullValuePopup/0.23.1920.1006@0.23.1920.1006" timestamp="1604037254648" />
-    <state x="503" y="269" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1606381751122">
-      <screen x="0" y="23" width="1920" height="1006" />
-    </state>
-    <state x="503" y="269" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.1920.1006@0.23.1920.1006" timestamp="1606381751122" />
+    <state x="503" y="269" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.1920.1006@0.23.1920.1006" timestamp="1612055321901" />
     <state x="656" y="202" width="782" height="542" key="find.popup" timestamp="1606455052836">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="656" y="202" width="782" height="542" key="find.popup/0.23.1920.1006@0.23.1920.1006" timestamp="1606455052836" />
-    <state x="430" y="230" key="new project wizard" timestamp="1603273086034">
-      <screen x="0" y="23" width="1920" height="1006" />
-    </state>
-    <state x="430" y="230" key="new project wizard/0.23.1920.1006@0.23.1920.1006" timestamp="1603273086034" />
     <state x="554" y="243" key="run.anything.popup" timestamp="1606381711016">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
@@ -413,15 +407,14 @@
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="746" y="129" width="670" height="676" key="search.everywhere.popup/0.23.1920.1006@0.23.1920.1006" timestamp="1607046322834" />
+    <state x="690" y="445" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1611625707233">
+      <screen x="0" y="23" width="1920" height="1006" />
+    </state>
+    <state x="690" y="445" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1611625707233" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/luobo/controller/BlogController.java</url>
-          <line>65</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/luobo/controller/CommentController.java</url>
           <line>58</line>
@@ -441,6 +434,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/luobo/controller/CommentController.java</url>
           <line>147</line>
           <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/luobo/util/VideoTransCodeUtil.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/luobo/controller/BlogController.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

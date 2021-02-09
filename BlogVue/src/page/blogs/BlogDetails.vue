@@ -65,7 +65,7 @@
                   >
                     {{ $utils.dateFormat(blog.created, "yyyy年MM月dd日") }}
                   </time>
-                  <span class="views-count">阅读 1</span>
+                  <span class="views-count">阅读 {{ blog.readCount }}</span>
                   <span class="dot">·</span>
                   <span class="edit-btn" v-if="ownBlog"
                     ><router-link
@@ -126,6 +126,7 @@
           <hr />
           <br />
           <editorComment
+            id="comment-body"
             :aritcle="blog"
             v-if="aritcleReady"
             @changeCount="setCount"
@@ -141,7 +142,13 @@
                 ><div
                   :data-src="userInfo.avatar"
                   class="lazy avatar avatar loaded"
-                  :style="`background-image:url(${userInfo.avatar})`"
+                  :style="
+                    `background-image:url(${
+                      userInfo.avatar
+                        ? userInfo.avatar
+                        : '../../../static/image/m.ico'
+                    })`
+                  "
                 ></div>
                 <div class="info-box">
                   <a class="username"
@@ -187,7 +194,7 @@
             <li
               :comment-badge="blog.commentCount"
               class="helper-item comment-icon"
-              @click.stop="comment(blog)"
+              @click.stop="commentBlog(blog)"
             >
               <i :class="['fa', 'fa-commenting']" aria-hidden="true"></i>
             </li>
@@ -223,7 +230,8 @@ export default {
         title: "",
         description: "",
         content: "",
-        voteCount: 0
+        voteCount: 0,
+        commentCount: 0
       },
       ownBlog: false, //是否是自己的博客
       isVoted: null, //自己是否给这个博客点赞过
@@ -262,7 +270,7 @@ export default {
             md = new MarkdownIt();
           var result = md.render(_this.blog.content);
 
-          _this.blog.content = result;
+          // _this.blog.content = result;
 
           // 判断是否是自己的文章，能否编辑
           if (_this.$store.getters.GET_USER) {
@@ -324,6 +332,25 @@ export default {
         let path = this.routerCfg.options.pathById(1);
         this.$router.push(path);
       }
+    },
+
+    /**
+     * @description: 评价博客按钮 点击跳转到评价到DOM元素处
+     * @param {*} val
+     * @return {*}
+     * @Date: 2020-12-08 11:11:12
+     * @Author: David
+     */
+
+    commentBlog(val) {
+      const _this = this;
+      const commentBody = document.getElementById("comment-body");
+      window.scrollTo({
+        left: 0,
+        top: commentBody.offsetTop,
+        behavior: "smooth"
+      });
+      // console.log(commentBody.offsetTop);
     },
 
     /**

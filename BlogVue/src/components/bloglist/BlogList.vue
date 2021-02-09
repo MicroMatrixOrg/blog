@@ -60,11 +60,20 @@
                     <li class="comment-btn">
                       <a class="title-box">
                         <i class="fa fa-commenting" aria-hidden="true"></i>
+                        <span>{{ item.commentCount }}</span>
                       </a>
                     </li>
                   </ul>
                 </div>
               </li>
+            </div>
+
+            <div class="entry-item-wrap" v-show="aritcleList.length <= 0">
+              <img
+                src="../../../static/image/empty.png"
+                alt=""
+                style="margin:0 auto;"
+              />
             </div>
           </ul>
         </div>
@@ -177,7 +186,7 @@ export default {
     /**
      * @description: 跳转到详情页面
      * @param {Number} id
-     * @param {Object} voted
+     * @param {Object} voted 是否点赞
      * @return {*}
      * @Date: 2020-11-27 09:40:46
      * @Author: David

@@ -19,6 +19,12 @@ spring:
     properties.mail.smtp.starttls.required: true
     properties.mail.smtp.ssl.enable: true
 
+#上传文件限制配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 60MB
+      max-request-size: 60MB
 
   #模版位置配置
   thymeleaf:

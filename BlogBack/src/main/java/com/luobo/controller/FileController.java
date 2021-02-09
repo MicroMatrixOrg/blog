@@ -2,7 +2,9 @@ package com.luobo.controller;
 
 
 import com.luobo.common.lang.Result;
+import com.luobo.entity.FileMessage;
 import com.luobo.service.FileService;
+import com.luobo.util.VideoTransCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -35,10 +34,19 @@ public class FileController {
     @Value("${file-storge.path}")
     String path;
 
+    /**
+     * @title uploadFile
+     * @description 接收博客上传的文件
+     * @author davidmorgan
+     * @param: upfiles
+     * @updateTime 2021/1/25 13:55
+     * @return: com.luobo.common.lang.Result
+     */
     @PostMapping("upload")
-    public Result uploadFile(MultipartFile[] upfiles) throws IOException {
+    public Result uploadFile(MultipartFile[] upfiles) throws Exception {
 
         List<Map<String, String>> fileList = new ArrayList<>();
+//        文件计数，查看是否成功上传
         int saveCount = 0;
         if(upfiles.length > 0){
 
@@ -50,15 +58,55 @@ public class FileController {
                 saveCount ++;
                 String origName = upfile.getOriginalFilename();
 
-                datafile.setName(origName);
-                datafile.setPath(path +"/"+ origName);
+                String contentType = upfile.getContentType();
 
-                map.put("title",origName);
-                map.put("filePath",path +"/"+ origName);
+                Boolean isImage = contentType.toLowerCase().contains("image");
 
-                File file = new File(path +"/"+ origName);
+                Calendar cal=Calendar.getInstance();
+                int y=cal.get(Calendar.YEAR);
+                int m=cal.get(Calendar.MONTH)+1;
+                int d=cal.get(Calendar.DATE);
+                String currentTime = y+"/"+m+"/"+d;
 
-                upfile.transferTo(file);
+                //相对路径用来展示 配合文件域名 file.**.**
+
+                String relativePath = "";
+                //文件存储的绝对路径 用UUID进行唯一的标示
+                String filePath = "";
+
+                if(isImage){
+                    //是图片就不用去视频转化
+                    relativePath += "/blog/"+currentTime+'/'+UUID.randomUUID();
+                    filePath += path +relativePath;
+
+                    datafile.setName(origName);
+                    datafile.setPath(filePath);
+
+
+                    File file = new File(filePath);
+                    if(!file.exists() && !file.isDirectory()){
+                        file.mkdirs();
+                    }
+                    File fileNew = new File(filePath);
+                    upfile.transferTo(fileNew);
+
+                    map.put("title",origName);
+                    map.put("filePath",relativePath);
+                }else{
+                    relativePath += "/blog/"+currentTime+'/';
+                    filePath += path +relativePath;
+
+                   FileMessage fm =  VideoTransCodeUtil.VideoTransCode(filePath,upfile);
+
+                    datafile.setName(origName);
+                    datafile.setPath(filePath);
+
+                    map.put("title",origName);
+                    map.put("filePath",relativePath);
+                }
+
+
+//                upfile.transferTo(file);
 
                 fileList.add(map);
 

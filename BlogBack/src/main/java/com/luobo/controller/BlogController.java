@@ -11,6 +11,7 @@ import com.luobo.common.lang.Result;
 import com.luobo.entity.Blog;
 import com.luobo.service.BlogService;
 import com.luobo.service.UserService;
+import com.luobo.util.IPAddress;
 import com.luobo.util.JwtUtils;
 import com.luobo.util.ShiroUtil;
 import io.jsonwebtoken.Claims;
@@ -20,6 +21,7 @@ import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -88,11 +90,26 @@ public class BlogController {
      * @return: com.luobo.common.lang.Result
      */
     @GetMapping("/{id}")
-    public Result detail(@PathVariable(name="id") Long id){
+    public Result detail(@PathVariable(name="id") Long id ,HttpServletRequest request){
         Blog blog = blogService.getById(id);
         Assert.notNull(blog,"该博客已被删除");
+        String ip = IPAddress.getIpAddr(request);
+
+        Boolean isRead = IPAddress.isRead(id,ip);
+        if(!isRead){
+            Blog temp = new Blog();
+            Integer count = blog.getReadCount();
+            count ++;
+            blog.setReadCount(count);
+            BeanUtil.copyProperties(blog,temp);
+            blogService.saveOrUpdate(temp);
+        }
+
+
+
         return Result.succ(blog);
     }
+
 
     /**
      * @title edit
@@ -110,7 +127,7 @@ public class BlogController {
         if(blog.getId() != null) {
             temp = blogService.getById(blog.getId());
             // 只能编辑自己的文章
-            System.out.println(ShiroUtil.getProfile().getId());
+//            System.out.println(ShiroUtil.getProfile().getId());
             Assert.isTrue(temp.getUserId().longValue() == ShiroUtil.getProfile().getId().longValue(), "没有权限编辑");
 
         } else {

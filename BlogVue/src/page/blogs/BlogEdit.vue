@@ -26,7 +26,7 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm()">立即创建</el-button>
+          <el-button type="primary" @click="submitForm()">保存内容</el-button>
           <el-button @click="cancle()">取消</el-button>
         </el-form-item>
       </el-form>
@@ -115,7 +115,10 @@ export default {
         .then(res => {
           let resp = res.resp;
           let respData = res.respData;
-          _this.$refs.md.$img2Url(pos, respData.data[0].filePath);
+          _this.$refs.md.$img2Url(
+            pos,
+            window.conf.fileUrl + respData.data[0].filePath
+          );
         });
     },
 

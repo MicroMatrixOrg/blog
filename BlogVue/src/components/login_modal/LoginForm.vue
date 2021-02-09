@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-11-23 13:20:31
- * @LastEditTime: 2020-12-05 14:27:46
+ * @LastEditTime: 2021-01-25 10:09:25
  * @LastEditors: David
  * @Description: 登录页面
  * @FilePath: /BlogVue/src/components/login_modal/LoginForm.vue
@@ -63,13 +63,16 @@
           </div> -->
         </form>
         <form onsubmit="return false" class="sign-up-form" name="registerForm">
-          <h2 class="title">注册</h2>
-          <div class="input-field">
+          <h2 class="title">
+            暂时不接受注册,如有需要请联系davidmorgancreate@gmail.com
+          </h2>
+          <!-- <div class="input-field">
             <i class="fas fa-user"></i>
             <input
               type="text"
               placeholder="用户名"
               v-model="signUpAccount.username"
+              disabled
             />
           </div>
           <div class="input-field">
@@ -81,6 +84,7 @@
               placeholder="电子邮箱(qq/gmail/outlook/163)"
               required
               pattern=".+@[qq|gmail|outlook|163|protonmail]+(\.[a-zA-Z0-9_-]+)+$"
+              disabled
             />
           </div>
           <div class="input-field">
@@ -89,6 +93,7 @@
               type="password"
               placeholder="密码"
               v-model="signUpAccount.password"
+              disabled
             />
             <div class="eye-wrap">
               <i
@@ -103,22 +108,7 @@
               ></i>
             </div>
           </div>
-          <button class="btn" @click="register()">注册</button>
-          <!-- <p class="social-text">Or Sign up with social platforms</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div> -->
+          <button class="btn" @click="register()" disabled>注册</button> -->
         </form>
       </div>
     </div>
