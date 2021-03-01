@@ -1,10 +1,10 @@
 <!--
  * @Author: David
  * @Date: 2020-11-27 17:07:48
- * @LastEditTime: 2020-12-07 16:33:24
+ * @LastEditTime: 2021-02-28 12:09:36
  * @LastEditors: David
  * @Description: 评论组件
- * @FilePath: /BlogVue/src/components/comment/comment.vue
+ * @FilePath: /BlogVue/src/components/comment/Comment.vue
  * @可以输入预定的版权声明、个性签名、空行等
 -->
 
@@ -364,6 +364,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.comment-box {
+  position: relative;
+  z-index: -1;
+}
 .comment-form {
   padding: 0 20px;
   display: flex;

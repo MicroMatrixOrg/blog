@@ -73,7 +73,7 @@ public class IPAddress {
 
         if(str == null){
             jedis.set(ip,"ready_"+id);
-            //设置验证码过期时间 过期时间为30分钟
+            //设置验证码过期时间 过期时间为1天
             jedis.expire(ip,864000);
             jedis.close();
             return false;

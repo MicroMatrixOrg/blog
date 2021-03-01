@@ -464,6 +464,7 @@ export default {
   top: 0;
   right: 0;
   width: 20rem;
+  z-index: -1;
 }
 
 .sidebar-block:not(.pure) {
@@ -530,6 +531,7 @@ export default {
   position: fixed;
   margin-left: -7rem;
   top: 16rem;
+  z-index: -1;
 }
 .helper-item {
   width: 3rem;
