@@ -9,8 +9,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luobo.common.dto.PageDto;
 import com.luobo.common.lang.Result;
 import com.luobo.entity.Blog;
+import com.luobo.entity.Vote;
 import com.luobo.service.BlogService;
+import com.luobo.service.CommentService;
 import com.luobo.service.UserService;
+import com.luobo.service.VoteService;
 import com.luobo.util.IPAddress;
 import com.luobo.util.JwtUtils;
 import com.luobo.util.ShiroUtil;
@@ -45,15 +48,37 @@ public class BlogController {
     UserService userService;
 
     @Autowired
+    VoteService voteService;
+
+    @Autowired
+    CommentService commentService;
+
+
+
+    @Autowired
     JwtUtils jwtUtils;
-    /**
-     * @title blogs
-     * @description 获得博客列表
-     * @author davidmorgan
-     * @param: pageParams
-     * @updateTime 2020/11/25 17:35
-     * @return: com.luobo.common.lang.Result
-     */
+
+    @RequiresAuthentication
+    @PostMapping("/deleteBlog")
+    public Result delete(@RequestBody Blog tBlog){
+        Long lBlogId =tBlog.getId();
+        Blog blog = blogService.getById(lBlogId);
+        Assert.notNull(blog,"该博客不存在");
+        //删除博客，同时删除博客相关的表
+        //1、点赞
+        Integer voreCount = voteService.deleteVote(lBlogId);
+        Assert.notNull(voreCount,"评论删除错误");
+        //2、评论
+        Integer commCount = commentService.deleteComment(lBlogId);
+        Assert.notNull(commCount,"评论删除失败");
+        //3、文件暂时为未完整
+
+
+        Boolean dele = blogService.removeById(lBlogId);
+        Assert.isTrue(dele,"删除失败");
+        return Result.succ(blog);
+    }
+
     /**
      * @title blogs
      * @description
@@ -104,9 +129,6 @@ public class BlogController {
             BeanUtil.copyProperties(blog,temp);
             blogService.saveOrUpdate(temp);
         }
-
-
-
         return Result.succ(blog);
     }
 
@@ -151,6 +173,7 @@ public class BlogController {
      * @updateTime 2020/11/25 17:37
      * @return: com.luobo.common.lang.Result
      */
+    @RequiresAuthentication
     @PostMapping("/getMyBlogs")
     public Result getBlgs(@Validated @RequestBody PageDto pageParams){
         Assert.notNull(pageParams.getUserId(),"用户ID为空");

@@ -1,9 +1,24 @@
+<!--
+ * @Author: David
+ * @Date: 2020-11-07 10:05:11
+ * @LastEditTime: 2021-03-04 21:33:40
+ * @LastEditors: David
+ * @Description: 用户动态页面
+ * @FilePath: /BlogVue/src/components/userInfoComponents/Stories.vue
+ * 可以输入预定的版权声明、个性签名、空行等
+-->
+
 <template>
   <div class="stories-list">
     <div class="stories-wrap" v-for="(item, index) in blogList" :key="index">
       <div class="stories">
         <div class="avatar">
-          <img :src="userInfo.avatar" alt="" />
+          <img
+            :src="
+              userInfo.avatar ? userInfo.avatar : '../../../static/image/m.ico'
+            "
+            alt=""
+          />
         </div>
         <div class="s-content">
           <span class="username">{{ userInfo.username }}</span>
@@ -11,24 +26,28 @@
           <h3 class="title" @click="openDetail(item.id)">{{ item.title }}</h3>
         </div>
       </div>
-      <div class="thumb-action" v-show="false">
+      <div class="thumb-action">
         <div class="thumbs">
-          <div class="thumbs-o-up" v-show="true">
+          <div
+            class="thumbs-o-up"
+            v-show="typeof item.isVote == null || !item.isVote"
+            @click.stop="thumb(item)"
+          >
             <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;<span
               >赞</span
             >
           </div>
-          <div class="thumbs-up" v-show="false">
-            <i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;<span
-              >1</span
+          <div class="thumbs-up" v-show="item.isVote" @click.stop="thumb(item)">
+            <i class="fa fa-thumbs-up voted" aria-hidden="true"></i>&nbsp;<span
+              >{{ item.voteCount }}</span
             >
           </div>
         </div>
         <div class="comment">
           <div class="comment-wrap">
-            <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;<span
-              >2</span
-            >
+            <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;<span>{{
+              item.commentCount
+            }}</span>
           </div>
         </div>
         <div class="share"></div>
@@ -70,9 +89,42 @@ export default {
   },
   mounted() {
     const _this = this;
-    _this.getUserInfo();
   },
   methods: {
+    /**
+     * @description: 文章点赞
+     * @param {Number} blog 文章ID
+     * @return {*}
+     * @Date: 2021-03-03 22:00:44
+     * @Author: David
+     */
+
+    thumb(blog) {
+      let user = this.$store.getters.GET_USER;
+      if (user) {
+        let params = {
+          userId: user.id,
+          voteableId: blog.id
+        };
+        this.$axios.post(APIConfig.Thumb.Like, params).then(res => {
+          let resp = res.resp;
+          let respData = res.respData;
+          if (respData.code == 200) {
+            if (respData.data) {
+              blog.voteCount++;
+              blog.isVote = true;
+            } else {
+              blog.voteCount--;
+              blog.isVote = false;
+            }
+          }
+        });
+      } else {
+        let path = this.routerCfg.options.pathById(1);
+        this.$router.push(path);
+      }
+    },
+
     /**
      * @description: 全局计算距离底部多少的时候加载数据 calcHeight方法在mixins中混入
      * @Date: 2020-11-04 09:50:47
@@ -220,5 +272,8 @@ export default {
   .span {
     font-size: 16px;
   }
+}
+.voted {
+  color: #6cbd45 !important;
 }
 </style>

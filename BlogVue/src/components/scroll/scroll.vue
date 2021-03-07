@@ -1,3 +1,13 @@
+<!--
+ * @Author: David
+ * @Date: 2020-11-09 16:37:21
+ * @LastEditTime: 2021-03-03 21:32:52
+ * @LastEditors: David
+ * @Description: 无限加载
+ * @FilePath: /BlogVue/src/components/scroll/scroll.vue
+ * 可以输入预定的版权声明、个性签名、空行等
+-->
+
 <script>
 export default {
   data() {

@@ -33,13 +33,13 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
 
-#server:
-#  port: 8880
+server:
+  port: 8880
 
 #https请求配置
 #https端口号.
-server:
-  port: 9527
+#server:
+#  port: 9526
 #  ssl:
 #    #证书的路径.
 #    key-store: classpath:ssl.keystore
@@ -51,11 +51,11 @@ server:
 #    key-alias: undertow
 #  http2:
 #    enabled: true
-  undertow:
-    io-threads: 4
-    worker-threads: 2
-    buffer-size: 1024
-    direct-buffers: true
+#  undertow:
+#    io-threads: 4
+#    worker-threads: 2
+#    buffer-size: 1024
+#    direct-buffers: true
 #
 ##http端口号
 #custom:

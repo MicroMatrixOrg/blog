@@ -10,6 +10,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <p>
  *  服务实现类
@@ -71,4 +74,21 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public Integer getCountByParentId(CommentDto commentDto) {
         return null;
     }
+
+    /**
+     * @title deleteComment
+     * @description 删除改文章下的评论
+     * @author davidmorgan
+     * @param: blogId
+     * @updateTime 2021/3/7 13:00
+     * @return: java.lang.Integer
+     */
+    @Override
+    public Integer deleteComment(Long blogId) {
+        Map<String,Object> deleMap = new HashMap<>();
+        deleMap.put("commentable_id",blogId);
+        return commentMapper.deleteByMap(deleMap);
+    }
+
+
 }

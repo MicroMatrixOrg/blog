@@ -17,7 +17,8 @@ var APIConfig = function (_baseUrl, _fileUrl) {
       Blogs: BlogdUrl + "/blogs",
       BlogEdit: BlogdUrl + "/edit",
       BlogsImgUpload: BaseUrl + "/file/upload",
-      BlogsByUserId: BlogdUrl + "/getMyBlogs"
+      BlogsByUserId: BlogdUrl + "/getMyBlogs",
+      DeleteBlog: BlogdUrl + "/deleteBlog",
     },
 
     Email: {

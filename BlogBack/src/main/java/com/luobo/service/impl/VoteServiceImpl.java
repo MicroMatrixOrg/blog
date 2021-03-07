@@ -4,9 +4,11 @@ import com.luobo.entity.Vote;
 import com.luobo.mapper.VoteMapper;
 import com.luobo.service.VoteService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -35,5 +37,19 @@ public class VoteServiceImpl extends ServiceImpl<VoteMapper, Vote> implements Vo
     public Vote getTheVote(Long userId, Integer blogId) {
         Vote vote = voteMapper.fingVoteByUserIdAndBlogId(userId,blogId);
         return vote;
+    }
+
+    /**
+     * @title deleteVote
+     * @description 删除点赞信息
+     * @author davidmorgan
+     * @param: blogId
+     * @updateTime 2021/3/7 12:50
+     */
+    @Override
+    public int deleteVote(Long blogId) {
+        Map<String,Object> deleMap = new HashMap<>();
+        deleMap.put("voteable_id",blogId);
+        return voteMapper.deleteByMap(deleMap);
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar-header-wrap">
     <div class="m-content-theme toolbar-header">
-      <a href="#/blogs" class="m-icon-theme-default logo">
+      <a class="m-icon-theme-default logo" @click="toMainPage()">
         <svg
           width="60"
           height="40"
@@ -225,7 +225,7 @@
               <searchbtn></searchbtn>
             </div>
           </li>
-          <li class="m-person-theme-default nav-item">
+          <li class="m-person-theme-default nav-item write-item">
             <div class="add-btn-group">
               <button class="add-blog" @click="writeblog()">写文章</button>
             </div>
@@ -252,7 +252,7 @@
             >
               <div class="nav-menu-item-group">
                 <li class="nav-menu-item">
-                  <a href="#/blog/edit">
+                  <a @click="writeblog()">
                     <i class="fa fa-pencil icon" aria-hidden="true"></i>
                     <span>写文章</span>
                   </a>
@@ -315,7 +315,33 @@ export default {
     const _this = this;
     document.removeEventListener("click", _this.showControl, true);
   },
+
+  mounted() {
+    const _this = this;
+    document.addEventListener("click", _this.showControl, true);
+  },
+  created() {
+    if (this.$store.getters.GET_USER) {
+      this.user.id = this.$store.getters.GET_USER.id;
+      this.user.username = this.$store.getters.GET_USER.username;
+      this.user.avatar = this.$store.getters.GET_USER.avatar;
+      this.hasLogin = true;
+    }
+  },
   methods: {
+    /**
+     * @description: 点击回到主页
+     * @param {*}
+     * @return {*}
+     * @Date: 2021-03-07 11:15:19
+     * @Author: David
+     */
+
+    toMainPage() {
+      const _this = this;
+      let path = this.routerCfg.options.pathById(2);
+      this.$router.push({ path });
+    },
     /**
      * @description: 退出
      * @Date: 2020-08-08 10:57:47
@@ -374,10 +400,10 @@ export default {
     writeblog() {
       if (this.user.id == 0) {
         let path = this.routerCfg.options.pathById(1);
-        this.$router.push(path);
+        this.$router.push({ path });
       } else {
         let path = this.routerCfg.options.pathById(4);
-        this.$router.push(path);
+        this.$router.push({ path });
       }
     },
 
@@ -390,19 +416,7 @@ export default {
     homePage() {
       const _this = this;
       let path = this.routerCfg.options.pathById(21);
-      this.$router.push(path);
-    }
-  },
-  mounted() {
-    const _this = this;
-    document.addEventListener("click", _this.showControl, true);
-  },
-  created() {
-    if (this.$store.getters.GET_USER) {
-      this.user.id = this.$store.getters.GET_USER.id;
-      this.user.username = this.$store.getters.GET_USER.username;
-      this.user.avatar = this.$store.getters.GET_USER.avatar;
-      this.hasLogin = true;
+      this.$router.push({ path }, () => {});
     }
   }
 };
@@ -416,6 +430,7 @@ export default {
 
 .logo {
   margin-right: 2rem;
+  margin-left: 0.15rem;
   cursor: pointer;
 }
 
@@ -592,6 +607,18 @@ export default {
   > span {
     margin-left: 0;
     flex-grow: 1;
+  }
+}
+
+@media (max-width: 570px) {
+  //手机大小的屏幕
+  .toolbar-header {
+    //顶部栏 暂时隐藏
+    // overflow-y: hidden;
+
+    .write-item {
+      display: none;
+    }
   }
 }
 </style>

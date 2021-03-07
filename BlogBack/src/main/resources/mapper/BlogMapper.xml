@@ -7,7 +7,7 @@
    </resultMap>
 
 
-
+    <!-- 获取用户文章 -->
     <select id="findBlogs" resultMap="BlogUserMap" >
         SELECT b.*, u.username ,m.id as is_vote  FROM m_blog b
             LEFT JOIN m_user u on b.user_id = u.id
@@ -15,12 +15,16 @@
         WHERE v.user_id = #{currentUserId}) m on m.voteable_id = b.id ${ew.customSqlSegment}
     </select>
 
+    <!--  根据用户ID获取文章  -->
     <select id ="findBlogsByUserId" resultMap="BlogUserMap">
-        SELECT b.id,b.user_id,b.title,b.created FROM m_blog b
-        <where>
-            b.user_id = #{userId}
-        </where>
+        SELECT b.*, u.username ,m.id as is_vote  FROM m_blog b
+            LEFT JOIN m_user u on b.user_id = u.id
+            LEFT JOIN (SELECT * from m_vote v
+        WHERE v.user_id = #{userId}) m on m.voteable_id = b.id
     </select>
+
+    <!--  查询文章 该用户点击过的文章和自己的文章，按照时间排序  -->
+
 
 
 </mapper>

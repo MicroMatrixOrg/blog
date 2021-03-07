@@ -26,7 +26,13 @@ export default {
     return {
       isShowUp: false,
 
-      cn: false //背景飘动的线对象
+      cn: false, //背景飘动的线对象
+
+      userInfo: {
+        id: null,
+        avatar:
+          "https://image-1300566513.cos.ap-guangzhou.myqcloud.com/upload/images/5a9f48118166308daba8b6da7e466aab.jpg"
+      }
     };
   },
   destroyed() {
@@ -35,6 +41,7 @@ export default {
   },
   mounted() {
     this.scrollTop();
+
     // this.backgroundLine();
   },
   methods: {

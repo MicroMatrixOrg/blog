@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-10-27 21:51:10
- * @LastEditTime: 2020-11-11 17:41:06
+ * @LastEditTime: 2021-03-03 20:57:07
  * @LastEditors: David
  * @Description: 搜索输入框
  * @FilePath: /BlogVue/src/components/input/Input.vue
@@ -45,5 +45,19 @@ export default {};
   font-size: 1.1rem;
   color: #666;
   background-color: transparent;
+}
+
+@media (max-width: 570px) {
+  //手机大小的屏幕
+  .input-theme-default input[type="search"] {
+    border: none;
+    width: 10rem;
+    padding: 0.6rem 0 0.6rem 1rem;
+    box-shadow: none;
+    outline: none;
+    font-size: 1.1rem;
+    color: #666;
+    background-color: transparent;
+  }
 }
 </style>

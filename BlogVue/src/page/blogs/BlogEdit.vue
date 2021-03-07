@@ -109,7 +109,7 @@ export default {
       this.$axios
         .post(APIConfig.Base.BlogsImgUpload, formdata, {
           headers: {
-            Authorization: localStorage.getItem("token")
+            Authorization: this.$store.getters.GET_TOKEN
           }
         })
         .then(res => {
@@ -149,7 +149,7 @@ export default {
           this.$axios
             .post(APIConfig.Base.BlogEdit, this.editForm, {
               headers: {
-                Authorization: localStorage.getItem("token")
+                Authorization: this.$store.getters.GET_TOKEN
               }
             })
             .then(res => {

@@ -8,6 +8,7 @@ import com.luobo.entity.Blog;
 import com.luobo.entity.Vote;
 import com.luobo.service.BlogService;
 import com.luobo.service.VoteService;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,7 @@ public class VoteController {
      * @updateTime 2020/11/25 17:35
      * @return: com.luobo.common.lang.Result
      */
+    @RequiresAuthentication
     @PostMapping("/like")
     public Result likeArticle(@RequestBody Vote vote){
         Assert.notNull(vote.getVoteableId(),"博客ID存在错误");

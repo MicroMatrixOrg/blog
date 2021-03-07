@@ -2,11 +2,11 @@ import axios from 'axios'
 import Element from "element-ui";
 import store from "./store";
 import router from "./router";
-axios.defaults.baseURL = 'http://localhost:9527'
+axios.defaults.baseURL = 'http://localhost:8880'
 axios.interceptors.request.use(config => {
-  // console.log("前置拦截", config);
+  // console.log("前置拦截", store);
   //设置一下请求头带上用户token
-  config.headers.userToken = localStorage.getItem("token");
+  config.headers.userToken = store.state.token;
   // 可以统一设置请求头
   return config;
 })

@@ -234,7 +234,7 @@ export default {
         commentCount: 0
       },
       ownBlog: false, //是否是自己的博客
-      isVoted: null, //自己是否给这个博客点赞过
+      isVoted: false, //自己是否给这个博客点赞过
       userInfo: {
         avatar: "",
         username: "未知",
@@ -248,7 +248,7 @@ export default {
   },
 
   created() {
-    this.isVoted = this.$route.query.isVoted;
+    this.isVoted = JSON.parse(this.$route.query.isVoted);
     this.getBlog();
   },
   methods: {
@@ -320,14 +320,20 @@ export default {
           userId: user.id,
           voteableId: blog.id
         };
-        this.$axios.post(APIConfig.Thumb.Like, params).then(res => {
-          let resp = res.resp;
-          let respData = res.respData;
-          if (respData.code == 200) {
-            this.isVoted = respData.data;
-            this.isVoted ? blog.voteCount++ : blog.voteCount--;
-          }
-        });
+        this.$axios
+          .post(APIConfig.Thumb.Like, params, {
+            headers: {
+              Authorization: this.$store.getters.GET_TOKEN
+            }
+          })
+          .then(res => {
+            let resp = res.resp;
+            let respData = res.respData;
+            if (respData.code == 200) {
+              this.isVoted = respData.data;
+              this.isVoted ? blog.voteCount++ : blog.voteCount--;
+            }
+          });
       } else {
         let path = this.routerCfg.options.pathById(1);
         this.$router.push(path);
@@ -464,7 +470,7 @@ export default {
   top: 0;
   right: 0;
   width: 20rem;
-  z-index: -1;
+  z-index: 1;
 }
 
 .sidebar-block:not(.pure) {
@@ -531,7 +537,7 @@ export default {
   position: fixed;
   margin-left: -7rem;
   top: 16rem;
-  z-index: -1;
+  z-index: 1;
 }
 .helper-item {
   width: 3rem;
@@ -587,7 +593,8 @@ export default {
 
 //动态布局
 @media (max-width: 960px) {
-  .sidebar {
+  .sidebar,
+  .article-support-panle {
     display: none;
   }
   .main-conten {

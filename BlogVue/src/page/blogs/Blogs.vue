@@ -1,21 +1,21 @@
 <template>
   <div class="m-container">
     <Header></Header>
-    <!-- <nav role="navigation" class="view-nav" v-show="showBlogList">
-      <ul class="nav-list left">
-        <li class="nav-item active" @click="searchParams($event)">推荐</li>
-        <li class="nav-item " @click="searchParams($event)">关注</li>
-        <li class="nav-item " @click="searchParams($event)">后端</li>
-        <li class="nav-item " @click="searchParams($event)">前端</li>
-        <li class="nav-item " @click="searchParams($event)">Android</li>
-        <li class="nav-item " @click="searchParams($event)">iOS</li>
-        <li class="nav-item " @click="searchParams($event)">人工智能</li>
-        <li class="nav-item " @click="searchParams($event)">开发工具</li>
-        <li class="nav-item nav-item-rigth" @click="searchParams($event)">
+    <!-- <nav role="navigation" class="view-nav" v-show="showBlogList"> -->
+    <!-- <ul class="nav-list left"> -->
+    <!-- <li class="nav-item active" @click="searchParams($event)">推荐</li> -->
+    <!-- <li class="nav-item " @click="searchParams($event)">关注</li> -->
+    <!-- <li class="nav-item " @click="searchParams($event)">后端</li> -->
+    <!-- <li class="nav-item " @click="searchParams($event)">前端</li> -->
+    <!-- <li class="nav-item " @click="searchParams($event)">Android</li> -->
+    <!-- <li class="nav-item " @click="searchParams($event)">iOS</li> -->
+    <!-- <li class="nav-item " @click="searchParams($event)">人工智能</li> -->
+    <!-- <li class="nav-item " @click="searchParams($event)">开发工具</li> -->
+    <!-- <li class="nav-item nav-item-rigth" @click="searchParams($event)">
           标签管理
-        </li>
-      </ul>
-    </nav> -->
+        </li> -->
+    <!-- </ul> -->
+    <!-- </nav> -->
     <blog-list v-show="showBlogList"></blog-list>
     <router-view v-show="!showBlogList"></router-view>
   </div>

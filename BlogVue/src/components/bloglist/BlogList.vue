@@ -278,7 +278,7 @@ export default {
 
 <style lang="scss" scoped>
 .view {
-  margin: 1.67rem auto 0;
+  margin: 1rem auto 0;
   max-width: 960px;
   position: relative;
 }

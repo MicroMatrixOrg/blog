@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-11-27 17:07:48
- * @LastEditTime: 2021-02-28 12:09:36
+ * @LastEditTime: 2021-03-07 14:38:13
  * @LastEditors: David
  * @Description: 评论组件
  * @FilePath: /BlogVue/src/components/comment/Comment.vue
@@ -213,7 +213,7 @@ export default {
         this.$axios
           .post(APIConfig.Comment.ReleaseComment, params, {
             headers: {
-              Authorization: localStorage.getItem("token")
+              Authorization: this.$store.getters.GET_TOKEN
             }
           })
           .then(res => {
@@ -294,7 +294,7 @@ export default {
       this.$axios
         .post(APIConfig.Comment.RemoveComment, params, {
           headers: {
-            Authorization: localStorage.getItem("token")
+            Authorization: this.$store.getters.GET_TOKEN
           }
         })
         .then(res => {
@@ -366,7 +366,7 @@ export default {
 <style lang="scss" scoped>
 .comment-box {
   position: relative;
-  z-index: -1;
+  z-index: 1;
 }
 .comment-form {
   padding: 0 20px;

@@ -47,4 +47,14 @@ public interface CommentService extends IService<Comment> {
      * @return: java.lang.Integer
      */
     Integer getCountByParentId(CommentDto commentDto);
+
+    /**
+     * @title deleteComment
+     * @description 删除改文章下的评论
+     * @author davidmorgan
+     * @param: blogId
+     * @updateTime 2021/3/7 13:00
+     * @return: java.lang.Integer
+     */
+    Integer deleteComment(Long blogId);
 }

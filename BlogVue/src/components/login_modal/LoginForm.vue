@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-11-23 13:20:31
- * @LastEditTime: 2021-01-25 10:09:25
+ * @LastEditTime: 2021-03-04 21:41:59
  * @LastEditors: David
  * @Description: 登录页面
  * @FilePath: /BlogVue/src/components/login_modal/LoginForm.vue
@@ -23,6 +23,7 @@
               required
               pattern=".+@[qq|gmail|outlook|163|protonmail]+(\.[a-zA-Z0-9_-]+)+$"
               v-model="loginAccount.username"
+              autocomplete="on"
             />
           </div>
           <div class="input-field">
@@ -31,6 +32,7 @@
               type="password"
               placeholder="密码"
               v-model="loginAccount.password"
+              autocomplete="on"
             />
             <div class="eye-wrap">
               <i

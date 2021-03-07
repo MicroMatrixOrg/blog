@@ -39,7 +39,11 @@
               :key="index"
               :tab-title="item.tabTitle"
             >
-              <stories :user-id="userInfo.id"></stories>
+              <!-- <stories v-show="item.id == 1" :user-id="userInfo.id"></stories> -->
+              <matrix-articles
+                v-show="item.id == 2"
+                :user-id="userInfo.id"
+              ></matrix-articles>
             </tabPanel>
           </tapHeader>
         </div>
@@ -54,14 +58,15 @@ import tapHeader from "@/components/tabForTemplate/tab.vue";
 import tabPanel from "@/components/tabForTemplate/tabPanel.vue";
 
 import stories from "@/components/userInfoComponents/Stories.vue";
+import MatrixArticles from "@/components/userInfoComponents/Article.vue";
 
 export default {
   data() {
     return {
       //Tap栏渲染
       headerData: [
-        { id: 1, tabTitle: "动态" }
-        // { id: 2, tabTitle: "文章" }
+        // { id: 1, tabTitle: "动态" },
+        { id: 2, tabTitle: "文章" }
       ],
       //用户信息
       userInfo: {
@@ -74,7 +79,8 @@ export default {
   components: {
     tapHeader,
     tabPanel,
-    stories
+    stories,
+    MatrixArticles
   },
   computed: {},
   mounted() {
@@ -82,6 +88,12 @@ export default {
     _this.getUserInfo();
   },
   methods: {
+    /**
+     * @description: 获取当前登录用户的信息
+     * @Date: 2021-03-04 21:51:31
+     * @Author: David
+     */
+
     getUserInfo() {
       const _this = this;
       if (_this.$store.getters.GET_USER) {

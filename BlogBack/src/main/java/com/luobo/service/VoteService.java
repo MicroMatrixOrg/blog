@@ -24,4 +24,14 @@ public interface VoteService extends IService<Vote> {
      * @return: 如果找不到的话返回true否则返回false
      */
     Vote getTheVote(Long userId,Integer blogId);
+
+    /**
+     * @title deleteVote
+     * @description 根据博客ID删除vote
+     * @author davidmorgan
+     * @param: blogId
+     * @updateTime 2021/3/7 12:57
+     * @return: int
+     */
+    int deleteVote(Long blogId);
 }
