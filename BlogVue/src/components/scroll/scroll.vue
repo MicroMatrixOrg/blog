@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-11-09 16:37:21
- * @LastEditTime: 2021-03-03 21:32:52
+ * @LastEditTime: 2021-03-12 13:14:21
  * @LastEditors: David
  * @Description: 无限加载
  * @FilePath: /BlogVue/src/components/scroll/scroll.vue
@@ -12,6 +12,23 @@
 export default {
   data() {
     return {};
+  },
+  directives: {
+    /**
+     * @description: 自定义滚动加载指令 将该指令写在产生滚动条的div上
+     * @Date: 2021-03-04 15:03:40
+     * @Author: David
+     */
+    matrixScroll: {
+      bind: (el, binding, vnode) => {
+        vnode.elm.addEventListener("scroll", () => {
+          if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
+            let fnc = binding.value;
+            fnc();
+          }
+        });
+      }
+    }
   },
   methods: {
     /**

@@ -383,6 +383,7 @@ export default {
   margin: 0 auto;
   width: 100%;
   max-width: 960px;
+  z-index: 1;
 }
 .article-view {
   margin-top: 1.767rem;
@@ -463,7 +464,6 @@ export default {
 }
 .article-content {
   position: relative;
-  z-index: 0;
 }
 .sidebar {
   position: absolute;

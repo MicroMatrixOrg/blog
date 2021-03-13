@@ -225,15 +225,22 @@
               <searchbtn></searchbtn>
             </div>
           </li>
-          <li class="m-person-theme-default nav-item write-item">
+          <li
+            :class="[
+              'm-person-theme-default',
+              'nav-item',
+              'write-item',
+              hasLogin ? 'hide-write-item' : ''
+            ]"
+          >
             <div class="add-btn-group">
               <button class="add-blog" @click="writeblog()">写文章</button>
             </div>
           </li>
-          <!-- <li class="m-person-theme-default nav-item notifaction">
-            <a href=""></a>
-          </li> -->
-          <li v-if="user.id != 0" class="m-person-theme-default nav-item menu">
+          <li
+            v-if="hasLogin"
+            class="m-person-theme-default nav-item menu person-item"
+          >
             <div
               class="lazy avatar avatar loaded immediate"
               id="user-function"
@@ -276,6 +283,10 @@
               </div>
             </ul>
           </li>
+
+          <!-- <li class="m-person-theme-default nav-item notifaction">
+            <a href=""></a>
+          </li> -->
         </ul>
       </nav>
     </div>
@@ -612,13 +623,9 @@ export default {
 
 @media (max-width: 570px) {
   //手机大小的屏幕
-  .toolbar-header {
-    //顶部栏 暂时隐藏
-    // overflow-y: hidden;
 
-    .write-item {
-      display: none;
-    }
+  .hide-write-item {
+    display: none;
   }
 }
 </style>
