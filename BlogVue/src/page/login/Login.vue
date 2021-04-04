@@ -4,7 +4,7 @@
       <login class="login-form">
         <router-link to="/blogs" style="position: absolute;z-index: 9;">
           <div class="logo-wrap">
-            <svg
+            <!-- <svg
               width="50"
               height="50"
               viewBox="0 0 186 130"
@@ -214,7 +214,12 @@
                   ></path>
                 </g>
               </g>
-            </svg>
+            </svg> -->
+            <img
+              src="../../../static/image/MatrixLogo.png"
+              alt=""
+              style="width: 3.5rem;object-fit: contain;"
+            />
           </div>
         </router-link>
       </login>

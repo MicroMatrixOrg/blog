@@ -42,6 +42,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+
+
 // 全局样式文件 为以后的手机端做准备
 import "../static/style/base_html.css";
 // 默认主题文件 为以后的个性化主题

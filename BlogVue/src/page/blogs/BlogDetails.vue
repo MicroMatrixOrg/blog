@@ -59,8 +59,8 @@
                 </a>
                 <div class="meta-box">
                   <time
-                    datetime="2020-10-31T08:37:35.000Z"
-                    title="Sat Oct 31 2020 16:37:35 GMT+0800 (中国标准时间)"
+                    :datetime="blog.created"
+                    :title="blog.created"
                     class="time"
                   >
                     {{ $utils.dateFormat(blog.created, "yyyy年MM月dd日") }}
@@ -231,7 +231,8 @@ export default {
         description: "",
         content: "",
         voteCount: 0,
-        commentCount: 0
+        commentCount: 0,
+        created: "2020-12-12" //创建日期
       },
       ownBlog: false, //是否是自己的博客
       isVoted: false, //自己是否给这个博客点赞过

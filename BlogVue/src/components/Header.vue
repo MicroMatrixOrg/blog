@@ -2,7 +2,7 @@
   <div class="toolbar-header-wrap">
     <div class="m-content-theme toolbar-header">
       <a class="m-icon-theme-default logo" @click="toMainPage()">
-        <svg
+        <!-- <svg
           width="60"
           height="40"
           viewBox="0 0 186 130"
@@ -209,7 +209,12 @@
               ></path>
             </g>
           </g>
-        </svg>
+        </svg> -->
+        <img
+          src="../../static/image/MatrixLogo.png"
+          alt=""
+          style="width: 3.5rem;object-fit: contain;"
+        />
       </a>
       <nav role="navigation" class="main-nav">
         <ul class="m-routers-theme-default nav-list">

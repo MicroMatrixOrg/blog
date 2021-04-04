@@ -40,8 +40,9 @@ export default {
   },
 
   dateFormat (_date, fmt) {
-    var date = new Date(_date);
-    var o = {
+    let date = new Date(_date);
+    console.log(date, _date);
+    let o = {
       "M+": date.getMonth() + 1, //月份 
       "d+": date.getDate(), //日 
       "H+": date.getHours(), //小时 
@@ -51,14 +52,14 @@ export default {
       "S": date.getMilliseconds() //毫秒 
     };
     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
+    for (let k in o)
       if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
   },
   dataFilter (_key, arry) {
-    for (var key in arry) {
+    for (let key in arry) {
       if (arry.hasOwnProperty(key)) {
-        var element = arry[key];
+        let element = arry[key];
         if (element.k == _key)
           return element.v;
       }
@@ -66,12 +67,12 @@ export default {
     return '';
   },
   myUpload (url, fileObj, data, callback) {
-    var FileController = "/api" + url;                    // 接收上传文件的后台地址
+    let FileController = "/api" + url;                    // 接收上传文件的后台地址
     if (!fileObj || fileObj.length == 0) {
       console.error('请选择上传文件'); return;
     }
     // FormData 对象
-    var form = new FormData();
+    let form = new FormData();
     //表单数据
     for (let key in data) {
       const element = data[key];
@@ -79,10 +80,10 @@ export default {
     }
     form.append("file", fileObj);// 文件对象
     // XMLHttpRequest 对象
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("post", FileController, true);
     xhr.onload = function (resp) {
-      var obj = JSON.parse(resp.currentTarget.response);
+      let obj = JSON.parse(resp.currentTarget.response);
       if (callback)
         callback(obj);
     };
@@ -134,9 +135,9 @@ export default {
 
   openFistNode (_zNodes) {//展开一级节点
     if (_zNodes && _zNodes.length > 0) {
-      for (var key in _zNodes) {
+      for (let key in _zNodes) {
         if (_zNodes.hasOwnProperty(key)) {
-          var element = _zNodes[key];
+          let element = _zNodes[key];
           element.open = true;
         }
       }
@@ -150,7 +151,7 @@ export default {
     return val.replace(/<[^>]+>/g, "");
   },
   mathFormat (val, number = 2) {//小数点截取，默认取2位
-    var num = Math.pow(10, number);
+    let num = Math.pow(10, number);
     return Math.floor(val * num) / num;
   },
   fileSize (size) {//返回文件大小

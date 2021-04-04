@@ -3,46 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="e35f457a-a902-4c10-a4d6-17c8c39dc9c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/BlogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/BlogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/VoteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/VoteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/VoteMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/mapper/VoteMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/VoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/VoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/CommentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/VoteServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/service/impl/VoteServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/BlogMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/VoteMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/VoteMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/config/UndertowHttpsConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/BlogController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/BlogController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/VoteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/VoteController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/mapper/VoteMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/mapper/VoteMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/CommentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/CommentService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/VoteService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/VoteService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/CommentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/CommentServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/VoteServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/service/impl/VoteServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/BlogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/BlogMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/VoteMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/VoteMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/controller/FileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/controller/FileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/controller/FileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/Header.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/bloglist/BlogList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/bloglist/BlogList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/comment/Comment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/comment/Comment.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/input/Input.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/input/Input.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/login_modal/LoginForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/login_modal/LoginForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/scroll/scroll.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/scroll/scroll.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/userInfoComponents/Article.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/userInfoComponents/Article.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/components/userInfoComponents/Stories.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/components/userInfoComponents/Stories.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/blogs/Blogs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/blogs/Blogs.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/userinfo/MyHomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/userinfo/MyHomePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/store/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/src/utils/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/utils/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BlogVue/static/js/conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/static/js/conf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/login/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/login/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/utils/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/static/js/jquery-1.9.1.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/static/js/jquery-ui.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/static/js/jquery-ui.min.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,6 +304,12 @@
       <workItem from="1614857856494" duration="2233000" />
       <workItem from="1615083004676" duration="94000" />
       <workItem from="1615083565028" duration="8730000" />
+      <workItem from="1616029034915" duration="544000" />
+      <workItem from="1616459770674" duration="52000" />
+      <workItem from="1616653784765" duration="73000" />
+      <workItem from="1617096696823" duration="66000" />
+      <workItem from="1617195018256" duration="642000" />
+      <workItem from="1617502468592" duration="763000" />
     </task>
     <servers />
   </component>
@@ -354,42 +332,38 @@
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="680" y="251" key="#com.intellij.refactoring.move.moveMembers.MoveMembersDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1611638181096" />
-    <state x="780" y="280" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1606961439142">
+    <state width="1878" height="195" key="GridCell.Tab.0.bottom" timestamp="1617199216495">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state x="780" y="280" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1606961439142" />
-    <state width="1878" height="296" key="GridCell.Tab.0.bottom" timestamp="1615104116016">
+    <state width="1878" height="195" key="GridCell.Tab.0.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1617199216495" />
+    <state width="1878" height="195" key="GridCell.Tab.0.center" timestamp="1617199216494">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1878" height="296" key="GridCell.Tab.0.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1615104116016" />
-    <state width="1878" height="296" key="GridCell.Tab.0.center" timestamp="1615104116015">
+    <state width="1878" height="195" key="GridCell.Tab.0.center/0.23.1920.1006@0.23.1920.1006" timestamp="1617199216494" />
+    <state width="1878" height="195" key="GridCell.Tab.0.left" timestamp="1617199216494">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1878" height="296" key="GridCell.Tab.0.center/0.23.1920.1006@0.23.1920.1006" timestamp="1615104116015" />
-    <state width="1878" height="296" key="GridCell.Tab.0.left" timestamp="1615104116014">
+    <state width="1878" height="195" key="GridCell.Tab.0.left/0.23.1920.1006@0.23.1920.1006" timestamp="1617199216494" />
+    <state width="1878" height="195" key="GridCell.Tab.0.right" timestamp="1617199216495">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1878" height="296" key="GridCell.Tab.0.left/0.23.1920.1006@0.23.1920.1006" timestamp="1615104116014" />
-    <state width="1878" height="296" key="GridCell.Tab.0.right" timestamp="1615104116015">
+    <state width="1878" height="195" key="GridCell.Tab.0.right/0.23.1920.1006@0.23.1920.1006" timestamp="1617199216495" />
+    <state width="1878" height="195" key="GridCell.Tab.1.bottom" timestamp="1617199216497">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1878" height="296" key="GridCell.Tab.0.right/0.23.1920.1006@0.23.1920.1006" timestamp="1615104116015" />
-    <state width="1878" height="296" key="GridCell.Tab.1.bottom" timestamp="1615099134207">
+    <state width="1878" height="195" key="GridCell.Tab.1.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1617199216497" />
+    <state width="1878" height="195" key="GridCell.Tab.1.center" timestamp="1617199216496">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1878" height="296" key="GridCell.Tab.1.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1615099134207" />
-    <state width="1878" height="296" key="GridCell.Tab.1.center" timestamp="1615099134206">
+    <state width="1878" height="195" key="GridCell.Tab.1.center/0.23.1920.1006@0.23.1920.1006" timestamp="1617199216496" />
+    <state width="1878" height="195" key="GridCell.Tab.1.left" timestamp="1617199216496">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1878" height="296" key="GridCell.Tab.1.center/0.23.1920.1006@0.23.1920.1006" timestamp="1615099134206" />
-    <state width="1878" height="296" key="GridCell.Tab.1.left" timestamp="1615099134206">
+    <state width="1878" height="195" key="GridCell.Tab.1.left/0.23.1920.1006@0.23.1920.1006" timestamp="1617199216496" />
+    <state width="1878" height="195" key="GridCell.Tab.1.right" timestamp="1617199216497">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
-    <state width="1878" height="296" key="GridCell.Tab.1.left/0.23.1920.1006@0.23.1920.1006" timestamp="1615099134206" />
-    <state width="1878" height="296" key="GridCell.Tab.1.right" timestamp="1615099134207">
-      <screen x="0" y="23" width="1920" height="1006" />
-    </state>
-    <state width="1878" height="296" key="GridCell.Tab.1.right/0.23.1920.1006@0.23.1920.1006" timestamp="1615099134207" />
+    <state width="1878" height="195" key="GridCell.Tab.1.right/0.23.1920.1006@0.23.1920.1006" timestamp="1617199216497" />
     <state width="1878" height="228" key="GridCell.Tab.2.bottom" timestamp="1614258563442">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
@@ -418,10 +392,6 @@
       <screen x="0" y="23" width="1920" height="1006" />
     </state>
     <state x="656" y="202" width="782" height="542" key="find.popup/0.23.1920.1006@0.23.1920.1006" timestamp="1615091410280" />
-    <state x="746" y="129" width="670" height="676" key="search.everywhere.popup" timestamp="1607046322834">
-      <screen x="0" y="23" width="1920" height="1006" />
-    </state>
-    <state x="746" y="129" width="670" height="676" key="search.everywhere.popup/0.23.1920.1006@0.23.1920.1006" timestamp="1607046322834" />
     <state x="690" y="445" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1611625707233">
       <screen x="0" y="23" width="1920" height="1006" />
     </state>

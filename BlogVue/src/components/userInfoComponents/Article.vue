@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-11-07 10:05:11
- * @LastEditTime: 2021-03-07 14:34:39
+ * @LastEditTime: 2021-04-04 14:13:30
  * @LastEditors: David
  * @Description: 用户自己的文章列表界面
  * @FilePath: /BlogVue/src/components/userInfoComponents/Article.vue
@@ -56,48 +56,58 @@
                     <span>{{ item.commentCount }}</span>
                   </a>
                 </li>
-                <li class="share-btn" title="share">
+                <li
+                  class="share-btn"
+                  title="share"
+                  v-popover="`sharePop${item.id}`"
+                >
                   <a class="title-box">
                     <i class="fa fa-share-alt" aria-hidden="true"></i>
                   </a>
                 </li>
-                <li
-                  class="ellipsish-btn"
-                  id="ellipsish-function"
-                  @click.stop="showControl($event, index)"
-                >
+                <li class="ellipsish-btn" v-popover="`morePop${item.id}`">
                   <a class="title-box">
                     <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                   </a>
-                  <ul
-                    id="more-menu-list-display"
-                    style="display:none;"
-                    class="more-class"
-                  >
-                    <div class="more-menu-item-group">
-                      <li class="more-menu-item">
-                        <a @click="editBlog(item.id)">
-                          <i class="fa fa-pencil icon" aria-hidden="true"></i>
-                          <span>编辑</span>
-                        </a>
-                      </li>
-                    </div>
-                    <div class="more-menu-item-group">
-                      <li class="more-menu-item">
-                        <a @click="deleBlog(item.id)">
-                          <i
-                            class="fa fa-user-secret icon"
-                            aria-hidden="true"
-                          ></i>
-                          <span>删除</span>
-                        </a>
-                      </li>
-                    </div>
-                  </ul>
                 </li>
               </ul>
             </div>
           </li>
+          <!-- 文章更多选项的弹框 -->
+          <el-popover
+            :ref="`morePop${item.id}`"
+            placement="bottom-start"
+            trigger="click"
+          >
+            <ul id="more-menu-list-display" class="more-class">
+              <div class="more-menu-item-group">
+                <li class="more-menu-item">
+                  <a @click="editBlog(item.id)">
+                    <i class="fa fa-pencil icon" aria-hidden="true"></i>
+                    <span>编辑</span>
+                  </a>
+                </li>
+              </div>
+              <div class="more-menu-item-group">
+                <li class="more-menu-item">
+                  <a @click="deleBlog(item.id)">
+                    <i class="fa fa-user-secret icon" aria-hidden="true"></i>
+                    <span>删除</span>
+                  </a>
+                </li>
+              </div>
+            </ul>
+          </el-popover>
+          <!-- 分享弹框 -->
+          <el-popover
+            :ref="`sharePop${item.id}`"
+            placement="bottom-start"
+            trigger="click"
+            @show="setQRcode(item)"
+            transfer
+          >
+            <div :id="`qrcode${item.id}`" class="qrcode"></div>
+          </el-popover>
         </div>
 
         <div class="entry-item-wrap" v-show="blogList.length <= 0">
@@ -143,6 +153,7 @@
 
 <script>
 import myScroll from "@/components/scroll/scroll.vue";
+
 export default {
   props: {
     userId: {
@@ -156,6 +167,8 @@ export default {
     }
   },
   mixins: [myScroll],
+  directives: {},
+
   data() {
     return {
       pageSize: 10, //每页的数量
@@ -171,9 +184,12 @@ export default {
         id: 0
       },
 
-      requested: false //文章请求完成标志位
+      requested: false, //文章请求完成标志位
+      moreOption: false, //更多按钮标志位
+      shareOption: false
     };
   },
+  components: {},
   beforeDestroy() {
     const _this = this;
   },
@@ -183,28 +199,53 @@ export default {
   },
   methods: {
     /**
-     * @description: 控制更多列表显示和隐藏
+     * @description: 设置二维码
+     * @param {*} item
      * @return {*}
-     * @Date: 2020-10-29 10:45:21
+     * @Date: 2021-04-04 11:11:00
+     * @Author: David
+     */
+    setQRcode(item) {
+      let qDom = document.getElementById(`qrcode${item.id}`);
+      qDom.innerHTML = "";
+      let qrcode = new QRCode(qDom, {
+        text: "",
+        width: 296, //二维码宽度,单位像素
+        height: 296, //二维码高度,单位像素
+        colorDark: "black",
+        colorLoght: "transparent",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      qrcode.clear();
+      let content = `blog.matrixs.gq/blogDetails?blogId=${item.id}&isVoted`;
+      qrcode.makeCode(content);
+      // this.listenQrcodeSrc(qrcodeImg, qDom);
+    },
+    /**
+     * @description: 监听二维码生成了吗
+     * @param {*} qrcodeImg
+     * @return {*}
+     * @Date: 2021-04-04 12:52:51
      * @Author: David
      */
 
-    showControl(event, index) {
-      const _this = this;
-      const cDom = document.querySelectorAll("#ellipsish-function");
-      const tDom = event.target;
-      const lDom = document.querySelectorAll("#more-menu-list-display");
-
-      if (cDom[index] && (cDom[index] == tDom || cDom[index].contains(tDom))) {
-        if (lDom[index].style.display == "unset") {
-          lDom[index].style.display = "none";
-        } else {
-          lDom[index].style.display = "unset";
-        }
-      } else {
-        lDom.forEach(item => {
-          item.style.display = "none";
+    listenQrcodeSrc(qrcodeImg) {
+      let observeConfig = { attributes: true };
+      let observeCb = function(mutationsList, observer) {
+        mutationsList.forEach(function(mutation) {
+          if (
+            mutation.type.toLowerCase() === "attributes" &&
+            mutation.attributeName.toLowerCase() === "src"
+          ) {
+            console.log("qrcodeImg src done!", mutation.target.src);
+            // qrcodeImg.setAttribute("src", mutation.target.src);
+            observer.disconnect();
+          }
         });
+      };
+      if (typeof MutationObserver !== "undefined") {
+        let observer = new MutationObserver(observeCb);
+        observer.observe(qrcodeImg, observeConfig);
       }
     },
 
@@ -448,29 +489,35 @@ export default {
   .voted {
     color: #6cbd45 !important;
   }
-
+  .share-btn {
+    /deep/ .ivu-poptip-popper {
+      min-width: 8rem;
+    }
+  }
   .ellipsish-btn {
     position: relative;
-    .more-class {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      margin-top: 1rem;
+    /deep/ .ivu-poptip-popper {
       min-width: 8rem;
-      font-size: 0.9em;
-      white-space: nowrap;
-      color: #8f969c;
-      background-color: #fff;
-      box-shadow: 0 1px 2px 0 #e0e4e9;
-      border: 1px solid rgba(217, 222, 224, 0.99);
-      display: none;
-      z-index: 10;
-
-      .more-menu-item-group {
-        padding: 0.8rem 0.9rem;
-        text-align: start;
-      }
     }
+  }
+}
+.more-class {
+  min-width: 8rem;
+  font-size: 0.9em;
+  white-space: nowrap;
+  color: #8f969c;
+  background-color: #fff;
+
+  .more-menu-item-group {
+    padding: 0.8rem 0.9rem;
+    text-align: start;
+  }
+}
+.qrcode {
+  /deep/ img {
+    width: 8rem;
+    object-fit: contain;
+    margin: 0 auto;
   }
 }
 </style>
