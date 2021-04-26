@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-11-07 10:05:11
- * @LastEditTime: 2021-04-04 14:13:30
+ * @LastEditTime: 2021-04-26 17:15:28
  * @LastEditors: David
  * @Description: 用户自己的文章列表界面
  * @FilePath: /BlogVue/src/components/userInfoComponents/Article.vue
@@ -9,7 +9,7 @@
 -->
 
 <template>
-  <div class="articles-list">
+  <div class="articles-list" v-cloak>
     <div class="entry-list-wrap" v-show="requested">
       <ul class="entry-list">
         <div
@@ -172,7 +172,7 @@ export default {
   data() {
     return {
       pageSize: 10, //每页的数量
-      currentPage: 0, //当前页数
+      currentPage: 1, //当前页数
       totalPage: 0,
 
       blogList: [], //博客列表
@@ -190,12 +190,14 @@ export default {
     };
   },
   components: {},
-  beforeDestroy() {
+  destroyed() {
     const _this = this;
+    window.removeEventListener("scroll", _this.loadMore);
   },
 
   mounted() {
     const _this = this;
+    window.addEventListener("scroll", _this.loadMore, true);
   },
   methods: {
     /**
@@ -219,7 +221,7 @@ export default {
       qrcode.clear();
       let content = `blog.matrixs.gq/blogDetails?blogId=${item.id}&isVoted`;
       qrcode.makeCode(content);
-      // this.listenQrcodeSrc(qrcodeImg, qDom);
+      // this.listenQrcodeSrc(qrcodeImg);
     },
     /**
      * @description: 监听二维码生成了吗
@@ -273,7 +275,7 @@ export default {
           let resp = res.resp;
           let respData = res.respData;
           if (respData.code == 200) {
-            this.currentPage = 0;
+            this.currentPage = 1;
             this.blogList = [];
             this.getUserAritcles();
           }
@@ -347,7 +349,8 @@ export default {
       let loadPage = _this.calcHeight(haveNext);
       if (loadPage) {
         this.currentPage++;
-        // this.getUserAritcles();
+        console.log("dd");
+        this.getUserAritcles();
       }
     },
     /**
@@ -386,7 +389,7 @@ export default {
 
     getUserAritcles() {
       const _this = this;
-      _this.requested = false;
+      // _this.requested = false;
       let params = {
         userId: _this.userId,
         currentPage: this.currentPage,
@@ -402,7 +405,7 @@ export default {
           let resp = res.resp;
           let respData = res.respData;
           _this.blogList = [..._this.blogList, ...respData.data.records];
-          _this.totalPage = respData.data.total;
+          _this.totalPage = respData.data.pages;
           _this.requested = true;
         });
     }
