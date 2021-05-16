@@ -227,7 +227,7 @@
           </li> -->
           <li class="m-person-theme-default nav-item search">
             <div class="search-form-theme-default ">
-              <searchbtn></searchbtn>
+              <searchbtn @matrix-input-value="searchBlog"></searchbtn>
             </div>
           </li>
           <li
@@ -345,6 +345,17 @@ export default {
     }
   },
   methods: {
+    /**
+     * @description: 组件函数回调 搜索按钮被点击
+     * @param {*}
+     * @return {*}
+     * @Date: 2021-05-16 15:06:07
+     * @Author: David
+     */
+
+    searchBlog(keyword) {
+      this.$emit("matrix-search", keyword);
+    },
     /**
      * @description: 点击回到主页
      * @param {*}

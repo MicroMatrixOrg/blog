@@ -221,15 +221,17 @@ export default {
     /**
      * @description: 获得文章
      * @param {Object} category  文章的分类 推荐、关注。。。。。
+     * @param {String} keyword  文章的标题。。。。。
      * @return {*}
      * @Date: 2020-10-31 15:31:00
      * @Author: David
      */
-    articles(category) {
+    articles(category, keyword) {
       const _this = this;
       let params = {
         currentPage: this.currentPage,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        title: keyword
       };
       this.$axios.post(APIConfig.Base.Blogs, params).then(res => {
         let resp = res.resp;
@@ -242,6 +244,12 @@ export default {
         _this.pageSize = respData.data.size;
         _this.requested = true;
       });
+    },
+
+    searchByKeyword(keyword) {
+      this.currentPage = 1;
+      this.aritcleList = [];
+      this.articles("", keyword);
     },
 
     /**

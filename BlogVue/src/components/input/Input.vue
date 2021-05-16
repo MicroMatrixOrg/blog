@@ -1,7 +1,7 @@
 <!--
  * @Author: David
  * @Date: 2020-10-27 21:51:10
- * @LastEditTime: 2021-03-03 20:57:07
+ * @LastEditTime: 2021-05-16 15:17:40
  * @LastEditors: David
  * @Description: 搜索输入框
  * @FilePath: /BlogVue/src/components/input/Input.vue
@@ -11,14 +11,38 @@
 <template>
   <div class="input-theme-default">
     <form role="search" class="search-form">
-      <input type="search" placeholder="搜索摘要/标签" class="search-input" />
-      <i class="fa fa-search"></i>
+      <input
+        type="search"
+        placeholder="搜索文章名"
+        v-model="keyword"
+        class="search-input"
+      />
+      <i class="fa fa-search" @click="searchBlogByKeyword()"></i>
     </form>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      keyword: ""
+    };
+  },
+  methods: {
+    /**
+     * @description: 根据关键字搜索博客
+     * @param {*}
+     * @return {*}
+     * @Date: 2021-05-16 15:03:00
+     * @Author: David
+     */
+
+    searchBlogByKeyword() {
+      this.$emit("matrix-input-value", this.keyword);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

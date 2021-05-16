@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luobo.common.dto.PageDto;
 import com.luobo.common.lang.Result;
 import com.luobo.entity.Blog;
-import com.luobo.entity.Vote;
 import com.luobo.service.BlogService;
 import com.luobo.service.CommentService;
 import com.luobo.service.UserService;
@@ -18,13 +17,11 @@ import com.luobo.util.IPAddress;
 import com.luobo.util.JwtUtils;
 import com.luobo.util.ShiroUtil;
 import io.jsonwebtoken.Claims;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +31,6 @@ import java.time.LocalDateTime;
  * <p>
  *  前端控制器
  * </p>
- *
- * @author 关注公众号：MarkerHub
  * @since 2020-08-06
  */
 @RestController
@@ -102,7 +97,8 @@ public class BlogController {
         if(null != claims){
             currentUserId =Long.parseLong(claims.get("sub").toString());
         }
-        IPage pageData =blogService.GetBlogsLeftInUser(page, new QueryWrapper<Blog>().orderByDesc("created"),currentUserId);
+
+        IPage pageData =blogService.GetBlogsLeftInUser(page, new QueryWrapper<Blog>().orderByDesc("created"),currentUserId,pageParams);
         return Result.succ(pageData);
     }
 
@@ -181,6 +177,7 @@ public class BlogController {
         IPage pageData =blogService.GetBlogsByuUserId(page, pageParams.getUserId());
         return Result.succ(pageData);
     }
+
 
 
 }

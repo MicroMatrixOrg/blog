@@ -1,5 +1,6 @@
 package com.luobo.common.dto;
 
+import com.luobo.entity.Blog;
 import lombok.Data;
 
 /**
@@ -10,8 +11,15 @@ import lombok.Data;
  * @Version 1.0
  **/
 @Data
-public class PageDto {
-    private Integer userId;
+public class PageDto  extends Blog {
     private Integer currentPage;
     private Integer pageSize;
+
+    @Override
+    public String getTitle() {
+        if(null == super.getTitle() || super.getTitle().isEmpty()){
+            return "";
+        }
+        return super.getTitle();
+    }
 }

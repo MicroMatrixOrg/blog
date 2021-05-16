@@ -1,6 +1,6 @@
 <template>
   <div class="m-container">
-    <Header></Header>
+    <Header @matrix-search="searchBlogs"></Header>
     <!-- <nav role="navigation" class="view-nav" v-show="showBlogList"> -->
     <!-- <ul class="nav-list left"> -->
     <!-- <li class="nav-item active" @click="searchParams($event)">推荐</li> -->
@@ -16,7 +16,7 @@
         </li> -->
     <!-- </ul> -->
     <!-- </nav> -->
-    <blog-list v-show="showBlogList"></blog-list>
+    <blog-list v-show="showBlogList" ref="blogList"></blog-list>
     <router-view v-show="!showBlogList"></router-view>
   </div>
 </template>
@@ -67,6 +67,19 @@ export default {
         }
       }
       e.target.classList.add("active");
+    },
+
+    /**
+     * @description: 搜索关键字
+     * @param {*} keyword
+     * @return {*}
+     * @Date: 2021-05-16 15:13:47
+     * @Author: David
+     */
+
+    searchBlogs(keyword) {
+      console.log(12);
+      this.$refs.blogList.searchByKeyword(keyword);
     }
   },
   mounted() {}

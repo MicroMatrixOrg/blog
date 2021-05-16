@@ -2,6 +2,7 @@ package com.luobo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luobo.common.dto.PageDto;
 import com.luobo.entity.Blog;
 import com.luobo.mapper.BlogMapper;
 import com.luobo.service.BlogService;
@@ -33,8 +34,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
      * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.luobo.entity.Blog>
      */
     @Override
-    public Page<Blog> GetBlogsLeftInUser(Page<Blog> page, QueryWrapper<Blog> wrapper,Long currentuserId) {
-        return page.setRecords(blogMapper.findBlogs(page,wrapper,currentuserId));
+    public Page<Blog> GetBlogsLeftInUser(Page<Blog> page, QueryWrapper<Blog> wrapper, Long currentuserId, PageDto pageParams) {
+        return page.setRecords(blogMapper.findBlogs(page,wrapper,currentuserId,pageParams.getTitle()));
     }
 
     /**
@@ -47,7 +48,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
      * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.luobo.entity.Blog>
      */
     @Override
-    public Page<Blog> GetBlogsByuUserId(Page<Blog> page, Integer userId) {
+    public Page<Blog> GetBlogsByuUserId(Page<Blog> page, Long userId) {
         return page.setRecords(blogMapper.findBlogsByUserId(page,userId));
     }
+
+
 }

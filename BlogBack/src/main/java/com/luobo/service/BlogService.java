@@ -2,6 +2,7 @@ package com.luobo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luobo.common.dto.PageDto;
 import com.luobo.entity.Blog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -23,7 +24,7 @@ public interface BlogService extends IService<Blog> {
      * @updateTime 2020/11/26 11:02
      * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.luobo.entity.Blog>
      */
-    Page<Blog> GetBlogsLeftInUser (Page<Blog> page, QueryWrapper<Blog> wrapper,Long currentuserId);
+    Page<Blog> GetBlogsLeftInUser (Page<Blog> page, QueryWrapper<Blog> wrapper, Long currentuserId, PageDto pageParams);
 
     /**
      * @title GetBlogsByuUserId
@@ -34,5 +35,7 @@ public interface BlogService extends IService<Blog> {
      * @updateTime 2020/11/26 11:03
      * @return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.luobo.entity.Blog>
      */
-    Page<Blog> GetBlogsByuUserId (Page<Blog> page, Integer userId);
+    Page<Blog> GetBlogsByuUserId (Page<Blog> page, Long userId);
+
+
 }

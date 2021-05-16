@@ -3,6 +3,7 @@ package com.luobo.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luobo.common.dto.PageDto;
 import com.luobo.entity.Blog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,7 +27,7 @@ public interface BlogMapper extends BaseMapper<Blog> {
      * @updateTime 2020/11/2 16:59
      * @return: java.util.List<com.luobo.entity.Blog>
      */
-    List<Blog> findBlogs(Page<Blog> page, @Param(Constants.WRAPPER) QueryWrapper<Blog> wrapper, Long currentUserId);
+    List<Blog> findBlogs(Page<Blog> page, @Param(Constants.WRAPPER) QueryWrapper<Blog> wrapper, Long currentUserId, String title);
 
     /**
      * @title findBlogsByUserId
@@ -37,5 +38,6 @@ public interface BlogMapper extends BaseMapper<Blog> {
      * @updateTime 2020/11/26 11:01
      * @return: java.util.List<com.luobo.entity.Blog>
      */
-    List<Blog> findBlogsByUserId(Page<Blog> page, Integer userId);
+    List<Blog> findBlogsByUserId(Page<Blog> page, Long userId);
+
 }
