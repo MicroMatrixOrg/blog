@@ -11,7 +11,7 @@
  Target Server Version : 50717
  File Encoding         : 65001
 
- Date: 30/12/2020 16:34:14
+ Date: 02/06/2021 13:34:54
 */
 
 SET NAMES utf8mb4;
@@ -23,18 +23,18 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `m_blog`;
 CREATE TABLE `m_blog` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL COMMENT '发布人ID',
+  `user_id` bigint(20) unsigned NOT NULL COMMENT '发布人ID',
   `title` varchar(255) NOT NULL COMMENT '文章标题',
   `description` varchar(255) NOT NULL COMMENT '文章描述',
   `content` longtext COMMENT '文章内容',
   `created` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '文章发布时间',
   `status` tinyint(4) DEFAULT NULL COMMENT '文章状态',
-  `vote_count` int(10) unsigned NOT NULL COMMENT '点赞数量',
-  `comment_count` int(10) unsigned NOT NULL COMMENT '评论数量',
+  `vote_count` int(10) unsigned DEFAULT '0' COMMENT '点赞数量',
+  `comment_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '评论数量',
+  `read_count` int(10) NOT NULL DEFAULT '0' COMMENT '阅读数量',
   PRIMARY KEY (`id`),
-  KEY `用户外键` (`user_id`),
-  CONSTRAINT `用户外键` FOREIGN KEY (`user_id`) REFERENCES `m_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+  KEY `用户外键` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for m_comment
@@ -52,7 +52,7 @@ CREATE TABLE `m_comment` (
   `commented_user_id` bigint(20) unsigned DEFAULT '0' COMMENT '当回复他人的时候此处记录被回复人的ID',
   `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '评论创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for m_file
@@ -64,7 +64,7 @@ CREATE TABLE `m_file` (
   `path` varchar(255) DEFAULT NULL,
   `status` smallint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for m_theme
@@ -91,7 +91,7 @@ CREATE TABLE `m_user` (
   `last_login` datetime DEFAULT NULL COMMENT '用户最近登录日期',
   `depiction` varchar(255) DEFAULT NULL COMMENT '用户个人简介',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for m_vote
@@ -102,7 +102,7 @@ CREATE TABLE `m_vote` (
   `user_id` bigint(20) NOT NULL COMMENT '用户ID',
   `voteable_id` int(11) NOT NULL COMMENT '点赞的文章ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for user_theme
