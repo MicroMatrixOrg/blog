@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e35f457a-a902-4c10-a4d6-17c8c39dc9c7" name="Default Changelist" comment="" />
+    <list default="true" id="e35f457a-a902-4c10-a4d6-17c8c39dc9c7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/luobo/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/luobo/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/BlogDemo-1.0-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/luobo/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/luobo/config/CorsConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../BlogVue/src/page/blogs/BlogDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/assets/css/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/page/dashboard/Dashboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/page/error/404.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/page/home/home.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/plugins/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/plugins/proxyAxios.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/plugins/router.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/plugins/store.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/router/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/router/permission.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/shims-vue.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/src/store/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BlogVue3/vite.config.ts" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -306,7 +338,16 @@
       <workItem from="1621218172686" duration="142000" />
       <workItem from="1621832861869" duration="430000" />
       <workItem from="1621907575585" duration="6000" />
-      <workItem from="1623216154333" duration="411000" />
+      <workItem from="1623216154333" duration="825000" />
+      <workItem from="1623230246783" duration="1447000" />
+      <workItem from="1624874058110" duration="16000" />
+      <workItem from="1624951072048" duration="671000" />
+      <workItem from="1625034399944" duration="1710000" />
+      <workItem from="1625101409205" duration="432000" />
+      <workItem from="1625119059600" duration="10000" />
+      <workItem from="1625120560959" duration="393000" />
+      <workItem from="1625464539251" duration="603000" />
+      <workItem from="1628128965818" duration="35000" />
     </task>
     <servers />
   </component>
@@ -325,46 +366,49 @@
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
     <state x="447" y="230" key="#com.intellij.ide.util.MemberChooser/0.23.1920.1000@0.23.1920.1000" timestamp="1621144343063" />
-    <state x="447" y="231" key="#com.intellij.ide.util.MemberChooser/0.23.1920.1006@0.23.1920.1006" timestamp="1615093239896" />
-    <state width="1878" height="144" key="GridCell.Tab.0.bottom" timestamp="1623218115219">
+    <state x="473" y="434" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1624952022482">
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
-    <state width="1878" height="144" key="GridCell.Tab.0.bottom/0.23.1920.1000@0.23.1920.1000" timestamp="1623218115219" />
+    <state x="473" y="434" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.23.1920.1000@0.23.1920.1000" timestamp="1624952022482" />
+    <state width="1878" height="333" key="GridCell.Tab.0.bottom" timestamp="1625479426470">
+      <screen x="0" y="23" width="1920" height="1000" />
+    </state>
+    <state width="1878" height="333" key="GridCell.Tab.0.bottom/0.23.1920.1000@0.23.1920.1000" timestamp="1625479426470" />
     <state width="1878" height="194" key="GridCell.Tab.0.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1617517607130" />
-    <state width="1878" height="144" key="GridCell.Tab.0.center" timestamp="1623218115218">
+    <state width="1878" height="333" key="GridCell.Tab.0.center" timestamp="1625479426469">
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
-    <state width="1878" height="144" key="GridCell.Tab.0.center/0.23.1920.1000@0.23.1920.1000" timestamp="1623218115218" />
+    <state width="1878" height="333" key="GridCell.Tab.0.center/0.23.1920.1000@0.23.1920.1000" timestamp="1625479426469" />
     <state width="1878" height="194" key="GridCell.Tab.0.center/0.23.1920.1006@0.23.1920.1006" timestamp="1617517607129" />
-    <state width="1878" height="144" key="GridCell.Tab.0.left" timestamp="1623218115218">
+    <state width="1878" height="333" key="GridCell.Tab.0.left" timestamp="1625479426469">
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
-    <state width="1878" height="144" key="GridCell.Tab.0.left/0.23.1920.1000@0.23.1920.1000" timestamp="1623218115218" />
+    <state width="1878" height="333" key="GridCell.Tab.0.left/0.23.1920.1000@0.23.1920.1000" timestamp="1625479426469" />
     <state width="1878" height="194" key="GridCell.Tab.0.left/0.23.1920.1006@0.23.1920.1006" timestamp="1617517607129" />
-    <state width="1878" height="144" key="GridCell.Tab.0.right" timestamp="1623218115219">
+    <state width="1878" height="333" key="GridCell.Tab.0.right" timestamp="1625479426470">
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
-    <state width="1878" height="144" key="GridCell.Tab.0.right/0.23.1920.1000@0.23.1920.1000" timestamp="1623218115219" />
+    <state width="1878" height="333" key="GridCell.Tab.0.right/0.23.1920.1000@0.23.1920.1000" timestamp="1625479426470" />
     <state width="1878" height="194" key="GridCell.Tab.0.right/0.23.1920.1006@0.23.1920.1006" timestamp="1617517607130" />
-    <state width="1878" height="212" key="GridCell.Tab.1.bottom" timestamp="1621151511200">
+    <state width="1878" height="333" key="GridCell.Tab.1.bottom" timestamp="1625479426471">
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
-    <state width="1878" height="212" key="GridCell.Tab.1.bottom/0.23.1920.1000@0.23.1920.1000" timestamp="1621151511200" />
+    <state width="1878" height="333" key="GridCell.Tab.1.bottom/0.23.1920.1000@0.23.1920.1000" timestamp="1625479426471" />
     <state width="1878" height="194" key="GridCell.Tab.1.bottom/0.23.1920.1006@0.23.1920.1006" timestamp="1617517607132" />
-    <state width="1878" height="212" key="GridCell.Tab.1.center" timestamp="1621151511199">
+    <state width="1878" height="333" key="GridCell.Tab.1.center" timestamp="1625479426471">
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
-    <state width="1878" height="212" key="GridCell.Tab.1.center/0.23.1920.1000@0.23.1920.1000" timestamp="1621151511199" />
+    <state width="1878" height="333" key="GridCell.Tab.1.center/0.23.1920.1000@0.23.1920.1000" timestamp="1625479426471" />
     <state width="1878" height="194" key="GridCell.Tab.1.center/0.23.1920.1006@0.23.1920.1006" timestamp="1617517607131" />
-    <state width="1878" height="212" key="GridCell.Tab.1.left" timestamp="1621151511199">
+    <state width="1878" height="333" key="GridCell.Tab.1.left" timestamp="1625479426470">
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
-    <state width="1878" height="212" key="GridCell.Tab.1.left/0.23.1920.1000@0.23.1920.1000" timestamp="1621151511199" />
+    <state width="1878" height="333" key="GridCell.Tab.1.left/0.23.1920.1000@0.23.1920.1000" timestamp="1625479426470" />
     <state width="1878" height="194" key="GridCell.Tab.1.left/0.23.1920.1006@0.23.1920.1006" timestamp="1617517607130" />
-    <state width="1878" height="212" key="GridCell.Tab.1.right" timestamp="1621151511200">
+    <state width="1878" height="333" key="GridCell.Tab.1.right" timestamp="1625479426471">
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
-    <state width="1878" height="212" key="GridCell.Tab.1.right/0.23.1920.1000@0.23.1920.1000" timestamp="1621151511200" />
+    <state width="1878" height="333" key="GridCell.Tab.1.right/0.23.1920.1000@0.23.1920.1000" timestamp="1625479426471" />
     <state width="1878" height="194" key="GridCell.Tab.1.right/0.23.1920.1006@0.23.1920.1006" timestamp="1617517607131" />
     <state width="1878" height="212" key="GridCell.Tab.2.bottom" timestamp="1621151511202">
       <screen x="0" y="23" width="1920" height="1000" />
@@ -382,10 +426,6 @@
       <screen x="0" y="23" width="1920" height="1000" />
     </state>
     <state width="1878" height="212" key="GridCell.Tab.2.right/0.23.1920.1000@0.23.1920.1000" timestamp="1621151511201" />
-    <state x="656" y="202" width="782" height="542" key="find.popup" timestamp="1615091410280">
-      <screen x="0" y="23" width="1920" height="1006" />
-    </state>
-    <state x="656" y="202" width="782" height="542" key="find.popup/0.23.1920.1006@0.23.1920.1006" timestamp="1615091410280" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

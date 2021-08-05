@@ -169,7 +169,7 @@
               <a href="https://www.vultr.com/?ref=8690574-6G"
                 ><img
                   style="background-size:cover;"
-                  src="https://www.vultr.com/media/banners/banner_300x250.png"
+                  src="https://file.matrixs.gq/blog/banner.png"
                   width="240"
                   height="250"
               /></a>
