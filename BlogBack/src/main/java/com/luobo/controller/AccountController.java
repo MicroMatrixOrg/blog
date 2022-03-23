@@ -8,6 +8,7 @@ import com.luobo.common.lang.Result;
 import com.luobo.entity.User;
 import com.luobo.service.UserService;
 import com.luobo.util.JwtUtils;
+import com.luobo.util.RedisHostHelp;
 import com.luobo.util.StringRandom;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -67,6 +68,7 @@ public class AccountController {
 
     @PostMapping("/register")
     public Result register(@RequestBody User user){
+
         if(null == user.getEmail()){
             return Result.fail("请输入你的email");
         }
@@ -83,7 +85,11 @@ public class AccountController {
             temp.setPassword(SecureUtil.md5(user.getPassword()));
             userService.saveOrUpdate(temp);
 //            邮箱有被记录，但是redis中没有验证吗
-            Jedis jedis = new Jedis("localhost");
+            String host =  RedisHostHelp.getRedisHost();
+            Integer port =  RedisHostHelp.getRedisPort();
+            String password = RedisHostHelp.getRedisPass();
+            Jedis jedis = new Jedis(host,port);
+            jedis.auth(password);
             String str = jedis.get(user.getEmail());
             if(null == str){
                 //该账号未验证，验证码过期了
@@ -101,4 +107,8 @@ public class AccountController {
         return Result.succ("感谢你的注册,请去检测你的邮箱，已激活账户",null);
 
     }
+    public static void main(String[] args) {
+        System.out.println(SecureUtil.md5("123456789"));
+    }
 }
+

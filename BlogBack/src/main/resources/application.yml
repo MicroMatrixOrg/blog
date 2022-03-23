@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/vueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
-    password: 123456
+    password: U5jrJWPpkXV2
 #发送邮件配置
   mail:
     host: smtp.163.com
@@ -69,7 +69,9 @@ server:
 shiro-redis:
   enabled: true
   redis-manager:
-    host: 127.0.0.1:6379
+    host: localhost
+    port: 6379
+    password: qwer1234
 
 #jwt 配置
 markerhub:

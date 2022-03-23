@@ -78,7 +78,7 @@ export default {
      */
 
     searchBlogs(keyword) {
-      console.log(12);
+      // console.log(12);
       this.$refs.blogList.searchByKeyword(keyword);
     }
   },

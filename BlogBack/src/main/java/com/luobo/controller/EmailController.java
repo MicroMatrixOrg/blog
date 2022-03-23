@@ -6,6 +6,7 @@ import com.luobo.common.lang.Result;
 import com.luobo.entity.User;
 import com.luobo.service.MailService;
 import com.luobo.service.UserService;
+import com.luobo.util.RedisHostHelp;
 import com.luobo.util.StringRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -87,7 +88,11 @@ public class EmailController {
         try {
             mailService.sendHtmlMail(mailDto.getToMail(),mailDto.getSubject(),emailContent);
             //调用radis将验证码存入其中，方便拿前台的验证码校验
-            Jedis jedis = new Jedis("localhost");
+            String host =  RedisHostHelp.getRedisHost();
+            Integer port =  RedisHostHelp.getRedisPort();
+            String password = RedisHostHelp.getRedisPass();
+            Jedis jedis = new Jedis(host,port);
+            jedis.auth(password);
             jedis.set(mailDto.getToMail(),random);
             //设置验证码过期时间 过期时间为一周
             jedis.expire(mailDto.getToMail(),604800);
@@ -114,7 +119,11 @@ public class EmailController {
         String name = mailDto.getToMail();
         String code = mailDto.getVerification();
 
-        Jedis jedis = new Jedis("localhost");
+        String host =  RedisHostHelp.getRedisHost();
+        Integer port =  RedisHostHelp.getRedisPort();
+        String password = RedisHostHelp.getRedisPass();
+        Jedis jedis = new Jedis(host,port);
+        jedis.auth(password);
         String str = jedis.get(name);
 
         if(str == null){

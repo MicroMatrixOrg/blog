@@ -7,7 +7,7 @@ package com.luobo.util;
  * @Date 2022/3/23 下午8:14
  * @Version 1.0
  **/
-public class RedisHostHekp {
+public class RedisHostHelp {
     private static String redisHost;
     private static Integer redisProt;
     private static String redisPass;

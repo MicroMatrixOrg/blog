@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:2053',
+        target: 'http://blogapi.micromatrix.gq',
         changeOrigin: true,
         pathRewrite: { "^/api": "/api/" }
       },

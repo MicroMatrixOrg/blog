@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.luobo.common.lang.Result;
 import com.luobo.entity.User;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +17,13 @@ import javax.servlet.http.HttpServletRequest;
  * @Date 2021/2/9 14:33
  * @Version 1.0
  **/
+@RestController
 public class IPAddress {
+
+
+
+
+
     /**
      * 获取访问者IP
      * 在一般情况下使用Request.getRemoteAddr()即可，但是经过nginx等反向代理软件后，这个方法会失效。
@@ -66,11 +74,13 @@ public class IPAddress {
      * @return: java.lang.Boolean true 代表该用户最近访问过该文章了 false 代表改文章没有访问过
      */
     public static Boolean isRead(Long id,String ip){
-
-        Jedis jedis = new Jedis("localhost");
-
+        String host =  RedisHostHelp.getRedisHost();
+        Integer port =  RedisHostHelp.getRedisPort();
+        String password = RedisHostHelp.getRedisPass();
+        Jedis jedis = new Jedis(host,port);
+        jedis.auth(password);
         String str = jedis.get(ip);
-
+        System.out.println(str);
         if(str == null){
             jedis.set(ip,"ready_"+id);
             //设置验证码过期时间 过期时间为1天
