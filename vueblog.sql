@@ -13,6 +13,8 @@
 
  Date: 02/06/2021 13:34:54
 */
+create database `vueblog` default character set utf8 collate utf8_general_ci;
+use vueblog;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
