@@ -1,0 +1,87 @@
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/vueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+#发送邮件配置
+  mail:
+    host: smtp.163.com
+    username: 123@163.com
+    password: 123
+    protocol: smtp
+    default-encoding: UTF-8
+    port: 465
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.port: 465 #465或者994
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.smtp.ssl.enable: true
+
+#上传文件限制配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 60MB
+      max-request-size: 60MB
+
+  #模版位置配置
+  thymeleaf:
+    prefix: classpath:/templates/
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+
+server:
+  port: 8880
+
+#https请求配置
+#https端口号.
+#server:
+#  port: 9526
+#  ssl:
+#    #证书的路径.
+#    key-store: classpath:ssl.keystore
+#    #证书密码，请修改为您自己证书的密码.
+#    key-password: 123456
+#    #秘钥库类型
+#    key-store-type: JKS
+#    #证书别名
+#    key-alias: undertow
+#  http2:
+#    enabled: true
+#  undertow:
+#    io-threads: 4
+#    worker-threads: 2
+#    buffer-size: 1024
+#    direct-buffers: true
+#
+##http端口号
+#custom:
+#  server:
+#    http:
+#      port: 9525
+
+
+
+#reis配置
+shiro-redis:
+  enabled: true
+  redis-manager:
+    host: 127.0.0.1:6379
+
+#jwt 配置
+markerhub:
+  jwt:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: Authorization
+
+file-storge:
+  path: "/Users/davidmorgan/Pictures/uploadFile"
+
+blog-font-url: "http://localhost:8018"
+

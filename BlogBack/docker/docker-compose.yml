@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  db:
+    image: "mysql:5.7"
+    ports:
+      - 3306:3306
+    volumes:
+      - ./blog.sql:/home/sql/blog/blog.sql
+      - ./backup.sh:/home/sql/blog/backup.sh
+      - ./crontab.bak:/home/sql/blog/crontab.bak
+      - ./start.sh:/home/sql/blog/start.sh
+      - ./backup/:/home/sql/backup
+    environment:
+      - MYSQL_ROOT_PASSWORD=U5jrJWPpkXV2
+  blog_back:
+    image: "java:8"
+    working_dir: /home/java/app
+    volumes: 
+      - ./application.yml:/home/java/app/blog/application.yml
+      - ./Blog-1.0.jar:/home/java/app/blog/Blog.jar
+    ports:
+      - 8880:8880
+    command: java -jar /home/java/app/blog/Blog.jar --spring.config.location=/home/java/app/blog/application.yml
